@@ -1,0 +1,10 @@
+
+			CPT		CHARGES		PAYMENT		CO-PAYMENT	DEDUCTIBLE
+		-
+		-
+		-
+		-
+		-
+					TOTAL		TOTAL
+					
+		NOTES: -------

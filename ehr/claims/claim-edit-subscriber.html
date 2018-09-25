@@ -1,0 +1,95 @@
+﻿<!-- Subscriber Info Subtab -->
+<div class="ehr-row clearfix">
+
+    <div class="col-sm-6">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-4">
+                <label class="ehr-fld-label">Gender</label><br />
+                <span>{{clmSubscriber.subscriber.gender}}</span>
+            </div>
+            <div class="col-sm-4">
+                <label class="ehr-fld-label">Phone No.</label><br />
+                <span class="ehr-fld-phone">{{clmSubscriber.subscriber.phone | tel}}</span>
+            </div>
+            <div class="col-sm-4">
+                <label class="ehr-fld-label">SS No.</label><br />
+                <span>{{clmSubscriber.subscriber.ssn}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Address</label><br />
+                <span>{{clmSubscriber.subscriber.address_1}}</span><br />
+                <span ng-if="clmSubscriber.subscriber.hasAddress == true">
+                    {{clmSubscriber.subscriber.address_2}}
+                </span><br ng-if="clmSubscriber.subscriber.hasAddress == true" />
+                <span>{{clmSubscriber.subscriber.city}}</span>,
+                <span>{{clmSubscriber.subscriber.state}}</span>&nbsp;
+                <span>{{clmSubscriber.subscriber.zip | zip}}</span>&nbsp;
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary Payer -->
+    <div class="col-sm-3">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Primary Payer</label><br />
+                <span>{{clmSubscriber.subscriber.primaryPayer.Name}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row-clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Member ID</label><br />
+                <span>{{clmSubscriber.subscriber.primaryMemberId}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row-clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Address</label><br />
+                <span>{{clmSubscriber.subscriber.primaryPayer.Address_1}}</span><br />
+                <span ng-if="clmSubscriber.subscriber.primaryPayer.Address_2 != false">
+                    {{clmSubscriber.subscriber.primaryPayer.Address_2}}
+                </span><br ng-if="clmSubscriber.subscriber.primaryPayer.Address_2 == true" />
+                <span>{{clmSubscriber.subscriber.primaryPayer.City}}</span>,
+                <span>{{clmSubscriber.subscriber.primaryPayer.State}}</span>&nbsp;
+                <span>{{clmSubscriber.subscriber.primaryPayer.Zip | zip}}</span>&nbsp;
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Payer -->
+    <div class="col-sm-3" ng-if="clmSubscriber.subscriber.secondaryPayer != null">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Primary Payer</label><br />
+                <span>{{clmSubscriber.subscriber.secondaryPayer.Name}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row-clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Member ID</label><br />
+                <span>{{clmSubscriber.subscriber.secondaryMemberId}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row-clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Address</label><br />
+                <span>{{clmSubscriber.subscriber.secondaryPayer.Address_1}}</span><br />
+                <span ng-if="clmSubscriber.subscriber.secondaryPayer.Address_2 != false">
+                    {{clmSubscriber.subscriber.secondaryPayer.Address_2}}
+                </span>
+                <br ng-if="clmSubscriber.subscriber.secondaryPayer.Address_2 == true" />
+                <span>{{clmSubscriber.subscriber.secondaryPayer.City}}</span>,
+                <span>{{clmSubscriber.subscriber.secondaryPayer.State}}</span>&nbsp;
+                <span>{{clmSubscriber.subscriber.secondaryPayer.Zip | zip}}</span>&nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+

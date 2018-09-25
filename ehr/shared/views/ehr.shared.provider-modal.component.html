@@ -1,0 +1,47 @@
+﻿<div class="modal-body">
+    <div class="ehr-row clearfix">
+        <table id="ehr-claim-lines" class="col-sm-12">
+            <tr class="ehr-table-header">
+                <th class="col-sm-6">Provider Name</th>
+                <th class="col-sm-3">NPI</th>
+                <th class="col-sm-3">Tax ID</th>
+            </tr>
+            <tr class="ehr-table-row"
+                ng-click="confirm(providerModalCtrl.selectEntity($index));"
+                ng-repeat="x in providerModalCtrl.filteredList | startFrom:(providerModalCtrl.currentPage-1)*providerModalCtrl.pageSize | limitTo: providerModalCtrl.pageSize">
+                <td class="col-sm-6">{{x.NameFormatted}}</td>
+                <td class="col-sm-3">{{x.NPI}}</td>
+                <td class="col-sm-3">{{x.EIN}}</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="row clearfix ehr-pager">
+        <div class="col-sm-1">
+            <span><strong>Filter:</strong></span>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="ehr-fld-input" maxlength="100"
+                   ng-model="providerModalCtrl.filterText"
+                   ng-change="providerModalCtrl.filterResults()" />
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6 text-right">
+            <span>
+                <strong>
+                    Showing results {{providerModalCtrl.startIndex}} to {{providerModalCtrl.endIndex}} of {{providerModalCtrl.list.length}}
+                </strong>
+            </span>&nbsp;&nbsp;
+            <button type="button"
+                    ng-click="providerModalCtrl.prevPage()"
+                    ng-disabled="providerModalCtrl.isFirstPage() == true">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button type="button"
+                    ng-click="providerModalCtrl.nextPage()"
+                    ng-disabled="providerModalCtrl.isLastPage() == true">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html ng-app="ehrApp">
+<head>
+    <meta charset="utf-8" />
+    <title>KureKinect - Medical Billing</title>
+
+    <link rel="stylesheet" href="ehr/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="ehr/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="ehr/css/all.min.css" />
+    <link rel="stylesheet" href="ehr/css/ngDialog.min.css" />
+    <link rel="stylesheet" href="ehr/css/datepicker.min.css" />
+    
+    <!-- GOOGLE FONTS -->
+    <!--<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="ehr/css/ehr-main.css" />
+    <link rel="stylesheet" href="ehr/css/ehr-modal.css" />
+
+    <script type="text/javascript" src="ehr/js/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/all.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/ngDialog.min.js"></script>
+    <script type="text/javascript" src="ehr/js/lib/datepicker.min.js"></script>
+
+</head>
+<body ng-controller="ehrAppController as appCtrl">
+
+    <nav class="ehr-navbar-hidden" ng-class="appCtrl.isConnected() == true ? 'ehr-navbar' : 'ehr-navbar-hidden'">
+        <span id="ehrLogo">HEALTH KINECT</span>
+        <a ui-sref="subscribers"><i class="fa fa-user"></i> Subscribers</a>
+        <a ui-sref="claims"><i class="fa fa-file-medical-alt"></i> Claims</a>
+        <a ui-sref="batches"><i class="fa fa-university"></i> Batches</a>
+        <!--<a ui-sref="payments"><i class="fa fa-dollar-sign"></i> Payments</a>-->
+        <a ui-sref="setup"><i class="fa fa-cog"></i> Setup</a>
+        <a ui-sref="account"><i class="fa fa-user-circle"></i> Account</a>
+
+        <div class="ehr-navbar-right">
+            <a ui-sref="userlabel">Hello, {{appCtrl.getUserName()}}</a>
+            <a ui-sref="logout"><strong>Log out</strong></a>
+        </div>
+    </nav>
+
+    <ui-view></ui-view>
+
+    <!-- SCRIPTS -->
+    <script type="text/javascript" src="ehr/js/app/ehr.module.js"></script>
+    <!--<script type="text/javascript" src="ehr/js/app/ehr.app.init.js"></script>-->
+    <script type="text/javascript" src="ehr/js/app/ehr.app.filters.js"></script>
+    <script type="text/javascript" src="ehr/js/app/ehr.app.config.js"></script>
+
+    <!-- Services -->
+    <script type="text/javascript" src="ehr/js/app/ehr.ui.service.js"></script>
+    <script type="text/javascript" src="ehr/js/app/ehr.auth.service.js"></script>
+    <script type="text/javascript" src="ehr/js/app/ehr.api.service.js"></script>
+    <script type="text/javascript" src="ehr/js/app/ehr.modal.service.js"></script>
+    <script type="text/javascript" src="ehr/claims/ehr.claims.service.js"></script>
+    <script type="text/javascript" src="ehr/payments/ehr.payments.service.js"></script>
+    <script type="text/javascript" src="ehr/batches/ehr.batches.service.js"></script>
+    <script type="text/javascript" src="ehr/setup/ehr.setup.service.js"></script>
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="ehr/js/app/ehr.app.controller.js"></script>
+    <script type="text/javascript" src="ehr/shared/js/ehr.shared.modal.controller.js"></script>
+    <script type="text/javascript" src="ehr/subscribers/ehr.subscribers.controller.js"></script>
+    <script type="text/javascript" src="ehr/claims/ehr.claims.controller.js"></script>
+    <script type="text/javascript" src="ehr/batches/ehr.batches.controller.js"></script>
+    <script type="text/javascript" src="ehr/payments/ehr.payments.controller.js"></script>
+    <script type="text/javascript" src="ehr/setup/ehr.setup.controller.js"></script>
+    <script type="text/javascript" src="ehr/account/ehr.account.controller.js"></script>
+    <script type="text/javascript" src="ehr/account/ehr.login.controller.js"></script>
+
+    <script type="text/javascript" src="ehr/js/app/ehr.states.config.js"></script>
+</body>
+</html>
+

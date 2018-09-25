@@ -1,0 +1,68 @@
+﻿<!-- Batch Lines template -->
+<div class="ehr-row clearfix">
+    <div class="col-sm-12">
+        <div class="ehr-row clearfix">
+            <table id="ehr-claim-lines" class="col-sm-12">
+
+                <!-- Batch lines table headers -->
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1">
+                        Account
+                    </th>
+                    <th class="col-sm-1">
+                        Date of Service
+                    </th>
+                    <th class="col-sm-2">
+                        Subscriber Name
+                    </th>
+                    <th class="col-sm-2">
+                        Payer / Member ID
+                    </th>
+                    <th class="col-sm-1">
+                        Amount ($)
+                    </th>
+                    <th class="col-sm-2">
+                        Billing Group
+                    </th>
+                    <th class="col-sm-2">
+                        Provider
+                    </th>
+                    <th class="col-sm-1 ehr-table-actions text-right">
+                    </th>
+                </tr>
+
+                <!-- Batch lines table repeater -->
+                <tr class="ehr-table-row" ng-repeat="x in bLineCtrl.claims">
+                    <td class="col-sm-1">
+                        {{bLineCtrl.getAcctNum(x.Id)}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.DateOfService}}
+                    </td>
+                    <td class="col-sm-2">
+                        {{x.SubscriberName}}
+                    </td>
+                    <td class="col-sm-2">
+                        {{x.PrimaryPayerName}} (<strong class="ehr-warning">{{x.PrimaryMemberId}}</strong>)
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.AmountTotal}}
+                    </td>
+                    <td class="col-sm-2">
+                        {{x.Group}}
+                    </td>
+                    <td class="col-sm-2">
+                        {{x.Provider}}
+                    </td>
+                    <td class="col-sm-1 ehr-table-actions text-right">
+                        <button type="button" ng-if="bLineCtrl.batchIsProcessed() == false"
+                                ng-click="bLineCtrl.removeClaim($index)">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

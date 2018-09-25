@@ -1,0 +1,75 @@
+﻿<!-- SetupFacilites page -->
+<div class="ehr-row clearfix">
+    <div class="col-sm-12">
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <button type="button" ng-click="sFacCtrl.editFac(-1)">
+                    <span>ADD NEW FACILITY</span>
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <br />
+
+        <div class="ehr-row clearfix">
+            <table id="ehr-claim-lines" class="col-sm-12">
+
+                <!-- Facilities table headers -->
+                <tr class="ehr-table-header">
+                    <th class="col-sm-2">
+                        Facility Name
+                    </th>
+                    <th class="col-sm-1">
+                        NPI
+                    </th>
+                    <th class="col-sm-1">
+                        Tax ID
+                    </th>
+                    <th class="col-sm-2-5">
+                        Address
+                    </th>
+                    <th class="col-sm-2-5">
+                        City / State / Zip
+                    </th>
+                    <th class="col-sm-1">
+                        Phone
+                    </th>
+                    <th class="col-sm-1">
+                        Fax
+                    </th>
+                    <th class="col-sm-1 ehr-table-actions text-right">
+                    </th>
+                </tr>
+
+                <!-- Facilities repeater -->
+                <tr class="ehr-table-row" ng-repeat="x in sFacCtrl.list" ng-click="sFacCtrl.editFac(x.Id)">
+                    <td class="col-sm-2">
+                        {{x.Name}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.NPI}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.TaxId}}
+                    </td>
+                    <td class="col-sm-2-5">
+                        {{x.Address_1}}
+                    </td>
+                    <td class="col-sm-2-5">
+                        {{x.City}}
+                        <span ng-if="x.City">, </span>
+                        {{x.State}} &nbsp;&nbsp;<strong>ZIP: </strong>{{x.Zip | zip}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.Phone | tel}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.Fax | tel}}
+                    </td>
+                    <td class="col-sm-1 ehr-table-actions text-right"></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

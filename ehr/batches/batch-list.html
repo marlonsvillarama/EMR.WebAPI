@@ -1,0 +1,67 @@
+﻿<div class="container-fluid ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-5">
+            <span>BATCHES</span>
+        </div>
+        <div class="col-sm-7 ehr-buttons-right text-right">
+            <button class="btn btn-default ehr-btn" ui-sref="batch-edit({ id:-1 })" ui-sref-active="active">
+                <span>ADD NEW</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-inner">
+            <table id="ehr-claim-lines" class="ehr-table col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1-5">
+                        Date Created
+                    </th>
+                    <th class="col-sm-1-5">
+                        Time Created
+                    </th>
+                    <th class="col-sm-2">
+                        Identifier
+                    </th>
+                    <th class="col-sm-2">
+                        Created By
+                    </th>
+                    <th class="col-sm-1-5">
+                        Number of Claims
+                    </th>
+                    <th class="col-sm-3">
+                        Status
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row" ng-repeat="x in batchListCtrl.batches" ui-sref="batch-edit({ id: x.id })">
+                    <td class="col-sm-1-5">
+                        <span>{{x.dateCreated}}</span>
+                    </td>
+                    <td class="col-sm-1-5">
+                        <span>{{x.timeCreated}}</span>
+                    </td>
+                    <td class="col-sm-2">
+                        <span>{{x.identifier}}</span>
+                    </td>
+                    <td class="col-sm-2">
+                        <span>{{x.createdBy}}</span>
+                    </td>
+                    <td class="col-sm-1-5">
+                        <span>{{x.numClaims}}</span>
+                    </td>
+                    <td class="col-sm-3">
+                        <span>{{x.status}}</span>
+                    </td>
+                    <td class="col-sm-0-5 ehr-table-actions">
+                        <a title="Edit this batch" ui-sref="batch-edit({ id: x.id })">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

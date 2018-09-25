@@ -1,0 +1,41 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>PLACE OF SERVICE DETAIL</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" title="Edit this place of service" ui-sref="pos-edit({ id: entity.POS.Id })" ui-sref-active="active">
+                <span>EDIT</span>
+                <i class="fa fa-pencil-alt"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Create new place of service" ui-sref="pos-edit({ id: -1 })" ui-sref-active="active">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="View all places of service" ui-sref="pos-list" ui-sref-active="active">
+                <i class="fa fa-list"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Delete this place of service" ng-click="callApi('update', entity, true)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- PLACE OF SERVICE INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Place of Service Information</span>
+        <div class="ehr-group-inner">
+            <div class="ehr-row clearfix">
+                <label class="col-sm-2 ehr-fld-label">Name</label>
+                <label class="col-sm-4 ehr-fld-text">{{entity.Name}}</label>
+                <label class="col-sm-2 ehr-fld-label">Code</label>
+                <label class="col-sm-4 ehr-fld-text">{{entity.Code}}</label>
+            </div>
+            <div class="ehr-row clearfix">
+                <label class="col-sm-2 ehr-fld-label">Description</label>
+                <p class="col-sm-9 ehr-fld-text">
+                    {{entity.Description}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

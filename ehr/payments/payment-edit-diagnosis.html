@@ -1,0 +1,39 @@
+﻿<!-- Diagnosis Codes -->
+<div class="ehr-row clearfix" style="align-content: center;">
+    <table id="ehr-claim-lines" class="ehr-table col-sm-8" ng-controller="ehrClaimLinesController as claimLines">
+        <tr class="ehr-table-header">
+            <th class="col-sm-3">
+                CPT
+            </th>
+            <th class="col-sm-3">
+                Charges
+            </th>
+            <th class="col-sm-2">
+                Payment
+            </th>
+            <th class="col-sm-2">
+                Co-pay
+            </th>
+            <th class="col-sm-2">
+                Deductible
+            </th>
+        </tr>
+        <tr class="ehr-table-row" ng-repeat="line in claimLines.getClaimLines()">
+            <td class="col-sm-3">
+                <input type="text" class="ehr-line-input" ng-model="line.pos" />
+            </td>
+            <td class="col-sm-3">
+                <input type="text" class="ehr-line-input" ng-model="line.emg" />
+            </td>
+            <td class="col-sm-2">
+                <input type="text" class="ehr-line-input" ng-model="line.cpt" />
+            </td>
+            <td class="col-sm-2">
+                <input type="text" class="ehr-line-input" ng-model="line.mod" />
+            </td>
+            <td class="col-sm-2">
+                <input type="text" class="ehr-line-input" ng-model="line.ptr" />
+            </td>
+        </tr>
+    </table>
+</div>

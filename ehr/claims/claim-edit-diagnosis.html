@@ -1,0 +1,125 @@
+﻿<!-- Diagnosis Codes Subtab -->
+<div class="ehr-row clearfix">
+    <div class="ehr-row clearfix">
+        <label class="ehr-fld-label col-sm-2">Date of Service</label>
+        <div class="col-sm-2">
+            <input type="text" class="ehr-fld-input ehr-fld-dob"
+                   data-toggle="datepicker"
+                   ng-model="clmDiagnosis.claim.DateOfService"
+                   ng-change="clmDiagnosis.updateDateOfService()" />
+        </div>
+        <div class="col-sm-4" ng-if="clmEditCtrl.canCopyClaim == true">
+            <button type="button" ng-if="clmEditCtrl.copyingClaim == false"
+                    ng-click="clmEditCtrl.copyClaim()">
+                Save date of service
+            </button>
+            <button type="button" disabled ng-if="clmEditCtrl.copyingClaim == true">
+                Copying claim...
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="ehr-row clearfix">
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">A</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_A" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">B</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_B" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">C</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_C" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">D</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_D" />
+            </div>
+        </div>
+    </div>
+    <div class="ehr-row clearfix">
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">E</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_E" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">F</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_F" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">G</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_G" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">H</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_H" />
+            </div>
+        </div>
+    </div>
+    <div class="ehr-row clearfix">
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">I</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_I" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">J</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_J" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">K</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_K" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-4 ehr-fld-label">L</label>
+            <div class="col-sm-8">
+                <input type="text" class="ehr-fld-input ehr-datepicker ehr-bold"
+                       ng-change="clmDiagnosis.updateDiagnosis()"
+                       ng-model="clmDiagnosis.diag_L" />
+            </div>
+        </div>
+    </div>
+</div>
+

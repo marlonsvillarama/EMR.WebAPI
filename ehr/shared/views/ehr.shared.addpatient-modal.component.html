@@ -1,0 +1,213 @@
+﻿<div class="modal-body">
+    <form (ngSubmit)="addDepModalCtrl.submitForm()">
+        <div class="ehr-row clearfix">
+
+            <!-- First column -->
+            <div class="col-sm-6">
+
+                <!-- Patient Data -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Dependent Info</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">First Name <span class="ehr-fld-required">*</span></label><br />
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="First"
+                                           ng-required="true"
+                                           ng-model="addDepModalCtrl.entity.FirstName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Last Name <span class="ehr-fld-required">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="Last"
+                                           ng-required="true"
+                                           ng-model="addDepModalCtrl.entity.LastName" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Date of Birth <span class="ehr-fld-required">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-dob" maxlength="10" placeholder=""
+                                           ng-required="true"
+                                           ng-model="addDepModalCtrl.entity.DateOfBirth" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Age</label>
+                                <div class="col-sm-12">
+                                    <input type="text" disabled class="ehr-fld-text" ng-model="addDepModalCtrl.age" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">SS No.</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="10" placeholder=""
+                                           ng-model="addDepModalCtrl.entity.SSN" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Sex</label>
+                                <div class="col-sm-12">
+                                    <select class="ehr-fld-input"
+                                            ng-model="addDepModalCtrl.entity.Gender">
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Detail -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Contact Detail</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Home Phone</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-phone" maxlength="10" placeholder=""
+                                           ng-model="addDepModalCtrl.entity.Phone_1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Cell Phone</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-phone" maxlength="10" placeholder=""
+                                           ng-model="addDepModalCtrl.entity.Phone_2" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Email Address</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder=""
+                                           ng-model="addDepModalCtrl.entity.Email" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Second column -->
+            <div class="col-sm-6">
+
+                <!-- Address -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Address</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Street 1</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="Address Line 1"
+                                           ng-model="addDepModalCtrl.entity.Address_1" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Street 2</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="Address Line 2"
+                                           ng-model="addDepModalCtrl.entity.Address_2" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">City</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="60" placeholder="City"
+                                           ng-model="addDepModalCtrl.entity.City" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">State</label>
+                                <div class="col-sm-12">
+                                    <select class="ehr-fld-input"
+                                            ng-model="addDepModalCtrl.entity.State"
+                                            ng-options="state.Code as state.Name for state in subEditCtrl.states"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Zip</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-zip" maxlength="9" placeholder="Zip"
+                                           ng-model="addDepModalCtrl.entity.Zip" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12 ehr-buttons-right text-right">
+                <button class="btn btn-primary ehr-btn" type="submit"
+                        ng-click="confirm('OK')"
+                        ng-if="addDepModalCtrl.savingForm == false">
+                    <span>SAVE</span>
+                    <i class="fa fa-save"></i>
+                </button>
+                <button class="btn btn-primary ehr-btn" type="button" disabled
+                        ng-if="addDepModalCtrl.savingForm == true">
+                    <span>SAVING</span>
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>
+                <button class="btn btn-default ehr-btn" type="button"
+                        ng-click="closeThisDialog('OK')">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+    
+</div>

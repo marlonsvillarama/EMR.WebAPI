@@ -1,0 +1,68 @@
+﻿<div class="container-fluid ehr-content">
+    
+    <form name="loginForm"
+          ng-controller="ehrLoginController as loginCtrl"
+          ng-submit="loginCtrl.submitForm()">
+
+        <div class="ehr-login-container">
+            <div class="ehr-login-content">
+                <div class="ehr-login-header">
+                    <span>LOGIN HERE</span>
+                </div>
+                <div class="ehr-login-form">
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Username</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="50"
+                                           ng-model="loginCtrl.username" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Password</label>
+                                <div class="col-sm-12">
+                                    <input type="password" class="ehr-fld-input" maxlength="50"
+                                           ng-model="loginCtrl.password" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ehr-row clearfix" ng-if="loginCtrl.loginError == true">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <span class="col-sm-12 ehr-warning">The userame or password is invalid.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary ehr-btn"
+                                            ng-if="!loginCtrl.loggingIn">
+                                        LOGIN
+                                    </button>
+                                    <button type="button" class="btn btn-primary ehr-btn" disabled
+                                            ng-if="loginCtrl.loggingIn == true">
+                                        LOGGING IN
+                                        <i class="fa fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+

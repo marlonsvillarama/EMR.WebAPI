@@ -1,0 +1,86 @@
+﻿<!-- Provider Subtab -->
+<div class="ehr-row clearfix">
+
+    <!-- Billing Provider -->
+    <div class="col-sm-4">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Billing Provider</label><br />
+                <span>{{clmProvider.billingProv.LastName}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Address</label><br />
+                <span>{{clmProvider.billingProv.Address_1}}</span><br />
+                <span>{{clmProvider.billingProv.City}}</span>,
+                <span>{{clmProvider.billingProv.State}}</span>&nbsp;
+                <span>{{clmProvider.billingProv.Zip | zip}}</span>&nbsp;
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Phone No.</label><br />
+                <span>{{clmProvider.billingProv.Phone || tel}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rendering Provider -->
+    <div class="col-sm-4">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Rendering Provider</label><br />
+                <span>{{clmProvider.renderingProvFullName}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Address</label><br />
+                <span>{{clmProvider.renderingProv.Address_1}}</span><br />
+                <span>{{clmProvider.renderingProv.City}}</span>,
+                <span>{{clmProvider.renderingProv.State}}</span>&nbsp;
+                <span>{{clmProvider.renderingProv.Zip | zip}}</span>&nbsp;
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Phone No.</label><br />
+                <span>{{clmProvider.renderingProv.Phone || tel}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facility -->
+    <div class="col-sm-4">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Facility Name</label><br />
+                <span>{{clmProvider.facilityProv.Name}}</span>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Address</label><br />
+                <span>{{clmProvider.facilityProv.Address_1}}</span><br />
+                <span>{{clmProvider.facilityProv.City}}</span>,
+                <span>{{clmProvider.facilityProv.State}}</span>&nbsp;
+                <span>{{clmProvider.facilityProv.Zip | zip}}</span>&nbsp;
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12">
+                <label class="ehr-fld-label">Phone No.</label><br />
+                <span>{{clmProvider.facilityProv.Phone || tel}}</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+

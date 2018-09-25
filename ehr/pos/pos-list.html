@@ -1,0 +1,58 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>PLACES OF SERVICE</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-default ehr-btn" ui-sref="pos-edit({ id:-1 })" ui-sref-active="active">
+                <span>NEW PLACE OF SERVICE</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <!--<span class="ehr-group-label">Claim Lines</span>-->
+        <div class="ehr-group-inner">
+            <table class="ehr-table col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1">
+                        Code
+                    </th>
+                    <th class="col-sm-3">
+                        Name
+                    </th>
+                    <th class="col-sm-7">
+                        Description
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row" ng-repeat="p in entityList" ui-sref="pos-get({ id: p.POS.Id })">
+                    <td class="col-sm-1">
+                        <span>{{p.Code}}</span>
+                    </td>
+                    <td class="col-sm-3">
+                        <span>{{p.Name}}</span>
+                    </td>
+                    <td class="col-sm-7">
+                        <p>
+                            {{p.Description}}
+                        </p>
+                    </td>
+                    <td class="col-sm-0-5"></td>
+                    <td class="col-sm-0-5 ehr-table-actions">
+                        <a title="Edit this place of service" ui-sref="pos-edit({ id: p.POS.Id })">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a title="Delete this place of service" href="#" ng-click="callApi('update', p, true)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

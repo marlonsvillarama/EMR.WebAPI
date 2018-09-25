@@ -1,0 +1,61 @@
+<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>FACILITIES</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-default ehr-btn" ui-sref="facilities-edit({ id:-1 })" ui-sref-active="active">
+                <span>NEW FACILITY</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-inner">
+            <table class="ehr-table col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-4">
+                        Facility Name
+                    </th>
+                    <th class="col-sm-4">
+                        Address
+                    </th>
+                    <th class="col-sm-3-5">
+                        Contact Info
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row" ng-repeat="f in entityList" ui-sref="facilities-get({ id: f.Facility.Id })">
+                    <td class="col-sm-4">
+                        <span>{{f.Facility.Name}}</span>
+                    </td>
+                    <td class="col-sm-4">
+                        <p>
+                            {{f.AddressFormatted}}
+                        </p>
+                    </td>
+                    <td class="col-sm-3-5">
+                        <p>
+                            <span class="ehr-fld-label">Email :</span>
+                            <span class="ehr-fld-text">{{f.Facility.Email}}</span><br />
+                            <span class="ehr-fld-label">Phone :</span>
+                            <span class="ehr-fld-text">{{f.PhoneFormatted}}</span><br />
+                            <span class="ehr-fld-label">Fax :</span>
+                            <span class="ehr-fld-text">{{f.FaxFormatted}}</span><br />
+                        </p>
+                    </td>
+                    <td class="col-sm-0-5 ehr-table-actions">
+                        <a title="Edit this facility" ui-sref="facilities-edit({ id: f.Facility.Id })">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                        <a title="Delete this facility" href="#" ng-click="callApi('update', f, true)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

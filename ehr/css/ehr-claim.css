@@ -1,0 +1,42 @@
+/* CLAIM PAGE */
+div#claim-history {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    height: 200px;
+}
+
+div#claim-history table {
+    width: 100%;
+    font-size: 1rem;
+}
+
+div#claim-history table th {
+    padding: 3px 8px;
+    vertical-align: top;
+    line-height: 1.428571429;
+    background-color: #555;
+    color: #fff;
+}
+
+div#claim-history table td {
+    padding: 4px 8px;
+    border-bottom: 1px dashed #e5e5e5;
+}
+
+div#claim-history tbody tr:hover {
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+
+#otherPatient {
+    display: none;
+}
+
+#otherAddress {
+    display: none;
+}
+
+.ehr-claim-line-entry {
+    background-color: rgba(244, 209, 66, 0.35);
+}

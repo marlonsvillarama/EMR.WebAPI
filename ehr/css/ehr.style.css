@@ -1,0 +1,220 @@
+﻿html {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 9pt;
+}
+
+
+body {
+    background-color: #999;
+}
+
+.container-main {
+    margin-top: 0px;
+    padding: 20px 30px;
+    min-width: 1160px;
+}
+
+.topnav {
+    top: 0;
+    height: 60px;
+    background-color: #fff;
+    z-index: 500;
+}
+
+.box {
+    padding: 10px 20px;
+    border: solid rgba(244, 209, 66, 0.25);
+    border-width: 5px 1px 2px 1px;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.box-header {
+    margin-bottom: 20px;
+    padding-bottom: 6px;
+    vertical-align: middle;
+    border-bottom: 3px solid rgba(244, 209, 66, 0.5);
+}
+
+.box-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.box-input-disabled {
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    padding: 5px 6px;
+    background-color: #fff;
+}
+
+.box-input-icon input[type=text] {
+    padding-right: 35px;
+}
+
+.box-input-icon {
+    position: relative;
+}
+
+.box-input-icon-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 9px;
+    border-left: 1px solid #e5e5e5;
+    color: #666;
+    background-color: rgba(244, 209, 66, 0.25);
+    cursor: pointer;
+}
+
+.box-buttons {
+    text-align: right;
+    font-weight: bold;
+}
+
+.ehr-btn {
+    padding: 3px 12px;
+}
+
+    .ehr-btn span {
+        font-weight: bold;
+        font-size: 14px;
+        margin-right: 6px;
+    }
+
+
+.box-content {
+    padding: 10px 12px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.section-content {
+    padding: 0 14px;
+}
+
+.section-header {
+    margin-bottom: 10px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.section-row {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.fld-label {
+    margin: 2px;
+    font-weight: bold;
+    color: #666;
+}
+
+.fld-input-disabled,
+.fld-input {
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    padding: 3px 5px;
+    background-color: #fff;
+}
+
+.fld-text {
+    border: 1px solid #fff;
+    width: 100%;
+    padding: 3px 5px;
+}
+
+.fld-input-icon input[type=text] {
+    padding-right: 30px;
+}
+
+.fld-input-icon,
+.fld-input-popup {
+    position: relative;
+}
+
+.fld-input-icon-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 4px 8px;
+    border-left: 1px solid #e5e5e5;
+    color: #666;
+    background-color: rgba(244, 209, 66, 0.25);
+    cursor: pointer;
+}
+
+    .fld-input-icon-icon :hover {
+        background-color: rgba(244, 209, 66, 0.75);
+    }
+
+.fld-input-popup-input {
+    margin-right: 30px;
+}
+
+.fld-input-popup-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+.ehr-table-header {
+    border-bottom: 2px solid #ccc;
+}
+
+.ehr-table-row {
+    border-bottom: 1px dashed #e5e5e5;
+    vertical-align: middle;
+}
+
+.ehr-table-row-totals {
+    border-bottom: 2px solid #e5e5e5;
+    vertical-align: middle;
+    background-color: rgb(244, 209, 66);
+    background-color: rgba(244, 209, 66, 0.5);
+}
+
+.ehr-table th,
+.ehr-table-med th {
+    /*padding-left: -10px !important;*/
+    border: 0px solid red;
+    vertical-align: top;
+    line-height: 1.428571429;
+    padding: 7px 0;
+}
+
+.ehr-table .even,
+.ehr-table-med .even,
+.ehr-small-table .even {
+    background-color: #f9f9f9;
+}
+
+.ehr-table td,
+.ehr-table-med td {
+    padding: 6px 0;
+}
+
+.ehr-table-actions a {
+    margin-right: 10px;
+}
+
+
+/*
+.ehr-table {
+  border: 0;
+  width: 100%;
+}
+
+.ehr-table thead tr {
+  background-color: rgba(244, 209, 66, 0.25);
+  font-weight: bold;
+}
+*/
+

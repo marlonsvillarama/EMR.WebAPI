@@ -1,0 +1,45 @@
+﻿<div class="modal-body">
+    <div class="ehr-row clearfix">
+        <table id="ehr-claim-lines" class="col-sm-12">
+            <tr class="ehr-table-header">
+                <th class="col-sm-7">Payer Name</th>
+                <th class="col-sm-5">Address</th>
+            </tr>
+            <tr class="ehr-table-row"
+                ng-click="confirm(payerModalCtrl.selectPayer($index));"
+                ng-repeat="p in payerModalCtrl.filteredPayers | startFrom:(payerModalCtrl.currentPage-1)*payerModalCtrl.pageSize | limitTo: payerModalCtrl.pageSize">
+                <td class="col-sm-7">{{p.Name}}</td>
+                <td class="col-sm-5">{{p.Address_1}} {{p.City}} {{p.State}} {{p.Zip | zip}}</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="row clearfix ehr-pager">
+        <div class="col-sm-1">
+            <span><strong>Filter:</strong></span>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="ehr-fld-input" maxlength="100"
+                   ng-model="payerModalCtrl.filterText"
+                   ng-change="payerModalCtrl.filterResults()" />
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6 text-right">
+            <span>
+                <strong>
+                    Showing results {{payerModalCtrl.startIndex}} to {{payerModalCtrl.endIndex}} of {{payerModalCtrl.payers.length}}
+                </strong>
+            </span>&nbsp;&nbsp;
+            <button type="button"
+                    ng-click="payerModalCtrl.prevPage()"
+                    ng-disabled="payerModalCtrl.isFirstPage() == true">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button type="button"
+                    ng-click="payerModalCtrl.nextPage()"
+                    ng-disabled="payerModalCtrl.isLastPage() == true">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</div>

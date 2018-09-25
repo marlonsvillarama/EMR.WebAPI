@@ -1,0 +1,141 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>{{entity.NameFormatted}}</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" title="Edit this provider" ui-sref="providers-edit({ id: provider.Provider.Id })" ui-sref-active="active">
+                <span>EDIT</span>
+                <i class="fa fa-pencil-alt"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Create new provider" ui-sref="providers-edit({ id: -1 })" ui-sref-active="active">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="View all providers" ui-sref="providers-list" ui-sref-active="active">
+                <i class="fa fa-list"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Delete this provider" ng-click="callApi('update', entity, true)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- PROVIDER INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Provider Information</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Email address</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.Email}}</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Phone (mobile)</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.PhoneMobileFormatted}}</label>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Phone (home)</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.PhoneHomeFormatted}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREDENTIALS -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Credentials</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">EIN</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.EIN}}</label>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">SSN</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.SSN}}</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">NPI</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.NPI}}</label>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">License</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.License}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GROUPS -->
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-outer clearfix">
+            <label class="ehr-group-label">Groups</label>
+            <button type="button" class="btn btn-default">
+                <span>Add new group</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div class="ehr-group-inner">
+            <table class="ehr-table table-hover col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-2">
+                        Default
+                    </th>
+                    <th class="col-sm-10">
+                        Group name
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- BILLING ADDRESSES -->
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-outer clearfix">
+            <label class="ehr-group-label">Addresses</label>
+            <button type="button" class="btn btn-default">
+                <span>Add new address</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div class="ehr-group-inner">
+            <table class="ehr-table table-hover col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1">
+                        Default
+                    </th>
+                    <th class="col-sm-3">
+                        Street 1
+                    </th>
+                    <th class="col-sm-3">
+                        Street 2
+                    </th>
+                    <th class="col-sm-2">
+                        City
+                    </th>
+                    <th class="col-sm-1">
+                        State
+                    </th>
+                    <th class="col-sm-1-5">
+                        Zip
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row">
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-3"></td>
+                    <td class="col-sm-3"></td>
+                    <td class="col-sm-2"></td>
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-1-5"></td>
+                    <td class="col-sm-0-5"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAe3GSa0EET0+I9Hir+8XnmgAAAAACAAAAAAAQZgAAAAEAACAAAADGwQc4fMQ+Acp7a2qb1+CcERdGcC+FxjcGmRLM1hs7JQAAAAAOgAAAAAIAACAAAABruvaKA5HY2ILbJv9YyDgl1aNtND8RUZoNEDfSOCC5miAAAAC4RvE0rDKXuQjDlb0eaENIv92MLLx/EEkIvAN6bB3wiEAAAABSE2Q+WHQZzdAzWeC0S0JsWXxxkPyCJeKkc1TeuxfTPUWCksjamwoIpt3URMP+FYnZ4Wfo3W+9aUzAuxwPa8qU</EncryptedPassword>
+    <_PublishTargetUrl>ftp://132.148.25.90/ehr</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="ApplicationInsights.config">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/HelpPage.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/Api.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ApiGroup.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/CollectionModelDescription.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ComplexTypeModelDescription.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/DictionaryModelDescription.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/EnumTypeModelDescription.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/HelpPageApiModel.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ImageSample.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/InvalidSample.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/KeyValuePairModelDescription.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ModelDescriptionLink.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Parameters.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Samples.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/SimpleTypeModelDescription.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/TextSample.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/Index.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/ResourceModel.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Shared/_Layout.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Web.config">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/_ViewStart.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Areas/RouteDebugger/Content/rdstyle.css">
+      <publishTime>07/22/2018 14:45:34</publishTime>
+    </File>
+    <File Include="Areas/RouteDebugger/Scripts/detect.js">
+      <publishTime>07/22/2018 14:45:33</publishTime>
+    </File>
+    <File Include="Areas/RouteDebugger/Views/RouteDebugger/Index.cshtml">
+      <publishTime>07/22/2018 14:45:33</publishTime>
+    </File>
+    <File Include="Areas/RouteDebugger/Views/Web.config">
+      <publishTime>07/22/2018 14:45:32</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/23/2013 00:43:40</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>02/23/2013 00:43:40</publishTime>
+    </File>
+    <File Include="bin/ApplicationInsights.config">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.compiled">
+      <publishTime>08/31/2018 20:10:29</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.dll">
+      <publishTime>08/31/2018 20:10:29</publishTime>
+    </File>
+    <File Include="bin/EMR.WebAPI.dll">
+      <publishTime>08/31/2018 20:10:18</publishTime>
+    </File>
+    <File Include="bin/EMR.WebAPI.pdb">
+      <publishTime>08/31/2018 20:10:18</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>03/03/2015 01:32:26</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>03/03/2015 01:32:26</publishTime>
+    </File>
+    <File Include="bin/itextsharp.dll">
+      <publishTime>01/23/2018 10:40:38</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
+      <publishTime>12/01/2016 08:07:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.dll">
+      <publishTime>12/08/2016 03:45:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
+      <publishTime>12/08/2016 03:50:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
+      <publishTime>12/07/2016 07:15:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.dll">
+      <publishTime>12/08/2016 03:49:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.dll">
+      <publishTime>12/08/2016 03:50:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.dll">
+      <publishTime>12/07/2016 07:09:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>10/17/2017 05:14:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>07/26/2012 02:48:56</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>08/04/2014 11:33:56</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe.config">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Win32.Primitives.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Console.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.FileVersionInfo.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.Process.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Compression.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.DriveInfo.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.Pipes.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.AccessControl.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Claims.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Algorithms.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Encoding.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.Primitives.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Cryptography.X509Certificates.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Security.Principal.Windows.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Text.Encoding.CodePages.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Threading.Thread.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.ValueTuple.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.ReaderWriter.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XmlDocument.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XPath.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Xml.XPath.XDocument.dll">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>09/22/2017 14:42:00</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>01/28/2015 20:02:42</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/28/2015 20:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>01/28/2015 20:02:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>01/28/2015 20:03:46</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/28/2015 20:02:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>02/12/2014 07:26:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/28/2015 20:02:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/28/2015 20:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/28/2015 20:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/28/2015 20:04:30</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>07/18/2013 08:03:52</publishTime>
+    </File>
+    <File Include="Content/bootstrap-responsive.css">
+      <publishTime>07/22/2018 14:45:32</publishTime>
+    </File>
+    <File Include="Content/bootstrap-responsive.min.css">
+      <publishTime>07/22/2018 14:45:32</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Content/images/glyphicons-halflings-white.png">
+      <publishTime>07/22/2018 14:45:29</publishTime>
+    </File>
+    <File Include="Content/images/glyphicons-halflings.png">
+      <publishTime>07/22/2018 14:45:29</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-data.js">
+      <publishTime>08/08/2018 11:55:51</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-dates.html">
+      <publishTime>08/07/2018 17:58:33</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-diagnosis.html">
+      <publishTime>08/30/2018 12:18:39</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-facility.html">
+      <publishTime>08/07/2018 17:58:39</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-other.html">
+      <publishTime>08/30/2018 07:20:48</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-payers.html">
+      <publishTime>08/07/2018 17:58:52</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-provider.html">
+      <publishTime>08/30/2018 07:16:39</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit-subscriber.html">
+      <publishTime>08/30/2018 07:01:57</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-edit.html">
+      <publishTime>08/31/2018 18:21:42</publishTime>
+    </File>
+    <File Include="ehr/claims/claim-list.html">
+      <publishTime>08/29/2018 15:26:35</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-dates.html">
+      <publishTime>07/08/2018 17:58:33</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-diagnosis.html">
+      <publishTime>08/08/2018 10:09:28</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-facility.html">
+      <publishTime>07/08/2018 17:58:39</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-other.html">
+      <publishTime>07/08/2018 17:58:44</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-payers.html">
+      <publishTime>07/08/2018 17:58:52</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-provider.html">
+      <publishTime>07/08/2018 17:58:58</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit-subscriber.html">
+      <publishTime>07/08/2018 19:00:54</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit.html">
+      <publishTime>08/08/2018 10:38:29</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit.js">
+      <publishTime>08/08/2018 10:38:24</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-edit.service.js">
+      <publishTime>08/08/2018 10:38:27</publishTime>
+    </File>
+    <File Include="ehr/claims/claims-list.html">
+      <publishTime>06/08/2018 00:12:34</publishTime>
+    </File>
+    <File Include="ehr/claims/ehr.claims.controller.js">
+      <publishTime>08/31/2018 18:15:59</publishTime>
+    </File>
+    <File Include="ehr/claims/ehr.claims.service.js">
+      <publishTime>08/31/2018 19:21:51</publishTime>
+    </File>
+    <File Include="ehr/claims/index.claim.edit.html">
+      <publishTime>08/28/2018 10:15:58</publishTime>
+    </File>
+    <File Include="ehr/css/all.min.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/css/bootstrap.min.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/css/ehr-claim.css">
+      <publishTime>08/31/2018 03:34:38</publishTime>
+    </File>
+    <File Include="ehr/css/ehr-main.css">
+      <publishTime>08/31/2018 14:38:03</publishTime>
+    </File>
+    <File Include="ehr/css/ehr-modal.css">
+      <publishTime>08/31/2018 15:30:03</publishTime>
+    </File>
+    <File Include="ehr/css/ehr-payment.css">
+      <publishTime>08/21/2018 09:37:32</publishTime>
+    </File>
+    <File Include="ehr/css/ehr.style.css">
+      <publishTime>08/28/2018 10:04:51</publishTime>
+    </File>
+    <File Include="ehr/css/font-awesome.min.css">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/css/fontawesome-webfont.woff2">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/css/jquery-ui.min.css">
+      <publishTime>08/07/2018 18:39:11</publishTime>
+    </File>
+    <File Include="ehr/css/ngDialog-theme-default.min.css">
+      <publishTime>08/31/2018 03:38:40</publishTime>
+    </File>
+    <File Include="ehr/css/ngDialog.min.css">
+      <publishTime>08/31/2018 03:38:10</publishTime>
+    </File>
+    <File Include="ehr/facilities/facilities-edit.html">
+      <publishTime>07/23/2018 14:43:17</publishTime>
+    </File>
+    <File Include="ehr/facilities/facilities-get.html">
+      <publishTime>07/23/2018 08:13:23</publishTime>
+    </File>
+    <File Include="ehr/facilities/facilities-list.html">
+      <publishTime>07/22/2018 15:07:32</publishTime>
+    </File>
+    <File Include="ehr/facilities/facilities-master.html">
+      <publishTime>07/23/2018 10:30:28</publishTime>
+    </File>
+    <File Include="ehr/facilities/facilitiesController.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/facilities/facilityController.js">
+      <publishTime>07/22/2018 15:58:12</publishTime>
+    </File>
+    <File Include="ehr/groups/groups-edit.html">
+      <publishTime>07/23/2018 10:04:22</publishTime>
+    </File>
+    <File Include="ehr/groups/groups-get.html">
+      <publishTime>07/23/2018 10:04:54</publishTime>
+    </File>
+    <File Include="ehr/groups/groups-list.html">
+      <publishTime>07/22/2018 15:13:47</publishTime>
+    </File>
+    <File Include="ehr/home.html">
+      <publishTime>08/19/2018 06:21:10</publishTime>
+    </File>
+    <File Include="ehr/images/CMS-1500.png">
+      <publishTime>07/24/2018 11:18:18</publishTime>
+    </File>
+    <File Include="ehr/images/cms15000.svg">
+      <publishTime>07/24/2018 10:09:51</publishTime>
+    </File>
+    <File Include="ehr/images/js_preloader.gif">
+      <publishTime>08/20/2018 10:09:05</publishTime>
+    </File>
+    <File Include="ehr/images/loading_1.gif">
+      <publishTime>08/18/2018 00:28:20</publishTime>
+    </File>
+    <File Include="ehr/images/loading_2.gif">
+      <publishTime>08/18/2018 00:28:55</publishTime>
+    </File>
+    <File Include="ehr/images/ui-icons_444444_256x240.png">
+      <publishTime>08/07/2018 18:41:34</publishTime>
+    </File>
+    <File Include="ehr/images/ui-icons_555555_256x240.png">
+      <publishTime>08/07/2018 18:41:34</publishTime>
+    </File>
+    <File Include="ehr/images/ui-icons_777620_256x240.png">
+      <publishTime>08/07/2018 18:41:35</publishTime>
+    </File>
+    <File Include="ehr/images/ui-icons_777777_256x240.png">
+      <publishTime>08/07/2018 18:41:35</publishTime>
+    </File>
+    <File Include="ehr/images/ui-icons_cc0000_256x240.png">
+      <publishTime>08/07/2018 18:41:35</publishTime>
+    </File>
+    <File Include="ehr/images/ui-icons_ffffff_256x240.png">
+      <publishTime>08/07/2018 18:41:35</publishTime>
+    </File>
+    <File Include="ehr/js/app.js">
+      <publishTime>08/08/2018 07:42:36</publishTime>
+    </File>
+    <File Include="ehr/js/app/ApiService.js">
+      <publishTime>08/08/2018 09:15:16</publishTime>
+    </File>
+    <File Include="ehr/js/app/app-claim.js">
+      <publishTime>08/08/2018 11:24:29</publishTime>
+    </File>
+    <File Include="ehr/js/app/appClaim.js">
+      <publishTime>07/08/2018 09:24:16</publishTime>
+    </File>
+    <File Include="ehr/js/app/AppConfig.js">
+      <publishTime>06/08/2018 02:30:36</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.api.service.js">
+      <publishTime>08/31/2018 13:09:41</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.app.config.js">
+      <publishTime>08/19/2018 10:03:08</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.app.controller.js">
+      <publishTime>08/19/2018 14:01:08</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.app.filters.js">
+      <publishTime>08/31/2018 15:57:29</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.app.init.js">
+      <publishTime>08/22/2018 13:49:11</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.loader.component.js">
+      <publishTime>08/18/2018 04:17:34</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.modal.service.js">
+      <publishTime>08/31/2018 14:42:23</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.module.js">
+      <publishTime>08/31/2018 04:00:41</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.states.config.js">
+      <publishTime>08/30/2018 07:21:46</publishTime>
+    </File>
+    <File Include="ehr/js/app/ehr.ui.service.js">
+      <publishTime>08/22/2018 08:56:31</publishTime>
+    </File>
+    <File Include="ehr/js/app/routes-config.js">
+      <publishTime>07/23/2018 11:31:09</publishTime>
+    </File>
+    <File Include="ehr/js/app/RoutesConfig.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="ehr/js/lib/all.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/angular-ui-router.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/angular.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/bootstrap.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/jquery-3.3.1.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/jquery-ui.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/jquery.mask.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/js/lib/ngDialog.min.js">
+      <publishTime>08/31/2018 03:37:51</publishTime>
+    </File>
+    <File Include="ehr/models/ehr.edmx.diagram">
+      <publishTime>08/28/2018 19:49:31</publishTime>
+    </File>
+    <File Include="ehr/models/ehr.edmx.sql">
+      <publishTime>08/31/2018 18:46:27</publishTime>
+    </File>
+    <File Include="ehr/payers/payers-edit.html">
+      <publishTime>07/22/2018 14:50:16</publishTime>
+    </File>
+    <File Include="ehr/payers/payers-get.html">
+      <publishTime>07/22/2018 15:00:54</publishTime>
+    </File>
+    <File Include="ehr/payers/payers-list.html">
+      <publishTime>07/22/2018 15:05:03</publishTime>
+    </File>
+    <File Include="ehr/payments/ehr.payments.controller.js">
+      <publishTime>08/20/2018 17:10:17</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-dates.html">
+      <publishTime>08/20/2018 16:32:02</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-diagnosis.html">
+      <publishTime>08/20/2018 17:11:17</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-facility.html">
+      <publishTime>08/20/2018 16:32:02</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-other.html">
+      <publishTime>08/20/2018 16:32:02</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-payers.html">
+      <publishTime>08/20/2018 16:32:02</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-provider.html">
+      <publishTime>08/20/2018 16:32:02</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit-subscriber.html">
+      <publishTime>08/20/2018 16:32:02</publishTime>
+    </File>
+    <File Include="ehr/payments/payment-edit.html">
+      <publishTime>08/22/2018 07:38:16</publishTime>
+    </File>
+    <File Include="ehr/pos/pos-edit.html">
+      <publishTime>07/23/2018 10:16:19</publishTime>
+    </File>
+    <File Include="ehr/pos/pos-get.html">
+      <publishTime>07/22/2018 15:47:43</publishTime>
+    </File>
+    <File Include="ehr/pos/pos-list.html">
+      <publishTime>07/23/2018 10:17:20</publishTime>
+    </File>
+    <File Include="ehr/providers/providers-edit.html">
+      <publishTime>07/23/2018 08:46:16</publishTime>
+    </File>
+    <File Include="ehr/providers/providers-get.html">
+      <publishTime>07/23/2018 08:41:14</publishTime>
+    </File>
+    <File Include="ehr/providers/providers-list.html">
+      <publishTime>07/23/2018 08:53:58</publishTime>
+    </File>
+    <File Include="ehr/shared/js/ehr.shared.modal.controller.js">
+      <publishTime>08/31/2018 18:12:45</publishTime>
+    </File>
+    <File Include="ehr/shared/js/ehr.shared.payer-modal.component.js">
+      <publishTime>08/30/2018 03:38:56</publishTime>
+    </File>
+    <File Include="ehr/shared/views/ehr.shared.facility-modal.component.html">
+      <publishTime>08/31/2018 17:58:51</publishTime>
+    </File>
+    <File Include="ehr/shared/views/ehr.shared.formheader.html">
+      <publishTime>08/27/2018 13:10:12</publishTime>
+    </File>
+    <File Include="ehr/shared/views/ehr.shared.group-modal.component.html">
+      <publishTime>08/31/2018 17:58:06</publishTime>
+    </File>
+    <File Include="ehr/shared/views/ehr.shared.payer-modal.component.html">
+      <publishTime>08/31/2018 16:32:27</publishTime>
+    </File>
+    <File Include="ehr/shared/views/ehr.shared.pos-modal.component.html">
+      <publishTime>08/31/2018 18:10:59</publishTime>
+    </File>
+    <File Include="ehr/shared/views/ehr.shared.provider-modal.component.html">
+      <publishTime>08/31/2018 17:58:18</publishTime>
+    </File>
+    <File Include="ehr/subscribers/ehr.subscribers.controller.js">
+      <publishTime>08/31/2018 16:44:36</publishTime>
+    </File>
+    <File Include="ehr/subscribers/index.subscriber.edit.html">
+      <publishTime>08/28/2018 10:17:24</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscriber-edit.html">
+      <publishTime>08/31/2018 17:22:48</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscriber-get.html">
+      <publishTime>07/23/2018 14:07:48</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscriber-list.html">
+      <publishTime>08/29/2018 08:38:11</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscriber-list_2.html">
+      <publishTime>08/19/2018 09:02:15</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscribers-edit.html">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscribers-get.html">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscribers-list.html">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscribers-master.html">
+      <publishTime>07/23/2018 10:20:09</publishTime>
+    </File>
+    <File Include="ehr/subscribers/subscribersController.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="ehr/views/page-header-buttons.html">
+      <publishTime>07/23/2018 08:11:59</publishTime>
+    </File>
+    <File Include="ehr/views/page-header.html">
+      <publishTime>07/23/2018 08:12:50</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-brands-400.eot">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-brands-400.svg">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-brands-400.ttf">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-brands-400.woff">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-brands-400.woff2">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-regular-400.eot">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-regular-400.svg">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-regular-400.ttf">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-regular-400.woff">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-regular-400.woff2">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-solid-900.eot">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-solid-900.svg">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-solid-900.ttf">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-solid-900.woff">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="ehr/webfonts/fa-solid-900.woff2">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="index.html">
+      <publishTime>08/31/2018 14:12:29</publishTime>
+    </File>
+    <File Include="index2.html">
+      <publishTime>08/28/2018 10:07:30</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>08/31/2018 20:10:24</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/knockout-2.2.1.debug.js">
+      <publishTime>07/22/2018 14:45:21</publishTime>
+    </File>
+    <File Include="Scripts/knockout-2.2.1.js">
+      <publishTime>07/22/2018 14:45:21</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>07/22/2018 09:27:44</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>08/31/2018 20:10:24</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

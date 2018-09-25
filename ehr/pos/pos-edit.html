@@ -1,0 +1,48 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>{{page_title}}</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" ng-click="callApi('update', entity)">
+                <span>SAVE</span>
+                <i class="fa fa-save"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Cancel" ui-sref="pos-list" ui-sref-active="active">
+                <i class="fa fa-undo"></i>
+            </button>
+            <button class="btn btn-default ehr-btn btn-delete" title="Delete this place of service" ng-click="callApi('update', entity, true)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- PLACE OF SERVICE INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Place of Service Information</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-5">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="posName" name="posName" maxlength="100" ng-model="entity.PlaceOfService.Name" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Code</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input" id="posName" name="posName" maxlength="5" ng-model="entity.PlaceOfService.Code" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="ehr-fld-area" id="posDesc" name="posDesc" maxlength="500" ng-model="entity.PlaceOfService.Description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

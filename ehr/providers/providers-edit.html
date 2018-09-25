@@ -1,0 +1,164 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>{{page_title}}</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" ng-click="callApi('update', entity)">
+                <span>SAVE</span>
+                <i class="fa fa-save"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Cancel" ui-sref="providers-list" ui-sref-active="active">
+                <i class="fa fa-undo"></i>
+            </button>
+            <button class="btn btn-default ehr-btn btn-delete" title="Delete this provider" ng-click="callApi('update', entity, true)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- PROVIDER INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Provider Detail</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">First Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="provFirstName" name="provFirstName" maxlength="100" ng-model="entity.Provider.FirstName" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Last name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="provLastName" name="provLastName" maxlength="100" ng-model="entity.Provider.LastName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Email address</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="provEmail" name="provEmail" maxlength="100" ng-model="entity.Provider.Email" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Phone (mobile)</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input ehr-fld-phone" id="provPhoneMobile" name="provPhoneMobile" maxlength="14" ng-model="entity.Provider.PhoneMobile" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Phone (home)</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input ehr-fld-phone" id="provPhoneHome" name="provPhoneHome" maxlength="14" ng-model="entity.Provider.PhoneHome" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREDENTIALS -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Credentials</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">EIN</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input" id="provEIN" name="provEIN" maxlength="10" ng-model="entity.Provider.EIN" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">SSN</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input" id="provSSN" name="provSSN" maxlength="10" ng-model="entity.Provider.SSN" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">NPI</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input" id="provNPI" name="provNPI" maxlength="10" ng-model="entity.Provider.NPI" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">License</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input" id="provLicense" name="provLicense" maxlength="10" ng-model="entity.Provider.License" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GROUPS -->
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-outer clearfix">
+            <label class="ehr-group-label">Groups</label>
+            <button type="button" class="btn btn-default">
+                <span>Add new group</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div class="ehr-group-inner">
+            <table class="ehr-table table-hover col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-2">
+                        Default
+                    </th>
+                    <th class="col-sm-10">
+                        Group name
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- BILLING ADDRESSES -->
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-outer clearfix">
+            <label class="ehr-group-label">Addresses</label>
+            <button type="button" class="btn btn-default">
+                <span>Add new address</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div class="ehr-group-inner">
+            <table class="ehr-table table-hover col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1">
+                        Default
+                    </th>
+                    <th class="col-sm-3">
+                        Street 1
+                    </th>
+                    <th class="col-sm-3">
+                        Street 2
+                    </th>
+                    <th class="col-sm-2">
+                        City
+                    </th>
+                    <th class="col-sm-1">
+                        State
+                    </th>
+                    <th class="col-sm-1-5">
+                        Zip
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row">
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-3"></td>
+                    <td class="col-sm-3"></td>
+                    <td class="col-sm-2"></td>
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-1-5"></td>
+                    <td class="col-sm-0-5"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

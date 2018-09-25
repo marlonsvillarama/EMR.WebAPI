@@ -1,0 +1,489 @@
+﻿<link rel="stylesheet" type="text/css" href="/ehr/css/ehr-claim.css" />
+<div class="container-fluid ehr-content">
+    <form ng-submit="pmtEditCtrl.submitForm()">
+
+        <!-- PAGE HEADER -->
+        <div class="ehr-page-header row">
+            <div class="col-sm-5">
+                <span>{{pmtEditCtrl.page_title}}</span>
+            </div>
+            <div class="col-sm-7 ehr-buttons-right text-right">
+                <button class="btn btn-primary ehr-btn" type="submit"
+                        ng-if="pmtEditCtrl.savingForm == false">
+                    <span>SAVE</span>
+                    <i class="fa fa-save"></i>
+                </button>
+                <button type="button" class="btn btn-primary ehr-btn" disabled
+                        ng-if="pmtEditCtrl.savingForm == true">
+                    <span>SAVING</span>
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>
+                <button type="button" class="btn btn-default ehr-btn"
+                        ng-click="pmtEditCtrl.cancelEdit()">
+                    <span>CANCEL</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CLAIM INFORMATION -->
+        <div class="ehr-group clearfix">
+            <div class="ehr-group-inner">
+
+                <!-- PATIENT/SUBSCRIBER -->
+                <div class="ehr-row clearfix" ng-controller="ehrClaimHeaderController as clmHeaderCtrl">
+
+                    <!-- CLAIM HISTORY -->
+                    <div class="col-sm-3">
+                        <div class="ehr-row clearfix">
+                            <div id="claim-history" class="col-sm-12 div-scrollable">
+                                <table class="ehr-small-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-sm-4">Acct</th>
+                                            <th class="col-sm-4">Date</th>
+                                            <!--<th>CPT</th>-->
+                                            <th class="col-sm-4 text-right">Payment ($)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="c in clmHeaderCtrl.claimHistory"
+                                            ng-class="c.id == pmtEditCtrl.claim.Id ? 'ehr-small-table-row-hilite' : ''"
+                                            ng-click="pmtEditCtrl.switchClaim(c.id)">
+                                            <td>{{c.acct}}</td>
+                                            <td>{{c.date}}</td>
+                                            <td align="right">{{c.amt}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CLAIM HEADER -->
+                    <div class="col-sm-9">
+
+                        <!-- Date of Claim (not Date of Service) -->
+                        <div class="row clearfix">
+                            <div class="col-sm-6">
+                                <div class="row clearfix">
+                                    <label class="col-sm-2 ehr-fld-label">Date</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="ehr-fld-input ehr-fld-dob ehr-warning" maxlength="10" ng-model="pmtEditCtrl.date" />
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                    <label class="col-sm-2 ehr-fld-label">Account</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="ehr-fld-input ehr-warning" disabled ng-model="pmtEditCtrl.acctNum" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row clearfix">
+                                    <label class="col-sm-2 ehr-fld-label">Status</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="ehr-fld-input ehr-warning" disabled ng-model="pmtEditCtrl.claimStatus" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Claim Header Info -->
+                        <div class="row clearfix">
+
+                            <!-- Subscriber Info -->
+                            <div class="col-sm-6">
+
+                                <div class="ehr-group-inner-border">
+                                    <div class="ehr-section-header">
+                                        <span>Subscriber Info</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+                                    <div class="ehr-row clearfix">
+                                        <div class="col-sm-8">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Subscriber Name</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                                           ng-model="clmHeaderCtrl.subscriber.FullName" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Date of Birth</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                                           ng-model="clmHeaderCtrl.subscriber.DateOfBirth" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ehr-row clearfix">
+                                        <div class="col-sm-8">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Primary Payer</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                                           ng-model="clmHeaderCtrl.claim.PrimaryPayer.Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Member ID</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                                           ng-model="clmHeaderCtrl.claim.PrimaryPayerMemberID" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Patient Info -->
+                            <div class="col-sm-6" style="border: 0px solid red">
+
+                                <!-- Patient Demographics -->
+                                <div class="ehr-group-inner-border" ng-if="clmHeaderCtrl.showNewDep == false">
+                                    <div class="ehr-section-header">
+                                        <span>Patient Info</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+
+                                    <div class="ehr-row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Patient Name</label><br />
+                                                <!--<div class="col-sm-12 ehr-fld-input-popup">
+                                                    <div class="ehr-fld-input-icon-btn">-->
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                                           ng-model="clmHeaderCtrl.PatientFullName" />
+                                                    <!--
+                                                    <div class="ehr-fld-input-icon">
+                                                        <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                                               ng-model="clmHeaderCtrl.PatientFullName" />
+                                                        <div class="ehr-fld-icon">
+                                                            <button type="button" ng-click="clmHeaderCtrl.openDependentsModal()">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    -->
+                                                    <!--
+                                                    <div class="ehr-fld-input-popup-btn">
+                                                        <button type="button" ng-click="pmtEditCtrl.showNewDepForm(true)">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                    -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ehr-row clearfix">
+                                        <div class="col-sm-6">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Relationship to Subscriber</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text" disabled
+                                                           ng-model="clmHeaderCtrl.PatientRelationship" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Date of Birth</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text" maxlength="10" disabled
+                                                           ng-model="clmHeaderCtrl.PatientDateOfBirth" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Sex</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-text" maxlength="10" disabled
+                                                           ng-model="clmHeaderCtrl.PatientGender" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- New Patient -->
+                                <!--
+                                <div class="ehr-group-inner-border" ng-if="clmHeaderCtrl.showNewDep == true">
+                                    <div class="ehr-section-header">
+                                        <span>New Patient</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="button"
+                                                ng-if="clmHeaderCtrl.savingNewDepForm == false"
+                                                ng-click="clmHeaderCtrl.saveNewDepForm()">
+                                            Save <i class="fa fa-save"></i>
+                                        </button>
+                                        <button type="button" disabled
+                                                ng-if="clmHeaderCtrl.savingNewDepForm == true">
+                                            Saving <i class="fa fa-ellipsis-h"></i>
+                                        </button>
+                                        <button type="button" ng-click="clmHeaderCtrl.showNewDepForm(false)">Cancel</button>
+                                    </div>
+
+                                    <div class="ehr-row clearfix">
+                                        <div class="col-sm-6">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">First Name <span class="ehr-fld-required">*</span></label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-input" maxlength="60"
+                                                           ng-model="clmHeaderCtrl.newPat.FirstName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Last Name <span class="ehr-fld-required">*</span></label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-input" maxlength="60"
+                                                           ng-model="clmHeaderCtrl.newPat.LastName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ehr-row clearfix">
+                                        <div class="col-sm-6">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Relationship to Subscriber <span class="ehr-fld-required">*</span></label>
+                                                <div class="col-sm-12">
+                                                    <select class="ehr-fld-input"
+                                                            ng-model="clmHeaderCtrl.newPat.Relationship"
+                                                            ng-options="x.Code as x.Name for x in clmHeaderCtrl.relationships"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Date of Birth <span class="ehr-fld-required">*</span></label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="ehr-fld-input" maxlength="10"
+                                                           data-toggle="datepicker"
+                                                           ng-model="clmHeaderCtrl.newPat.DateOfBirth" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row clearfix">
+                                                <label class="ehr-fld-label col-sm-12">Sex <span class="ehr-fld-required">*</span></label>
+                                                <div class="col-sm-12">
+                                                    <select class="ehr-fld-input"
+                                                            ng-model="clmHeaderCtrl.newPat.Gender">
+                                                        <option value="M">Male</option>
+                                                        <option value="F">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                -->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PAYMENT DETAIL -->
+                <div class="ehr-row clearfix" ng-controller="ehrClaimProvController as clmProvCtrl">
+
+                    <div class="col-sm-3">
+
+                        <div class="ehr-row clearfix">
+                            <div class="ehr-group-inner-border">
+                                <div class="ehr-section-header">
+                                    <span>Claim/Provider Info</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+
+                                <!-- Date of Service -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Date of Service</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                               ng-model="pmtEditCtrl.claim.DateOfService" />
+                                    </div>
+                                </div>
+
+                                <!-- Billing Provider -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Billing Group</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                               ng-model="clmProvCtrl.billingProvName" />
+                                    </div>
+                                </div>
+
+                                <!-- Rendering Provider -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Rendering Provider</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                               ng-model="clmProvCtrl.renderingProvFullName" />
+                                    </div>
+                                </div>
+
+                                <!-- Service Facility -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Facility</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                               ng-model="clmProvCtrl.facilityName" />
+                                    </div>
+                                </div>
+
+                                <!-- Place of Service -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Place of Service</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="ehr-fld-text ehr-fld-input-disabled" disabled
+                                               ng-model="clmProvCtrl.posName" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+
+                        <div class="ehr-row clearfix">
+
+                            <!-- Payment Lines -->
+                            <div class="ehr-group-inner">
+                                <table id="ehr-claim-lines" class="ehr-table col-sm-12" ng-controller="ehrPaymentLinesController as pmtLinesCtrl">
+
+                                    <!-- Claim line headers -->
+                                    <tr class="ehr-table-header">
+                                        <th class="col-sm-2 text-center">
+                                            CPT Code
+                                        </th>
+                                        <th class="col-sm-2 text-center">
+                                            Charges ($)
+                                        </th>
+                                        <th class="col-sm-2 text-center">
+                                            Amt Paid ($)
+                                        </th>
+                                        <th class="col-sm-2 text-center">
+                                            Copay ($)
+                                        </th>
+                                        <th class="col-sm-2 text-center">
+                                            Deductible ($)
+                                        </th>
+                                    </tr>
+
+                                    <!-- Claim line repeater -->
+                                    <tr class="ehr-table-row" ng-repeat="line in pmtLinesCtrl.claim.ClaimLines">
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input" disabled
+                                                   ng-model="line.CPT" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right" disabled
+                                                   ng-model="line.Amount" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right"
+                                                   ng-blur="pmtLinesCtrl.calculateTotals()"
+                                                   ng-model="pmtLinesCtrl.getPaymentLine(line.Id).AmountPayment" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right"
+                                                   ng-blur="pmtLinesCtrl.calculateTotals()"
+                                                   ng-model="pmtLinesCtrl.getPaymentLine(line.Id).AmountCopay" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right"
+                                                   ng-blur="pmtLinesCtrl.calculateTotals()"
+                                                   ng-model="pmtLinesCtrl.getPaymentLine(line.Id).AmountDeductible" />
+                                        </td>
+                                    </tr>
+
+                                    <!-- Claim lines total -->
+                                    <tr class="ehr-table-row-totals">
+                                        <td class="col-sm-2 text-right">
+                                            <strong>TOTALS ($)</strong>
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right ehr-bold" disabled
+                                                   ng-model="pmtLinesCtrl.claim.AmountTotal" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right ehr-bold" disabled
+                                                   ng-model="pmtLinesCtrl.totalPayment" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right ehr-bold" disabled
+                                                   ng-model="pmtLinesCtrl.totalCopay" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="text" class="ehr-line-input text-right ehr-bold" disabled
+                                                   ng-model="pmtLinesCtrl.totalDeductible" />
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        
+                        </div>
+
+                        <div class="ehr-row clearfix">
+
+                            <!-- Payment Info -->
+                            <div class="ehr-group-inner-border">
+                                <div class="ehr-section-header">
+                                    <span>Additional Payment Details</span>
+                                </div>
+
+                                <!-- Error Code -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Error Code</label>
+                                    <div class="col-sm-12">
+                                        <select class="ehr-fld-input"
+                                                ng-model="pmtEditCtrl.errorId"
+                                                ng-options="error.Id as error.Description for error in pmtEditCtrl.errorCodes"
+                                                ng-blur="pmtEditCtrl.updateErrorCode()">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Notes -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Payment Notes</label>
+                                    <div class="col-sm-12">
+                                        <textarea class="ehr-fld-area" ng-model="pmtEditCtrl.payment.Notes"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>

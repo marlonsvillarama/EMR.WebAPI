@@ -1,0 +1,80 @@
+﻿<!-- Setup: Providers page -->
+<div class="ehr-row clearfix">
+    <div class="col-sm-12">
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <button type="button" ng-click="sProvCtrl.editProv(-1)">
+                    <span>ADD NEW PROVIDER</span>
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="ehr-row clearfix">
+            <table id="ehr-claim-lines" class="col-sm-12">
+
+                <!-- Providers table headers -->
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1-5">
+                        Last Name
+                    </th>
+                    <th class="col-sm-1-5">
+                        First Name
+                    </th>
+                    <th class="col-sm-1">
+                        NPI
+                    </th>
+                    <th class="col-sm-1">
+                        EIN
+                    </th>
+                    <th class="col-sm-1">
+                        Phone No.
+                    </th>
+                    <th class="col-sm-1">
+                        Taxonomy Code
+                    </th>
+                    <th class="col-sm-4">
+                        Classification > Specialization
+                    </th>
+                    <th class="col-sm-1 ehr-table-actions text-right">
+                    </th>
+                </tr>
+
+                <!-- Provier table repeater -->
+                <tr class="ehr-table-row" ng-repeat="x in sProvCtrl.list" ng-click="sProvCtrl.editProv(x.Id)">
+                    <td class="col-sm-1-5">
+                        {{x.LastName}}
+                    </td>
+                    <td class="col-sm-1-5">
+                        {{x.FirstName}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.NPI}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.EIN}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.Phone_1 | tel}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.TaxonomyCode.Code}}
+                    </td>
+                    <td class="col-sm-4">
+                        {{x.TaxonomyCode.Classification}}
+                        <span ng-if="x.TaxonomyCode.Specialization">&gt; {{x.TaxonomyCode.Specialization}}</span>
+                    </td>
+                    <td class="col-sm-1 ehr-table-actions text-right">
+                        <!--
+        <button type="button" ng-if="bLineCtrl.batchIsProcessed() == false"
+                ng-click="bLineCtrl.removeClaim($index)">
+            <i class="fa fa-times"></i>
+        </button>
+        -->
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,169 @@
+﻿<div class="container-fluid ehr-content">
+
+    <!-- Page Header -->
+    <div class="ehr-page-header row">
+        <div class="col-sm-5">
+            <span>ACCOUNT</span>
+        </div>
+    </div>
+
+    <!-- Setup container -->
+    <div class="ehr-row clearfix">
+        <div class="col-sm-4">
+
+            <!-- Accounts -->
+            <div class="ehr-group-inner-border">
+
+                <div class="ehr-section-header">
+                    <span>Accounts</span>
+                </div>
+
+                <div class="ehr-row clearfix">
+                    <div class="col-sm-12">
+                        <div class="ehr-row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Connect to Account:</label>
+                            <div class="col-sm-12">
+                                <select class="ehr-fld-input"
+                                        ng-model="acctCtrl.db"
+                                        ng-options="db.Code as db.Name for db in acctCtrl.accounts"></select>
+                            </div>
+                        </div>
+
+                        <div class="ehr-row clearfix">
+                            <div class="col-sm-12">
+                                <button type="button" ng-click="acctCtrl.switchDB()">Switch Database</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Claim Defaults -->
+            <div class="ehr-group-inner-border">
+
+                <div class="ehr-section-header">
+                    <span>Claim Defaults</span>
+                </div>
+
+                <div class="ehr-row clearfix">
+                    <div class="col-sm-12">
+                        <div class="ehr-row clearfix">
+                            <span>Select the default providers for new claims</span>
+                        </div>
+
+                        <!-- Rendering Provider -->
+                        <div class="ehr-row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Rendering Provider</label>
+                            <div class="col-sm-12 ehr-fld-input-popup">
+                                <div class="ehr-fld-input-icon-btn">
+                                    <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                           ng-model="acctCtrl.renderingProvFullName" />
+                                    <div class="ehr-fld-icon">
+                                        <button type="button" ng-click="acctCtrl.openListModal('Providers', 'provider')">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ehr-fld-input-popup-btn">
+                                    <button>
+                                        <i class="fa fa-window-restore"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Billing Group/Provider -->
+                        <div class="ehr-row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Billing Group</label>
+                            <div class="col-sm-12 ehr-fld-input-popup">
+                                <div class="ehr-fld-input-icon-btn">
+                                    <input type="text" class="ehr-fld-input-disabled" disabled
+                                           ng-model="acctCtrl.billingProvName" />
+                                    <div class="ehr-fld-icon">
+                                        <button type="button" ng-click="acctCtrl.openListModal('Groups', 'group')">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ehr-fld-input-popup-btn">
+                                    <button>
+                                        <i class="fa fa-window-restore"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service Facility -->
+                        <div class="ehr-row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Facility</label>
+                            <div class="col-sm-12 ehr-fld-input-popup">
+                                <div class="ehr-fld-input-icon-btn">
+                                    <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                           ng-model="acctCtrl.facilityName" />
+                                    <div class="ehr-fld-icon">
+                                        <button type="button" ng-click="acctCtrl.openListModal('Facilities', 'facility')">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ehr-fld-input-popup-btn">
+                                    <button>
+                                        <i class="fa fa-window-restore"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Place of Service -->
+                        <div class="ehr-row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Place of Service</label>
+                            <div class="col-sm-12 ehr-fld-input-popup">
+                                <div class="ehr-fld-input-icon-btn">
+                                    <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                           ng-model="acctCtrl.posName" />
+                                    <div class="ehr-fld-icon">
+                                        <button type="button" ng-click="acctCtrl.openListModal('PlacesOfService', 'pos')">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ehr-fld-input-popup-btn">
+                                    <button>
+                                        <i class="fa fa-window-restore"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ehr-row clearfix">
+                            <div class="col-sm-12">
+                                <button type="button" ng-click="acctCtrl.saveClaimDefaults()">Save Claim Defaults</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!--
+        <div class="col-sm-6">
+            <div class="ehr-group-inner-border">
+                <div class="ehr-section-header">
+                    <span>User Profile</span>
+                </div>
+            </div>
+
+            <div class="ehr-group-inner-border">
+                <div class="ehr-section-header">
+                    <span>Links</span>
+                </div>
+            </div>
+        </div>
+        -->
+
+    </div>
+
+    </div>

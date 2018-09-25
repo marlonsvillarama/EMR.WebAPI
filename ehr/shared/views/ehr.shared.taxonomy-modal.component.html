@@ -1,0 +1,47 @@
+﻿<div class="modal-body">
+    <div class="ehr-row clearfix">
+        <table id="ehr-claim-lines" class="col-sm-12">
+            <tr class="ehr-table-header">
+                <th class="col-sm-4">Classification</th>
+                <th class="col-sm-4">Specialization</th>
+                <th class="col-sm-2">Code</th>
+            </tr>
+            <tr class="ehr-table-row"
+                ng-click="confirm(taxoModalCtrl.selectEntity($index));"
+                ng-repeat="x in taxoModalCtrl.filteredList | startFrom:(taxoModalCtrl.currentPage-1)*taxoModalCtrl.pageSize | limitTo: taxoModalCtrl.pageSize">
+                <td class="col-sm-4">{{x.Classification}}</td>
+                <td class="col-sm-4">{{x.Specialization}}</td>
+                <td class="col-sm-2">{{x.Code}}</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="row clearfix ehr-pager">
+        <div class="col-sm-1">
+            <span><strong>Filter:</strong></span>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="ehr-fld-input" maxlength="100"
+                   ng-model="taxoModalCtrl.filterText"
+                   ng-change="taxoModalCtrl.filterResults()" />
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6 text-right">
+            <span>
+                <strong>
+                    Showing results {{taxoModalCtrl.startIndex}} to {{taxoModalCtrl.endIndex}} of {{taxoModalCtrl.list.length}}
+                </strong>
+            </span>&nbsp;&nbsp;
+            <button type="button"
+                    ng-click="taxoModalCtrl.prevPage()"
+                    ng-disabled="taxoModalCtrl.isFirstPage() == true">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button type="button"
+                    ng-click="taxoModalCtrl.nextPage()"
+                    ng-disabled="taxoModalCtrl.isLastPage() == true">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</div>

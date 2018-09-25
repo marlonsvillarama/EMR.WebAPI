@@ -1,0 +1,368 @@
+﻿<div class="container-fluid ehr-content">
+    <form name="subEditForm" ng-submit="subEditCtrl.submitForm()">
+        
+        <!-- Page Header -->
+        <div class="ehr-page-header row">
+            <div class="col-sm-5">
+                <span>{{subEditCtrl.page_title}}</span>
+            </div>
+            <div class="col-sm-7 ehr-buttons-right text-right">
+                <button class="btn btn-primary ehr-btn" type="submit" ng-if="subEditCtrl.savingForm == false">
+                    <span>SAVE</span>
+                    <i class="fa fa-save"></i>
+                </button>
+                <button class="btn btn-primary ehr-btn" disabled ng-if="subEditCtrl.savingForm == true">
+                    <span>SAVING</span>
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>
+                <button class="btn btn-default ehr-btn" title="Create New Claim"
+                        ui-sref="claim-edit({ subscriberId: subEditCtrl.entity.Id, claimId: -1 })" ui-sref-active="active"
+                        ng-if="subEditCtrl.isEdit() == true">
+                    <span>NEW CLAIM</span>
+                    <i class="fa fa-file-medical-alt"></i>
+                </button>
+                <button class="btn btn-default ehr-btn" title="Cancel" ui-sref="subscribers" ui-sref-active="active">
+                    <i class="fa fa-list"></i>
+                </button>
+                <button class="btn btn-default ehr-btn btn-delete" title="Delete this subscriber"
+                        ng-click="subEditCtrl.deleteEntity('subscriber')"
+                        ng-if="subEditCtrl.isEdit() == true">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Page Notification -->
+        <!--
+        <div class="ehr-row clearfix">
+            <div class="col-sm-12 ehr-page-notif ehr-form-ok">
+                Test Message
+            </div>
+        </div>
+        -->
+
+        <!-- Subscriber Detail -->
+        <div class="ehr-group clearfix">
+            <div class="col-sm-6">
+
+                <!-- Patient Data -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Demographics</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">First Name <span class="ehr-fld-required">*</span></label><br />
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="First"
+                                           ng-required="true"
+                                           ng-model="subEditCtrl.entity.FirstName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Last Name <span class="ehr-fld-required">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="Last"
+                                           ng-required="true"
+                                           ng-model="subEditCtrl.entity.LastName" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-4">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Date of Birth <span class="ehr-fld-required">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-dt" maxlength="10" placeholder=""
+                                           data-toggle="datepicker"
+                                           ng-required="true"
+                                           ng-change="subEditCtrl.getAge()"
+                                           ng-model="subEditCtrl.entity.DateOfBirth" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Age</label>
+                                <div class="col-sm-12">
+                                    <input type="text" disabled class="ehr-fld-text" ng-model="subEditCtrl.age" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Sex</label>
+                                <div class="col-sm-12">
+                                    <select class="ehr-fld-input"
+                                            ng-model="subEditCtrl.entity.Gender">
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">SS No.</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="10" placeholder=""
+                                           ng-model="subEditCtrl.entity.SSN" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Address</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Street 1</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="Address Line 1"
+                                           ng-model="subEditCtrl.entity.Address_1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Street 2</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder="Address Line 2"
+                                           ng-model="subEditCtrl.entity.Address_2" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">City</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="60" placeholder="City"
+                                           ng-model="subEditCtrl.entity.City" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">State</label>
+                                <div class="col-sm-12">
+                                    <select class="ehr-fld-input"
+                                            ng-model="subEditCtrl.entity.State"
+                                            ng-options="state.Code as state.Name for state in subEditCtrl.states"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Zip</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-zip" maxlength="10" placeholder="Zip"
+                                           ng-model="subEditCtrl.entity.Zip" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Second column -->
+            <div class="col-sm-6">
+
+                <!-- Contact Detail -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Contact Detail</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Home Phone</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-phone" maxlength="14" placeholder=""
+                                           ng-model="subEditCtrl.entity.Phone_1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Cell Phone</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-phone" maxlength="14" placeholder=""
+                                           ng-model="subEditCtrl.entity.Phone_2" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-9">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Email Address</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100" placeholder=""
+                                           ng-model="subEditCtrl.entity.Email" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insurances -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Insurances</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-8">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Primary Payer <span class="ehr-fld-required">*</span></label>
+                                <div class="col-sm-12 ehr-fld-input-popup">
+                                    <div class="ehr-fld-input-icon-btn">
+                                        <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                               ng-model="subEditCtrl.entity.PrimaryPayer.Name" />
+                                        <div class="ehr-fld-icon">
+                                            <button type="button" ng-click="subEditCtrl.openModalPayers(1)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="ehr-fld-input-popup-btn" ng-if="subEditCtrl.entity.PrimaryPayer != null">
+                                        <button type="button" ng-click="subEditCtrl.removePayer(1)">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Member Id <span class="ehr-fld-required">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="20"
+                                           ng-required="true"
+                                           ng-model="subEditCtrl.entity.PrimaryMemberID" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-8">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Secondary Payer</label>
+                                <div class="col-sm-12 ehr-fld-input-icon">
+                                    <div class="ehr-fld-input-icon-btn">
+                                        <input type="text" class="ehr-fld-input-disabled" maxlength="100"
+                                               disabled ng-model="subEditCtrl.entity.SecondaryPayer.Name" />
+                                        <div class="ehr-fld-icon">
+                                            <button type="button" ng-click="subEditCtrl.openModalPayers(2)">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="ehr-fld-input-popup-btn" ng-if="subEditCtrl.entity.SecondaryPayer != null">
+                                        <button type="button" ng-click="subEditCtrl.removePayer(2)">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Member ID</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="20" placeholder=""
+                                           ng-model="subEditCtrl.entity.SecondaryMemberID" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dependents -->
+                <div ng-show="subEditCtrl.entity.showdeps == true">
+                    <div class="ehr-row clearfix">
+                        <button type="button" ng-click="subEditCtrl.openAddDepModal()">Add dependent</button>
+                    </div>
+                    <table class="col-sm-12">
+                        <tr class="ehr-table-header">
+                            <th class="col-sm-5">
+                                Dependent Name
+                            </th>
+                            <th class="col-sm-3">
+                                Date of Birth
+                            </th>
+                            <th class="col-sm-4">
+                                Relationship
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="modal" id="payerModal" role="dialog" aria-hidden="true">-->
+        <!-- ADDRESSES -->
+        <!--
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-outer clearfix">
+            <label class="ehr-group-label">Addresses</label>
+            <button type="button" class="btn btn-default">
+                <span>Add new address</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <div class="ehr-group-inner">
+            <table class="ehr-table table-hover col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-1">
+                        Default
+                    </th>
+                    <th class="col-sm-3">
+                        Street 1
+                    </th>
+                    <th class="col-sm-3">
+                        Street 2
+                    </th>
+                    <th class="col-sm-2">
+                        City
+                    </th>
+                    <th class="col-sm-1">
+                        State
+                    </th>
+                    <th class="col-sm-1-5">
+                        Zip
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row">
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-3"></td>
+                    <td class="col-sm-3"></td>
+                    <td class="col-sm-2"></td>
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-1-5"></td>
+                    <td class="col-sm-0-5"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    -->
+    </form>
+</div>

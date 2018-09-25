@@ -1,0 +1,80 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>{{page_title}}</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" ng-click="callApi('update', entity)">
+                <span>SAVE</span>
+                <i class="fa fa-save"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Cancel" ui-sref="groups-list" ui-sref-active="active">
+                <i class="fa fa-undo"></i>
+            </button>
+            <button class="btn btn-default ehr-btn btn-delete" title="Delete this group" ng-click="callApi('update', entity, true)">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- GROUP INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Group Information</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="groupName" name="groupName" maxlength="100" ng-model="entity.Group.Name" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">NPI</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="groupNPI" name="groupNPI" maxlength="10" ng-model="entity.Group.NPI" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Tax ID</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="groupTaxID" name="groupTaxID" maxlength="10" ng-model="entity.Group.TaxId" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Street line 1</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="groupAddress1" name="groupAddress1" maxlength="100" ng-model="entity.Group.Address.Address_1" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Street line 2</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="groupAddress2" name="groupAddress2" maxlength="100" ng-model="entity.Group.Address.Address_2" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">City</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input" id="groupCity" name="groupCity" maxlength="60" ng-model="entity.Group.Address.City" />
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">State</label>
+                    <div class="col-sm-4">
+                        <select class="ehr-fld-input" id="groupState" name="groupState" ng-model="entity.Group.Address.State" >
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Zip code</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="ehr-fld-input ehr-fld=zip" id="groupZip" name="groupZip" maxlength="10" ng-model="entity.Group.Address.Zip" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

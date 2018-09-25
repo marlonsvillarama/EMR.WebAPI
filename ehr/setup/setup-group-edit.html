@@ -1,0 +1,198 @@
+﻿<!-- Setup: Group page -->
+<div class="ehr-row clearfix">
+    <div class="col-sm-12">
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <button type="button" ng-if="sEditGrpCtrl.savingForm == false"
+                        ng-click="sEditGrpCtrl.submitForm()">
+                    <i class="fa fa-save"></i>
+                    <strong>&nbsp;&nbsp;SAVE CHANGES&nbsp;&nbsp;</strong>
+                </button>
+                <button type="button" disabled ng-if="sEditGrpCtrl.savingForm == true">
+                    <strong>&nbsp;&nbsp;SAVING&nbsp;&nbsp;</strong>
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>&nbsp;&nbsp;
+                <button type="button" ng-click="sEditGrpCtrl.cancelEdit()">
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+        <br />
+
+        <div class="ehr-row clearfix">
+
+            <!-- First Column -->
+            <div class="col-sm-6">
+
+                <!-- Provider Info -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Provider Info</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-12">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Group Name <span class="ehr-fld-required">*</span></label><br />
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="60"
+                                           ng-required="true"
+                                           ng-model="sEditGrpCtrl.entity.LastName" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Group NPI <span class="ehr-fld-required">*</span></label><br />
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="60"
+                                           ng-required="true"
+                                           ng-model="sEditGrpCtrl.entity.NPI" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="ehr-fld-label col-sm-12">Tax ID</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="60"
+                                           ng-required="true"
+                                           ng-model="sEditGrpCtrl.entity.TaxId" />
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Address</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Street 1</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="80"
+                                           ng-model="sEditGrpCtrl.entity.Address_1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Street 2</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="80"
+                                           ng-model="sEditGrpCtrl.entity.Address_2" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-5">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">City</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="60"
+                                           ng-model="sEditGrpCtrl.entity.City" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">State</label>
+                                <div class="col-sm-12">
+                                    <select class="ehr-fld-input"
+                                            ng-model="sEditGrpCtrl.entity.State"
+                                            ng-options="state.Code as state.Name for state in sEditGrpCtrl.states"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Zip</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-zip" maxlength="10"
+                                           ng-model="sEditGrpCtrl.entity.Zip" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Second column -->
+            <div class="col-sm-6">
+
+                <!-- Contact Detail -->
+                <div class="ehr-group-inner-border">
+                    <div class="ehr-section-header">
+                        <span>Contact Detail</span>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Phone No.</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-phone" maxlength="10"
+                                           ng-model="sEditGrpCtrl.entity.Phone_1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Fax No.</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input ehr-fld-phone" maxlength="10"
+                                           ng-model="sEditGrpCtrl.entity.Fax" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ehr-row clearfix">
+                        <div class="col-sm-9">
+                            <div class="row clearfix">
+                                <label class="col-sm-12 ehr-fld-label">Email Address</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="ehr-fld-input" maxlength="100"
+                                           ng-model="sEditGrpCtrl.entity.Email" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Providers -->
+                <div ng-show="sEditGrpCtrl.entity.Id > 0">
+                    <div class="ehr-row clearfix">
+                        <button type="button" ng-click="sEditGrpCtrl.openAddProvModal()">Add provider</button>
+                    </div>
+                    <table class="col-sm-12">
+                        <tr class="ehr-table-header">
+                            <th class="col-sm-6">
+                                Provider Name
+                            </th>
+                            <th class="col-sm-3">
+                                Provider NPI
+                            </th>
+                            <th class="col-sm-3">
+                                Phone No.
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

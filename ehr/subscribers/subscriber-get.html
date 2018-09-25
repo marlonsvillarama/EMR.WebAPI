@@ -1,0 +1,81 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>{{entity.NameFormatted}}</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" title="Edit this subscribers" ui-sref="subscribers-edit({ id: entity.Subscriber.Id })" ui-sref-active="active">
+                <span>EDIT</span>
+                <i class="fa fa-pencil-alt"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Create new subscriber" ui-sref="subscribers-edit({ id: -1 })" ui-sref-active="active">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="View all subscribers" ui-sref="subscribers-list" ui-sref-active="active">
+                <i class="fa fa-list"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Delete this subscriber" ng-click="callApi('update', entity, true)">
+                <i class="fa fa-trash"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Create new claim for subscriber" ui-sref="claims-edit({ id: -1, subscriberId: entity.Subscriber.Id })" ui-sref-active="active">
+                <i class="fa fa-heartbeat"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- SUBSCRIBER INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Subscriber Detail</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-12">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-3 ehr-fld-label">Date of Birth</label>
+                    <span class="col-sm-9 ehr-fld-text">{{entity.DateOfBirth}} - <strong>Age 40</strong></span>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-3 ehr-fld-label">Address</label>
+                    <div class="col-sm-7 ehr-fld-text">
+                        <p>
+                            {{entity.AddressFormatted}}
+                        </p>
+                    </div>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-3 ehr-fld-label">Home Phone</label>
+                    <span class="col-sm-2 ehr-fld-text">{{entity.PhoneHomeFormatted}}</span>
+                    <label class="col-sm-3 ehr-fld-label">Cell Phone</label>
+                    <span class="col-sm-2 ehr-fld-text">{{entity.PhoneMobileFormatted}}</span>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-3 ehr-fld-label">Email Address</label>
+                    <span class="col-sm-4 ehr-fld-text">{{entity.Email}}</span>
+                    <label class="col-sm-1 ehr-fld-label">SS #</label>
+                    <span class="col-sm-2 ehr-fld-text">{{entity.SSN}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSURANCE INFO -->
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Insurance</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-12">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-3 ehr-fld-label">Primary</label>
+                    <span class="col-sm-3 ehr-fld-text">{{entity.PrimaryPayerName}}</span>
+                    <label class="col-sm-2 ehr-fld-label">Member ID</label>
+                    <span class="col-sm-2 ehr-fld-text">{{entity.PrimaryMemberID}}</span>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-3 ehr-fld-label">Secondary</label>
+                    <span class="col-sm-3 ehr-fld-text">{{entity.SecondaryPayerName}}</span>
+                    <label class="col-sm-2 ehr-fld-label">Member ID</label>
+                    <span class="col-sm-2 ehr-fld-text">{{entity.SecondaryMemberID}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>{{entity.Facility.Name}}</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-primary ehr-btn" title="Edit this facility" ui-sref="facilities-edit({ id: entity.Facility.Id })" ui-sref-active="active">
+                <span>EDIT</span>
+                <i class="fa fa-pencil-alt"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Create new facility" ui-sref="facilities-edit({ id: -1 })" ui-sref-active="active">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="View all facilities" ui-sref="facilities-list" ui-sref-active="active">
+                <i class="fa fa-list"></i>
+            </button>
+            <button class="btn btn-default ehr-btn" title="Delete this facility" ng-click="deleteFacility">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <span class="ehr-group-label">Facility Information</span>
+        <div class="ehr-group-inner">
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Email address</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.Facility.Email}}</label>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Phone number</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.PhoneFormatted}}</label>
+                </div>
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Fax</label>
+                    <label class="col-sm-8 ehr-fld-text">{{entity.FaxFormatted}}</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ehr-row clearfix">
+                    <label class="col-sm-4 ehr-fld-label">Address</label>
+                    <div class="col-sm-8">
+                        <p class="ehr-fld-text">
+                            {{entity.AddressFormatted}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

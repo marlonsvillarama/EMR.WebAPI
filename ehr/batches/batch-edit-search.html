@@ -1,0 +1,118 @@
+﻿<!-- Search form for batch claims -->
+<div class="ehr-row clearfix">
+    <div class="col-sm-12">
+        <div class="ehr-row clearfix">
+            <div class="col-sm-2">
+                <div class="ehr-row clearfix">
+                    <label class="ehr-fld-label col-sm-12">First Name</label><br />
+                    <div class="col-sm-12">
+                        <input type="text" class="ehr-fld-input" maxlength="100"
+                               ng-model="bSearchCtrl.firstName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label class="ehr-fld-label col-sm-12">Last Name</label><br />
+                <div class="col-sm-12">
+                    <input type="text" class="ehr-fld-input" maxlength="100"
+                           ng-model="bSearchCtrl.lastName" />
+                </div>
+            </div>
+            <!--
+            <div class="col-sm-2">
+                <label class="ehr-fld-label col-sm-12">Date of Service</label><br />
+                <div class="col-sm-8">
+                    <input type="text" class="ehr-fld-input" maxlength="100"
+                           ng-required="true"
+                           ng-model="bSearchCtrl.dateOfService" />
+                </div>
+            </div>
+            -->
+            <div class="col-sm-2">
+                <label class="ehr-fld-label col-sm-12">&nbsp;</label><br />
+                <button type="button" ng-click="bSearchCtrl.searchClaims()">
+                    <i class="fa fa-search"></i>
+                    <span>Apply filters</span>
+                </button>&nbsp;&nbsp;
+                <!--
+                <button type="button" ng-click="bSearchCtrl.hideBatchClaims()">
+                    <span>Hide all claims already included in batch</span>
+                </button>
+                -->
+            </div>
+        </div>
+
+        <table id="ehr-claim-lines" class="col-sm-12">
+
+            <!-- Batch lines table headers -->
+            <tr class="ehr-table-header">
+                <th class="col-sm-1">
+                    Account
+                </th>
+                <th class="col-sm-1">
+                    Date of Service
+                </th>
+                <th class="col-sm-2">
+                    Subscriber Name
+                </th>
+                <th class="col-sm-2">
+                    Payer / Member ID
+                </th>
+                <th class="col-sm-1">
+                    Amount ($)
+                </th>
+                <th class="col-sm-2">
+                    Group
+                </th>
+                <th class="col-sm-2">
+                    Provider
+                </th>
+                <th class="col-sm-1 ehr-table-actions text-right">
+                    <a href="#" ng-if="bSearchCtrl.searchResults.length > 0">All</a>&nbsp;&nbsp;
+                    <a href="#" ng-if="bSearchCtrl.searchResults.length > 0">None</a>
+                </th>
+            </tr>
+
+            <!-- Batch lines loading -->
+            <tr class="ehr-table-row" ng-if="bSearchCtrl.searching == true">
+                <td colspan="8">
+                    <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                    <strong>Searching for claims...</strong>
+                </td>
+            </tr>
+
+            <!-- Batch lines table repeater -->
+            <tr class="ehr-table-row" ng-if="bSearchCtrl.searching == false"
+                ng-repeat="x in bSearchCtrl.searchResults">
+                <td class="col-sm-1">
+                    {{bSearchCtrl.getAcctNum(x.Id)}}
+                </td>
+                <td class="col-sm-1">
+                    {{x.DateOfService}}
+                </td>
+                <td class="col-sm-2">
+                    {{x.SubscriberName}}
+                </td>
+                <td class="col-sm-2">
+                    {{x.PrimaryPayerName}} (<strong class="ehr-warning">{{x.PrimaryMemberId}}</strong>)
+                </td>
+                <td class="col-sm-1">
+                    {{x.AmountTotal}}
+                </td>
+                <td class="col-sm-2">
+                    {{x.Group}}
+                </td>
+                <td class="col-sm-2">
+                    {{x.Provider}}
+                </td>
+                <td class="col-sm-1 ehr-table-actions text-right">
+                    <button type="button" ng-click="bSearchCtrl.addClaimToBatch($index)">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>

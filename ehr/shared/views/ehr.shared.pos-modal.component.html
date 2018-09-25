@@ -1,0 +1,47 @@
+﻿<div class="modal-body">
+    <div class="ehr-row clearfix">
+        <table id="ehr-claim-lines" class="col-sm-12">
+            <tr class="ehr-table-header">
+                <th class="col-sm-4">Place of Service</th>
+                <th class="col-sm-2">Code</th>
+                <th class="col-sm-6">Description</th>
+            </tr>
+            <tr class="ehr-table-row"
+                ng-click="confirm(posModalCtrl.selectEntity($index));"
+                ng-repeat="x in posModalCtrl.filteredList | startFrom:(posModalCtrl.currentPage-1)*posModalCtrl.pageSize | limitTo: posModalCtrl.pageSize">
+                <td class="col-sm-4">{{x.Name}}</td>
+                <td class="col-sm-2">{{x.Code}}</td>
+                <td class="col-sm-6">{{x.Description}}</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="row clearfix ehr-pager">
+        <div class="col-sm-1">
+            <span><strong>Filter:</strong></span>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="ehr-fld-input" maxlength="100"
+                   ng-model="posModalCtrl.filterText"
+                   ng-change="posModalCtrl.filterResults()" />
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6 text-right">
+            <span>
+                <strong>
+                    Showing results {{posModalCtrl.startIndex}} to {{posModalCtrl.endIndex}} of {{posModalCtrl.list.length}}
+                </strong>
+            </span>&nbsp;&nbsp;
+            <button type="button"
+                    ng-click="posModalCtrl.prevPage()"
+                    ng-disabled="posModalCtrl.isFirstPage() == true">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button type="button"
+                    ng-click="posModalCtrl.nextPage()"
+                    ng-disabled="posModalCtrl.isLastPage() == true">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</div>

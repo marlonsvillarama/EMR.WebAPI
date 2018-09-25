@@ -1,0 +1,90 @@
+﻿<link rel="stylesheet" type="text/css" href="/ehr/css/ehr-claim.css" />
+<div class="container-fluid ehr-content">
+    <form ng-submit="batchEditCtrl.submitForm()">
+
+        <!-- PAGE HEADER -->
+        <div class="ehr-page-header row">
+            <div class="col-sm-5">
+                <span>{{batchEditCtrl.page_title}}</span>
+            </div>
+            <div class="col-sm-7 ehr-buttons-right text-right">
+                <button class="btn btn-primary ehr-btn" type="submit"
+                        ng-if="batchEditCtrl.savingForm == false">
+                    <span>SAVE</span>
+                    <i class="fa fa-save"></i>
+                </button>
+                <button type="button" class="btn btn-primary ehr-btn" disabled
+                        ng-if="batchEditCtrl.savingForm == true">
+                    <span>SAVING</span>
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>
+                <!--
+                <button type="button" class="btn btn-default ehr-btn"
+                        ng-click="batchEditCtrl.cancelEdit()">
+                    <span>REPROCESS</span>
+                </button>
+                -->
+                <button type="button" class="btn btn-default ehr-btn"
+                        ng-click="batchEditCtrl.cancelEdit()">
+                    <span>CANCEL</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- BATCH INFORMATION -->
+        <div class="ehr-group clearfix">
+            <div class="ehr-group-inner">
+
+                <!-- BATCH HEADER -->
+                <div class="ehr-row clearfix" ng-controller="ehrBatchHeaderController as bheadCtrl">
+                    <div class="col-sm-2">
+                        <strong>Batch ID: </strong>&nbsp;&nbsp;<span class="ehr-warning">{{bheadCtrl.batchIdentifier}}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <strong>Date Created: </strong>&nbsp;&nbsp;<span class="ehr-warning">{{bheadCtrl.dateCreated}}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <strong>Created By: </strong>&nbsp;&nbsp;<span class="ehr-warning">{{bheadCtrl.createdBy}}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <strong>Status: </strong>&nbsp;&nbsp;<span class="ehr-warning">{{bheadCtrl.batchStatus}}</span>
+                    </div>
+                    <div class="col-sm-3 text-right">
+                        <button type="button" ng-if="batchEditCtrl.batch.Id > 0"
+                                ng-click="batchEditCtrl.printReport('X837')">
+                            Download X837 File
+                        </button>&nbsp;&nbsp;
+                        <button type="button" ng-if="batchEditCtrl.batch.Id > 0"
+                                ng-click="batchEditCtrl.printReport('CMS')">
+                            Download CMS-1500
+                        </button>
+                    </div>
+                </div>
+
+                <br />
+
+                <ul class="subtab-nav">
+                    <li><a ui-sref="batch-edit.lines" ui-sref-active="ehr-subtab-selected">Claims in batch</a></li>
+                    <li><a ui-sref="batch-edit.search" ui-sref-active="ehr-subtab-selected">Search claims</a></li>
+                </ul>
+
+                <div class="ehr-subtab-content">
+                    <br />
+
+                    <!-- Subtab router -->
+                    <ui-view>
+                        <div class="ehr-row clearfix">
+                            <div class="col-sm-12">
+                                <div class="ehr-row clearfix">
+                                    <img src="/ehr/images/loading_1.gif" />
+                                </div>
+                            </div>
+                        </div>
+                    </ui-view>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

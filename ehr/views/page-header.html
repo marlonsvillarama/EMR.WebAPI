@@ -1,0 +1,17 @@
+﻿<div class="ehr-page-header row">
+    <div class="col-sm-7">
+        <span>{{page_title}}</span>
+    </div>
+    <div class="col-sm-5 ehr-buttons-right text-right">
+        <button class="btn btn-primary ehr-btn" ng-click="callApi('update', entity)">
+            <span>SAVE</span>
+            <i class="fa fa-save"></i>
+        </button>
+        <button class="btn btn-default ehr-btn" ui-sref="facilities-list" ui-sref-active="active">
+            <i class="fa fa-undo"></i>
+        </button>
+        <button class="btn btn-default ehr-btn btn-delete" ng-click="callApi('delete', entity.Facility.Id, true)">
+            <i class="fa fa-trash"></i>
+        </button>
+    </div>
+</div>

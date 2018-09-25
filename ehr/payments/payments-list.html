@@ -1,0 +1,77 @@
+﻿<div class="container-fluid ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-5">
+            <span>PAYMENTS</span>
+        </div>
+        <div class="col-sm-7 ehr-buttons-right text-right">
+            <!--
+            <button class="btn btn-default ehr-btn" ui-sref="claim-edit({ id:-1 })" ui-sref-active="active">
+                <span>NEW CLAIM</span>
+                <i class="fa fa-plus"></i>
+            </button>
+            -->
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-inner">
+            <table id="ehr-claim-lines" class="ehr-table col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-2">
+                        Last Name
+                    </th>
+                    <th class="col-sm-2">
+                        First Name
+                    </th>
+                    <th class="col-sm-1-5">
+                        Service Date
+                    </th>
+                    <th class="col-sm-2-5">
+                        Provider
+                    </th>
+                    <th class="col-sm-2-5">
+                        Facility
+                    </th>
+                    <th class="col-sm-1">
+                        Amount ($)
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row" ng-if="pmtListCtrl.loading == true">
+                    <td colspan="7">
+                        <img src="/ehr/images/js_preloader.gif" border="0" />&nbsp;&nbsp;
+                        <strong>Loading payments...</strong>
+                    </td>
+                </tr>
+                <tr class="ehr-table-row" ng-repeat="x in pmtListCtrl.entities"
+                    ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })">
+                    <td class="col-sm-2">
+                        <span>{{x.LastName}}</span>
+                    </td>
+                    <td class="col-sm-2">
+                        <span>{{x.FirstName}}</span>
+                    </td>
+                    <td class="col-sm-1-5">
+                        <span>{{x.DateOfService}}</span>
+                    </td>
+                    <td class="col-sm-2-5">
+                        <span>{{x.Provider}}</span>
+                    </td>
+                    <td class="col-sm-2-5">
+                        <span>{{x.Facility}}</span>
+                    </td>
+                    <td class="col-sm-1">
+                        <span>{{x.AmountTotal}}</span>
+                    </td>
+                    <td class="col-sm-0-5 ehr-table-actions">
+                        <a href="#" title="Edit this claim"
+                           ui-sref="payment-edit({ pmtId: x.Id })">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

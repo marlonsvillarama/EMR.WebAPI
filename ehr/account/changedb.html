@@ -1,0 +1,46 @@
+﻿<div class="container-fluid ehr-content">
+
+    <div class="ehr-login-container">
+        <div class="ehr-login-content">
+            <div class="ehr-login-header">
+                <span>Hello, {{acctCtrl.firstName}}!</span>
+            </div>
+            <div class="ehr-login-form">
+                <div class="ehr-row clearfix">
+                    <div class="col-sm-12">
+                        <div class="row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Connect to an account:</label>
+                            <div class="col-sm-12">
+                                <select class="ehr-fld-input"
+                                        ng-options="db.Code as db.Name for db in acctCtrl.accounts | orderBy: 'Name'"
+                                        ng-model="acctCtrl.db">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ehr-row clearfix">
+                    <div class="col-sm-12">
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-primary ehr-btn"
+                                        ng-click="acctCtrl.switchDB()"
+                                        ng-if="!acctCtrl.connecting">
+                                    CONNECT
+                                </button>
+                                <button type="button" class="btn btn-primary ehr-btn" disabled
+                                        ng-if="acctCtrl.connecting == true">
+                                    CONNECTING
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

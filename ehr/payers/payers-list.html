@@ -1,0 +1,63 @@
+﻿<div class="container ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-7">
+            <span>PAYERS</span>
+        </div>
+        <div class="col-sm-5 ehr-buttons-right text-right">
+            <button class="btn btn-default ehr-btn" ui-sref="payers-edit({ id:-1 })" ui-sref-active="active">
+                <span>NEW PAYER</span>
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-inner">
+            <table class="ehr-table col-sm-12">
+                <tr class="ehr-table-header">
+                    <th class="col-sm-3">
+                        Insurance Name
+                    </th>
+                    <th class="col-sm-1-5">
+                        Payer ID
+                    </th>
+                    <th class="col-sm-3-5">
+                        Address
+                    </th>
+                    <th class="col-sm-3-5">
+                        Contact Info
+                    </th>
+                    <th class="col-sm-0-5">
+                    </th>
+                </tr>
+                <tr class="ehr-table-row" ng-repeat="p in entityList" ui-sref="payers-get({ id: p.Payer.Id })">
+                    <td class="col-sm-3">
+                        <span>{{p.Name}}</span>
+                    </td>
+                    <td class="col-sm-1-5">
+                        <span>{{p.PayerID}}</span>
+                    </td>
+                    <td class="col-sm-3-5">
+                        <p class="ehr-fld-text">
+                            {{p.AddressFormatted}}
+                        </p>
+                    </td>
+                    <td class="col-sm-3-5">
+                        <p class="ehr-fld-text">
+                            <strong>Phone 1:</strong>&nbsp;{{p.PhoneFormatted_1}}<br />
+                            <strong>Phone 2:</strong>&nbsp;{{p.PhoneFormatted_2}}
+                        </p>
+                    </td>
+                    <td class="col-sm-0-5 ehr-table-actions">
+                        <a title="Edit this payer" ui-sref="payers-edit({ id: p.Payer.Id })">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                        <a title="Delete this payer" href="#" ng-click="callApi('update', p, true)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

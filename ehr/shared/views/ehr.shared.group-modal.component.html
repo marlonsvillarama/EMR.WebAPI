@@ -1,0 +1,45 @@
+﻿<div class="modal-body">
+    <div class="ehr-row clearfix">
+        <table id="ehr-claim-lines" class="col-sm-12">
+            <tr class="ehr-table-header">
+                <th class="col-sm-9">Group Name</th>
+                <th class="col-sm-3">NPI</th>
+            </tr>
+            <tr class="ehr-table-row"
+                ng-click="confirm(groupModalCtrl.selectEntity($index));"
+                ng-repeat="x in groupModalCtrl.filteredList | startFrom:(groupModalCtrl.currentPage-1)*groupModalCtrl.pageSize | limitTo: groupModalCtrl.pageSize">
+                <td class="col-sm-6">{{x.LastName}}</td>
+                <td class="col-sm-3">{{x.NPI}}</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="row clearfix ehr-pager">
+        <div class="col-sm-1">
+            <span><strong>Filter:</strong></span>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="ehr-fld-input" maxlength="100"
+                   ng-model="groupModalCtrl.filterText"
+                   ng-change="groupModalCtrl.filterResults()" />
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6 text-right">
+            <span>
+                <strong>
+                    Showing results {{groupModalCtrl.startIndex}} to {{groupModalCtrl.endIndex}} of {{groupModalCtrl.list.length}}
+                </strong>
+            </span>&nbsp;&nbsp;
+            <button type="button"
+                    ng-click="groupModalCtrl.prevPage()"
+                    ng-disabled="groupModalCtrl.isFirstPage() == true">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button type="button"
+                    ng-click="groupModalCtrl.nextPage()"
+                    ng-disabled="groupModalCtrl.isLastPage() == true">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
