@@ -25,7 +25,5 @@ namespace EMR.WebAPI.ehr.models
         public System.DateTime DateCreated { get; set; }
         public bool IsInactive { get; set; }
         public string SystemNoteKey { get; set; }
-    
-        public virtual AccountPreference AccountPreference { get; set; }
     }
 }

@@ -44,7 +44,7 @@
         service.getEntityList = function (p, s) {
             url = AppConfig.ApiBase + 'get' + p;
             if (exList.indexOf(p) < 0)  {
-                url += '/' + AuthService.getAccount();
+                url += '/' + AuthService.getAccountName();
             }
 
             console.log('ApiService getEntityList: ' + url);
@@ -55,7 +55,7 @@
             if (id) {
                 url = AppConfig.ApiBase + 'get' + s + 'ById/';
                 if (exEntity.indexOf(s) < 0) {
-                    url += AuthService.getAccount() + '/';
+                    url += AuthService.getAccountName() + '/';
                 }
                 url += id;
             }
@@ -69,14 +69,14 @@
 
         service.getPayment = function (claimId) {
             url = AppConfig.ApiBase + 'getPaymentByClaimId/' +
-                AuthService.getAccount() + '/' + claimId;
+                AuthService.getAccountName() + '/' + claimId;
 
             console.log('ApiService getPayment: ' + url);
             return $http.get(url);
         };
 
         service.updateEntity = function (parms) {
-            var url = AppConfig.ApiBase + 'update' + parms.type + '/' + AuthService.getAccount();
+            var url = AppConfig.ApiBase + 'update' + parms.type + '/' + AuthService.getAccountName();
             var req = null;
 
             if (parms.type == 'Payment') {
@@ -127,19 +127,19 @@
         };
 
         service.getClaimHistory = function (id) {
-            url = AppConfig.ApiBase + 'getClaimsBySubscriberId/' + AuthService.getAccount() + '/' + id;
+            url = AppConfig.ApiBase + 'getClaimsBySubscriberId/' + AuthService.getAccountName() + '/' + id;
             console.log('ApiService getClaimHistory: ' + url);
             return $http.get(url);
         };
 
         service.getDependentsList = function (id) {
-            url = AppConfig.ApiBase + 'getPatientsBySubscriberId/' + AuthService.getAccount() + '/' + id;
+            url = AppConfig.ApiBase + 'getPatientsBySubscriberId/' + AuthService.getAccountName() + '/' + id;
             console.log('ApiService getDependentsList: ' + url);
             return $http.get(url);
         };
 
         service.updateSubDependent = function (parms) {
-            url = AppConfig.ApiBase + 'updateSubscriberDependent/' + AuthService.getAccount() + '/' + parms.subId;
+            url = AppConfig.ApiBase + 'updateSubscriberDependent/' + AuthService.getAccountName() + '/' + parms.subId;
 
             var pat = {
                 SubscriberId: parms.subId,
@@ -196,7 +196,7 @@
         }
 
         service.printReport = function (type, batchId, claimId) {
-            url = AppConfig.ApiBase + 'report/' + AuthService.getAccount() + '/' + type + '|' + (batchId ? batchId : "") +
+            url = AppConfig.ApiBase + 'report/' + AuthService.getAccountName() + '/' + type + '|' + (batchId ? batchId : "") +
                 '|' + (claimId ? claimId : "");
             console.log('printCMS: ' + url);
             window.open(url);
@@ -204,13 +204,13 @@
         };
 
         service.getBatchClaims = function (id) {
-            url = AppConfig.ApiBase + 'getBatchClaims/' + AuthService.getAccount() + '/' + id;
+            url = AppConfig.ApiBase + 'getBatchClaims/' + AuthService.getAccountName() + '/' + id;
             console.log('ApiService getBatchClaims: ' + url);
             return $http.get(url);
         };
 
         service.searchClaimsForBatch = function (parms) {
-            url = AppConfig.ApiBase + 'searchClaims/' + AuthService.getAccount() + '/' + parms;
+            url = AppConfig.ApiBase + 'searchClaims/' + AuthService.getAccountName() + '/' + parms;
             console.log('ApiService searchClaimsForBatch: ' + url);
             return $http.get(url);
         };

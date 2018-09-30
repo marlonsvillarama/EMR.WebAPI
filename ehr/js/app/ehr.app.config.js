@@ -5,6 +5,7 @@
         "Content-Type": "application/json"
     },
     EHRBase: '/ehr/',
-    AllowLogging: true
+    AllowLogging: true,
+    DBPrefix: 'HK_'
 };
 

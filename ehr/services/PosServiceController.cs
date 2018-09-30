@@ -45,7 +45,7 @@ namespace EMR.WebAPI.ehr.services
         }
 
         [HttpGet]
-        [Route("api/getPosById/{id}")]
+        [Route("api/getPlaceOfServiceById/{id}")]
         public IHttpActionResult GetPOSById(int id)
         {
             ServiceRequestStatus status;

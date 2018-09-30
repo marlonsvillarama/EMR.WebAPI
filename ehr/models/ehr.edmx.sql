@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/25/2018 13:52:13
--- Generated from EDMX file: D:\DEV\PROJECTS\EMR.WebAPI\ehr\models\ehr.edmx
+-- Date Created: 09/30/2018 18:58:03
+-- Generated from EDMX file: D:\DEV\PROJECTS\git\EMR.WebAPI\ehr\models\ehr.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [HK_Ahmed];
+USE [HK_Kogan];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -164,9 +164,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_UserAccount_Account]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UserAccount] DROP CONSTRAINT [FK_UserAccount_Account];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AccountPreferenceAccount]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Accounts] DROP CONSTRAINT [FK_AccountPreferenceAccount];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -316,8 +313,8 @@ GO
 IF OBJECT_ID(N'[dbo].[ErrorMessages]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ErrorMessages];
 GO
-IF OBJECT_ID(N'[dbo].[AccountPreferences]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AccountPreferences];
+IF OBJECT_ID(N'[dbo].[UserPreferences]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserPreferences];
 GO
 IF OBJECT_ID(N'[dbo].[AddressProvider]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AddressProvider];
@@ -1111,14 +1108,16 @@ CREATE TABLE [dbo].[ErrorMessages] (
 );
 GO
 
--- Creating table 'AccountPreferences'
-CREATE TABLE [dbo].[AccountPreferences] (
+-- Creating table 'UserPreferences'
+CREATE TABLE [dbo].[UserPreferences] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [UserId] int  NULL,
+    [AccountId] int  NULL,
+    [SystemNoteKey] nvarchar(max)  NULL,
     [RenderingProviderId] int  NULL,
-    [BillingProviderId] nvarchar(max)  NOT NULL,
-    [FacilityId] nvarchar(max)  NOT NULL,
-    [PlaceOfServiceId] nvarchar(max)  NOT NULL,
-    [AccountAccountPreference_AccountPreference_Id] int  NULL
+    [BillingProviderId] int  NULL,
+    [FacilityId] int  NULL,
+    [PlaceOfServiceId] int  NULL
 );
 GO
 
@@ -1449,9 +1448,9 @@ ADD CONSTRAINT [PK_ErrorMessages]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AccountPreferences'
-ALTER TABLE [dbo].[AccountPreferences]
-ADD CONSTRAINT [PK_AccountPreferences]
+-- Creating primary key on [Id] in table 'UserPreferences'
+ALTER TABLE [dbo].[UserPreferences]
+ADD CONSTRAINT [PK_UserPreferences]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -2192,21 +2191,6 @@ GO
 CREATE INDEX [IX_FK_UserAccount_Account]
 ON [dbo].[UserAccount]
     ([Accounts_Id]);
-GO
-
--- Creating foreign key on [AccountAccountPreference_AccountPreference_Id] in table 'AccountPreferences'
-ALTER TABLE [dbo].[AccountPreferences]
-ADD CONSTRAINT [FK_AccountAccountPreference]
-    FOREIGN KEY ([AccountAccountPreference_AccountPreference_Id])
-    REFERENCES [dbo].[Accounts]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccountAccountPreference'
-CREATE INDEX [IX_FK_AccountAccountPreference]
-ON [dbo].[AccountPreferences]
-    ([AccountAccountPreference_AccountPreference_Id]);
 GO
 
 -- --------------------------------------------------

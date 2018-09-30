@@ -15,6 +15,10 @@
             return AuthService.isConnected();
         };
 
+        _this.isReady = function () {
+            return AuthService.isReady();
+        };
+
         _this.isInitialized = function () {
             return ApiService.isInitialized();
         };

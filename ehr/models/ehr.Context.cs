@@ -73,6 +73,6 @@ namespace EMR.WebAPI.ehr.models
         public virtual DbSet<PaymentLine> PaymentLines { get; set; }
         public virtual DbSet<ErrorCode> ErrorCodes { get; set; }
         public virtual DbSet<ErrorMessage> ErrorMessages { get; set; }
-        public virtual DbSet<AccountPreference> AccountPreferences { get; set; }
+        public virtual DbSet<UserPreference> UserPreferences { get; set; }
     }
 }
