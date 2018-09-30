@@ -127,6 +127,89 @@ namespace EMR.WebAPI.ehr.services
             return Ok(new { result = status });
         }
 
+        private UserPreference CopyPreferences(UserPreference prefBase, UserPreference prefCopy)
+        {
+            if (prefBase.BillingProviderId != null)
+            {
+                prefCopy.BillingProviderId = prefBase.BillingProviderId;
+            }
+
+            if (prefBase.FacilityId != null)
+            {
+                prefCopy.FacilityId = prefBase.FacilityId;
+            }
+
+            if (prefBase.PlaceOfServiceId != null)
+            {
+                prefCopy.PlaceOfServiceId = prefBase.PlaceOfServiceId;
+            }
+
+            if (prefBase.RenderingProviderId != null)
+            {
+                prefCopy.RenderingProviderId = prefBase.RenderingProviderId;
+            }
+
+            return prefCopy;
+        }
+
+        [HttpGet]
+        [Route("~/api/getUserPrefs/{dbId}/{userId}")]
+        public IHttpActionResult GetUserPreferences(int dbId, int userId)
+        {
+            ServiceRequestStatus status;
+            UserPreference pref = new UserPreference();
+
+            try
+            {
+                EHRDB db = new EHRDB();
+                List<UserPreference> prefList = db.UserPreferences.Where(x => x.AccountId == dbId).ToList();
+
+                if (prefList.Count > 0)
+                {
+                    List<UserPreference> prefGlobal = prefList.Where(x => x.UserId == -1).ToList();
+
+                    if (prefGlobal.Count > 0)
+                    {
+                        pref = CopyPreferences(prefGlobal[0], new UserPreference());
+                        pref.AccountId = dbId;
+                        pref.UserId = userId;
+
+                        if (userId > 0)
+                        {
+                            List<UserPreference> prefUser = prefList.Where(x => x.UserId == userId).ToList();
+
+                            if (prefUser.Count > 0)
+                            {
+                                pref = CopyPreferences(prefUser[0], pref);
+                                pref.Id = prefUser[0].Id;
+                                //pref.UserId = userId;
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = pref
+                };
+            }
+            catch(Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
+        }
+
         [HttpGet]
         [Route("~/api/hash/{pw}")]
         public IHttpActionResult Hash(string pw)
@@ -140,6 +223,75 @@ namespace EMR.WebAPI.ehr.services
                 {
                     IsSuccess = true,
                     Data = pwdHash
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { results = status });
+        }
+
+        // NOT USED!!!
+        [HttpGet]
+        [Route("~/api/changeDB/{dbname}")]
+        public IHttpActionResult ChangeDB(string dbname)
+        {
+            ServiceRequestStatus status;
+            List<ProviderViewModel> vmList = new List<ProviderViewModel>(); 
+
+            try
+            {
+                EHRDB db = new EHRDB();
+                List<Provider> providers = db.Providers.Where(x => x.IsCompany == false).ToList();
+
+                foreach (var r in providers)
+                {
+                    vmList.Add(new ProviderViewModel(r));
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = vmList
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { results = status });
+
+        }
+
+        [HttpPost]
+        [Route("~/api/updateAccount")]
+        public IHttpActionResult UpdateAccount(Account account)
+        {
+            ServiceRequestStatus status;
+            Account a;
+
+            try
+            {
+                EHRDB db = new EHRDB();
+                a = db.Accounts.Find(account.Id);
+
+                a.IsInactive = account.IsInactive;
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = a
                 };
             }
             catch (Exception e)
@@ -181,7 +333,7 @@ namespace EMR.WebAPI.ehr.services
                 u.LastName = user.LastName;
                 u.IsInactive = user.IsInactive;
                 u.Email = user.Email;
-                
+
                 if (u.Id <= 0)
                 {
                     u.UserName = user.UserName;
@@ -209,7 +361,7 @@ namespace EMR.WebAPI.ehr.services
                     Data = u.Id
                 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 status = new ServiceRequestStatus
                 {
@@ -221,27 +373,44 @@ namespace EMR.WebAPI.ehr.services
             return Ok(new { results = status });
         }
 
-        [HttpGet]
-        [Route("~/api/changeDB/{dbname}")]
-        public IHttpActionResult ChangeDB(string dbname)
+        [HttpPost]
+        [Route("~/api/updateUserPrefs/{userId}")]
+        public IHttpActionResult UpdateUserPreferences(UserPreference pref, int userId)
         {
             ServiceRequestStatus status;
-            List<ProviderViewModel> vmList = new List<ProviderViewModel>(); 
+            UserPreference p;
 
             try
             {
                 EHRDB db = new EHRDB();
-                List<Provider> providers = db.Providers.Where(x => x.IsCompany == false).ToList();
 
-                foreach (var r in providers)
+                if (pref.Id > 0)
                 {
-                    vmList.Add(new ProviderViewModel(r));
+                    p = db.UserPreferences.Find(pref.Id);
                 }
+                else
+                {
+                    p = new UserPreference
+                    {
+                        UserId = userId,
+                        AccountId = pref.AccountId,
+                        SystemNoteKey = Guid.NewGuid().ToString()
+                    };
+                }
+
+                p = CopyPreferences(pref, p);
+
+                if (pref.Id <= 0)
+                {
+                    db.UserPreferences.Add(p);
+                }
+
+                db.SaveChanges();
 
                 status = new ServiceRequestStatus
                 {
                     IsSuccess = true,
-                    Data = vmList
+                    Data = p
                 };
             }
             catch (Exception e)
@@ -254,7 +423,6 @@ namespace EMR.WebAPI.ehr.services
             }
 
             return Ok(new { results = status });
-
         }
     }
 }

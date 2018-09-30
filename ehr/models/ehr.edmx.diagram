@@ -46,7 +46,7 @@
         <AssociationConnector Association="EMR.WebAPI.ehr.models.ClaimLineSupplementalClaimLine" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Submitter" Width="1.5" PointX="29" PointY="3.625" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Receiver" Width="1.5" PointX="29.125" PointY="0.875" />
-        <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Batch" Width="1.5" PointX="24.625" PointY="9.125" />
+        <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Batch" Width="1.5" PointX="29" PointY="6.75" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.PlaceOfServiceClaim" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.TaxonomyCodeProvider" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.PayerSubscriber" />
@@ -87,7 +87,7 @@
         <AssociationConnector Association="EMR.WebAPI.ehr.models.PatientSubscriber" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.ProviderProvider" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.UserRole" Width="1.5" PointX="24.625" PointY="6.75" />
-        <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Account" Width="1.5" PointX="21.5" PointY="10.625" />
+        <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Account" Width="1.5" PointX="21.5" PointY="11.5" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.Payment" Width="2" PointX="24.625" PointY="14.75" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.PaymentLine" Width="2" PointX="24.625" PointY="19" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.ErrorCode" Width="2" PointX="27.875" PointY="14.75" />
@@ -97,8 +97,7 @@
         <AssociationConnector Association="EMR.WebAPI.ehr.models.PaymentClaim" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.PaymentPaymentLine" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.UserAccount" />
-        <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.AccountPreference" Width="2" PointX="21.5" PointY="13.5" />
-        <AssociationConnector Association="EMR.WebAPI.ehr.models.AccountAccountPreference" />
+        <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.UserPreference" Width="2" PointX="24.625" PointY="9.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

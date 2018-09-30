@@ -1,8 +1,8 @@
 ﻿(function () {
     'use strict';
 
-    ehrAccountController.$inject = ['$state', 'AuthService'];
-    function ehrAccountController($state, AuthService) {
+    ehrAccountController.$inject = ['$state', '$q', 'ngDialog', 'ApiService', 'AuthService'];
+    function ehrAccountController($state, $q, ngDialog, ApiService, AuthService) {
         var _this = this;
         console.log('*** ehrAccountController ***');
 
@@ -26,29 +26,26 @@
                     console.log(value);
                     switch (p) {
                         case 'Groups': {
-                            //clm.BillingProviderId = value.Id;
-                            _this.ctx.Preferences.BillingProvider = value;
+                            AuthService.setPreference('BillingProvider', value);
+                            AuthService.setPreference('BillingProviderId', value.Id);
                             _this.billingProvName = value.LastName;
                             break;
                         }
                         case 'Providers': {
-                            //clm.RenderingProviderId = value.Id;
-                            _this.ctx.Preferences.RenderingProvider = value;
+                            AuthService.setPreference('RenderingProvider', value);
+                            AuthService.setPreference('RenderingProviderId', value.Id);
                             _this.renderingProvFullName = value.LastName + ", " + value.FirstName;
-                            //clm.RenderingProvider = value;
-                            //ClaimEditService.updateRenderingNPI(value.NPI);
                             break;
                         }
                         case 'Facilities': {
-                            //clm.FacilityId = value.Id;
-                            _this.ctx.Preferences.Facility = value;
+                            AuthService.setPreference('Facility', value);
+                            AuthService.setPreference('FacilityId', value.Id);
                             _this.facilityName = value.Name;
                             break;
                         }
                         case 'PlacesOfService': {
-                            //clm.PlaceOfService = value;
-                            //clm.PlaceOfServiceId = value.Id;
-                            _this.ctx.Preferences.PlaceOfService = value;
+                            AuthService.setPreference('PlaceOfService', value);
+                            AuthService.setPreference('PlaceOfServiceId', value.Id);
                             _this.posName = value.Name;
                             break;
                         }
@@ -59,26 +56,36 @@
             );
         };
 
+        _this.saveClaimDefaults = function () {
+            _this.savingPrefs = true;
+            AuthService.saveUserPreferences().then(function (response) {
+                console.log(response);
+                var res = response.data.results;
+                if (res.IsSuccess) {
+                    AuthService.setUserPreferences(res.Data);
+                    _this.initPreferences();
+                    _this.savingPrefs = false;
+                }
+            });
+            _this.savingPrefs = false;
+        };
+
         _this.switchDB = function (init) {
             _this.connecting = true;
-            console.log('ehrAccountController.switchDB');
+            _this.savingPrefs = false;
 
-            var acc;
+            console.log('ehrAccountController.switchDB');
             console.log(_this.accounts);
             console.log(_this.db);
 
-            for (var i = 0, n = _this.accounts.length; i < n; i++) {
-                var a = _this.accounts[i];
-                if (a.Code == _this.db) {
-                    acc = a;
-                }
-            }
+            //acc = AuthService.getAccountByName(_this.db);
+            //console.log(acc);
 
-            console.log(acc);
-            AuthService.setAccount(acc.Name);
-            _this.currentdb = acc.Name;
+            AuthService.setAccount(_this.db);
+            console.log(AuthService.getAccount());
 
-            $state.go('home');
+            _this.initPreferences(init);
+
             //$state.go('initialize');
         };
 
@@ -95,14 +102,136 @@
 
             _this.accounts = accounts;
             _this.currentdb = AuthService.getAccount();
-            _this.db = AuthService.getAccount();
+            _this.db = AuthService.getAccountName();
 
             console.log('_this.currentdb: ' + _this.currentdb);
             console.log('_this.db: ' + _this.db);
         };
 
-        _this.initClaimDefaults = function () {
+        _this.showResponse = function (res, type, fld) {
+            var result;
+            
+            if (res.data) {
+                result = res.data.result.Data;
+                AuthService.setPreference(type, result);
+            }
+            else {
+                result = res;
+            }
 
+            switch (fld) {
+                case 'billingProvName':
+                    _this[fld] = result ? result.LastName : "";
+                    break;  
+                case 'renderingProvFullName':
+                    _this[fld] = result ? result.LastName + ', ' + result.FirstName : "";
+                    break;
+                default: 
+                    _this[fld] = result ? result.Name : "";
+                    break;
+            }
+        };
+
+        _this.buildClaimDefaultReq = function (key) {
+            var pref;
+            var res;
+
+            pref = AuthService.getPreference(key + 'Id');
+
+            if (pref) {
+                console.log('getClaimDefault: key=' + key + ', pref=' + pref);
+                switch (key) {
+                    case 'BillingProvider':
+                    case 'RenderingProvider': {
+                        res = ApiService.getEntity('Provider', pref);
+                        break;
+                    }
+                    default: {
+                        res = ApiService.getEntity(key, pref);
+                        break;
+                    }
+                }
+
+                return res;
+            }
+            else {
+                return null;
+            }
+        };
+
+        _this.getClaimDefault = function (arr, type, fld) {
+            var r, pref;
+            console.log('getClaimDefault(' + type + ', ' + fld + ')');
+
+            pref = AuthService.getPreference(type);
+
+            if (pref) {
+                _this.showResponse(pref, type, fld);
+            }
+            else {
+                r = _this.buildClaimDefaultReq(type);
+                if (r) {
+                    arr.push(
+                        r.then(function (response) {
+                            _this.showResponse(response, type, fld);
+                        })
+                    );
+                }
+            }
+        };
+
+        _this.buildClaimDefaults = function () {
+            var reqs = [];
+
+            _this.getClaimDefault(reqs, 'BillingProvider', 'billingProvName');
+            _this.getClaimDefault(reqs, 'RenderingProvider', 'renderingProvFullName');
+            _this.getClaimDefault(reqs, 'Facility', 'facilityName');
+            _this.getClaimDefault(reqs, 'PlaceOfService', 'posName');
+
+            $q.all(reqs).then(function (response) {
+                console.log('done buildClaimDefaults');
+                console.log(AuthService.getUserPreferences());
+                _this.connecting = false;
+                _this.savingPrefs = false;
+            });
+        };
+
+        // DELETE
+        _this.showUserPreferences = function () {
+        };
+
+        _this.initPreferences = function (init) {
+            var reqs = [];
+            var r, pref, acc;
+            _this.connecting = true;
+            console.log('initPreferences(' + init + ')');
+
+            pref = AuthService.getUserPreferences();
+            console.log(pref);
+
+            acc = AuthService.getAccount();
+            console.log(acc);
+
+            if (init || !pref || pref.AccountId != acc.Id) {
+                AuthService.getUserPreferencesFromDb().then(function (response) {
+                    var isSuccess = response.data.result.IsSuccess;
+
+                    if (isSuccess) {
+                        console.log(response.data.result.Data);
+
+                        AuthService.setUserPreferences(response.data.result.Data);
+                        _this.buildClaimDefaults();
+
+                        if (init) {
+                            AuthService.setIsReady();
+                            $state.go('home');
+                        }
+                    }
+                });
+            }
+            else {
+                _this.buildClaimDefaults();
+            }
         };
 
         _this.init = function () {
@@ -114,7 +243,11 @@
 
             _this.firstName = _this.ctx.FirstName;
             _this.initAccounts();
-            _this.initClaimDefaults();
+
+            if (AuthService.isConnected() == true) {
+                _this.initPreferences();
+            }
+
         };
 
         _this.init();

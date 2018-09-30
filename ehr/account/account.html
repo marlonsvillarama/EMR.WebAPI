@@ -65,11 +65,13 @@
                                         </button>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="ehr-fld-input-popup-btn">
                                     <button>
                                         <i class="fa fa-window-restore"></i>
                                     </button>
                                 </div>
+                                -->
                             </div>
                         </div>
 
@@ -86,11 +88,13 @@
                                         </button>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="ehr-fld-input-popup-btn">
                                     <button>
                                         <i class="fa fa-window-restore"></i>
                                     </button>
                                 </div>
+                                -->
                             </div>
                         </div>
 
@@ -107,11 +111,13 @@
                                         </button>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="ehr-fld-input-popup-btn">
                                     <button>
                                         <i class="fa fa-window-restore"></i>
                                     </button>
                                 </div>
+                                -->
                             </div>
                         </div>
 
@@ -128,17 +134,33 @@
                                         </button>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="ehr-fld-input-popup-btn">
                                     <button>
                                         <i class="fa fa-window-restore"></i>
                                     </button>
                                 </div>
+                                -->
                             </div>
                         </div>
 
                         <div class="ehr-row clearfix">
                             <div class="col-sm-12">
-                                <button type="button" ng-click="acctCtrl.saveClaimDefaults()">Save Claim Defaults</button>
+                                <button type="button"
+                                        ng-if="acctCtrl.connecting == false || acctCtrl.savingPrefs == false"
+                                        ng-click="acctCtrl.saveClaimDefaults()">
+                                    Save Claim Defaults
+                                </button>
+                                <button type="button" disabled
+                                        ng-if="acctCtrl.connecting == true">
+                                    Retrieving
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
+                                <button type="button" disabled
+                                        ng-if="acctCtrl.savingPrefs == true">
+                                    Saving
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

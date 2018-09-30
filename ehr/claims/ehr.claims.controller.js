@@ -431,8 +431,8 @@
     }
 
     // Controller for provider selectors
-    ehrClaimProvController.$inject = ['ngDialog', 'ClaimEditService', 'ModalService'];
-    function ehrClaimProvController(ngDialog, ClaimEditService, ModalService) {
+    ehrClaimProvController.$inject = ['ngDialog', 'ClaimEditService', 'ModalService', 'AuthService'];
+    function ehrClaimProvController(ngDialog, ClaimEditService, ModalService, AuthService) {
         var _this = this;
         var clm;
 
@@ -485,9 +485,41 @@
             );
         };
 
+        _this.initDefaults = function () {
+            var cd, pref;
+
+            if (_this.claim.Id <= 0) {
+                pref = AuthService.getPreference('BillingProvider');
+                if (pref) {
+                    _this.claim.BillingProvider = pref;
+                    _this.claim.BillingProviderId = pref.Id;
+                }
+
+                pref = AuthService.getPreference('RenderingProvider');
+                if (pref) {
+                    _this.claim.RenderingProvider = pref;
+                    _this.claim.RenderingProviderId = pref.Id;
+                }
+
+                pref = AuthService.getPreference('Facility');
+                if (pref) {
+                    _this.claim.Facility = pref;
+                    _this.claim.FacilityId = pref.Id;
+                }
+
+                pref = AuthService.getPreference('PlaceOfService');
+                if (pref) {
+                    _this.claim.PlaceOfService = pref;
+                    _this.claim.PlaceOfServiceId = pref.Id;
+                }
+            }
+        };
+
         _this.init = function () {
             clm = ClaimEditService.getClaim();
             _this.claim = clm;
+
+            _this.initDefaults();
 
             /* Providers section of the claim */
             _this.billingProv = _this.claim.BillingProvider;

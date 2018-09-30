@@ -54,7 +54,7 @@
     <EntitySet Name="PaymentLines" EntityType="EMR.WebAPI.ehr.models.Store.PaymentLines" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ErrorCodes" EntityType="EMR.WebAPI.ehr.models.Store.ErrorCodes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ErrorMessages" EntityType="EMR.WebAPI.ehr.models.Store.ErrorMessages" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AccountPreferences" EntityType="EMR.WebAPI.ehr.models.Store.AccountPreferences" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserPreferences" EntityType="EMR.WebAPI.ehr.models.Store.UserPreferences" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AddressProvider" EntityType="EMR.WebAPI.ehr.models.Store.AddressProvider" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AddressSubscriber" EntityType="EMR.WebAPI.ehr.models.Store.AddressSubscriber" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PatientSubscriber" EntityType="EMR.WebAPI.ehr.models.Store.PatientSubscriber" store:Type="Tables" Schema="dbo" />
@@ -255,10 +255,6 @@
     <AssociationSet Name="FK_UserAccount_Account" Association="EMR.WebAPI.ehr.models.Store.FK_UserAccount_Account">
       <End Role="Account" EntitySet="Accounts" />
       <End Role="UserAccount" EntitySet="UserAccount" />
-    </AssociationSet>
-    <AssociationSet Name="AccountAccountPreference" Association="EMR.WebAPI.ehr.models.Store.AccountAccountPreference">
-      <End Role="Account" EntitySet="Accounts" />
-      <End Role="AccountPreference" EntitySet="AccountPreferences" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Addresses">
@@ -1033,16 +1029,18 @@
     <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ErrorCodeErrorMessage_ErrorMessage_Id" Type="int" Nullable="true" />
   </EntityType>
-  <EntityType Name="AccountPreferences">
+  <EntityType Name="UserPreferences">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="true" DefaultValue="-1" />
+    <Property Name="AccountId" Type="int" Nullable="true" DefaultValue="-1" />
+    <Property Name="SystemNoteKey" Type="nvarchar(max)" Nullable="true" />
     <Property Name="RenderingProviderId" Type="int" Nullable="true" />
-    <Property Name="BillingProviderId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="FacilityId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="PlaceOfServiceId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AccountAccountPreference_AccountPreference_Id" Type="int" Nullable="true" />
+    <Property Name="BillingProviderId" Type="int" Nullable="true" />
+    <Property Name="FacilityId" Type="int" Nullable="true" />
+    <Property Name="PlaceOfServiceId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="AddressProvider">
     <Key>
@@ -1549,18 +1547,6 @@
       </Principal>
       <Dependent Role="PaymentLine">
         <PropertyRef Name="PaymentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AccountAccountPreference">
-    <End Role="Account" Type="EMR.WebAPI.ehr.models.Store.Accounts" Multiplicity="0..1" />
-    <End Role="AccountPreference" Type="EMR.WebAPI.ehr.models.Store.AccountPreferences" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Account">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AccountPreference">
-        <PropertyRef Name="AccountAccountPreference_AccountPreference_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2249,11 +2235,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Account" EntitySet="Accounts" />
           </AssociationSet>
-          <EntitySet Name="AccountPreferences" EntityType="EMR.WebAPI.ehr.models.AccountPreference" />
-          <AssociationSet Name="AccountAccountPreference" Association="EMR.WebAPI.ehr.models.AccountAccountPreference">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="AccountPreference" EntitySet="AccountPreferences" />
-          </AssociationSet>
+          <EntitySet Name="UserPreferences" EntityType="EMR.WebAPI.ehr.models.UserPreference" />
         </EntityContainer>
         <EntityType Name="ClaimDate">
           <Key>
@@ -2931,7 +2913,6 @@
           <Property Name="DateCreated" Type="DateTime" Nullable="false" />
           <Property Name="IsInactive" Type="Boolean" Nullable="false" DefaultValue="False" />
           <Property Name="SystemNoteKey" Type="String" />
-          <NavigationProperty Name="AccountPreference" Relationship="EMR.WebAPI.ehr.models.AccountAccountPreference" FromRole="Account" ToRole="AccountPreference" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -3010,20 +2991,19 @@
           <End Type="EMR.WebAPI.ehr.models.User" Role="User" Multiplicity="*" />
           <End Type="EMR.WebAPI.ehr.models.Account" Role="Account" Multiplicity="*" />
         </Association>
-        <EntityType Name="AccountPreference">
+        <EntityType Name="UserPreference">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" DefaultValue="-1" />
+          <Property Name="AccountId" Type="Int32" DefaultValue="-1" />
+          <Property Name="SystemNoteKey" Type="String" />
           <Property Name="RenderingProviderId" Type="Int32" />
-          <Property Name="BillingProviderId" Type="String" Nullable="false" />
-          <Property Name="FacilityId" Type="String" Nullable="false" />
-          <Property Name="PlaceOfServiceId" Type="String" Nullable="false" />
+          <Property Name="BillingProviderId" Type="Int32" />
+          <Property Name="FacilityId" Type="Int32" />
+          <Property Name="PlaceOfServiceId" Type="Int32" />
         </EntityType>
-        <Association Name="AccountAccountPreference">
-          <End Type="EMR.WebAPI.ehr.models.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="EMR.WebAPI.ehr.models.AccountPreference" Role="AccountPreference" Multiplicity="0..1" />
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3825,10 +3805,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AccountPreferences">
-      <EntityTypeMapping TypeName="IsTypeOf(EMR.WebAPI.ehr.models.AccountPreference)">
-        <MappingFragment StoreEntitySet="AccountPreferences">
+    <EntitySetMapping Name="UserPreferences">
+      <EntityTypeMapping TypeName="IsTypeOf(EMR.WebAPI.ehr.models.UserPreference)">
+        <MappingFragment StoreEntitySet="UserPreferences">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="SystemNoteKey" ColumnName="SystemNoteKey" />
           <ScalarProperty Name="RenderingProviderId" ColumnName="RenderingProviderId" />
           <ScalarProperty Name="BillingProviderId" ColumnName="BillingProviderId" />
           <ScalarProperty Name="FacilityId" ColumnName="FacilityId" />
@@ -4088,15 +4071,6 @@
       <EndProperty Name="Account">
         <ScalarProperty Name="Id" ColumnName="Accounts_Id" />
       </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="AccountAccountPreference" TypeName="EMR.WebAPI.ehr.models.AccountAccountPreference" StoreEntitySet="AccountPreferences">
-      <EndProperty Name="Account">
-        <ScalarProperty Name="Id" ColumnName="AccountAccountPreference_AccountPreference_Id" />
-      </EndProperty>
-      <EndProperty Name="AccountPreference">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="AccountAccountPreference_AccountPreference_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

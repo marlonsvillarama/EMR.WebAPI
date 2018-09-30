@@ -218,11 +218,7 @@
     <Compile Include="ehr\ansi5010\X837Writer.cs" />
     <Compile Include="ehr\batches\BatchViewModel.cs" />
     <Compile Include="ehr\claims\ClaimViewModel.cs" />
-    <Compile Include="ehr\facilities\FacilityViewModel.cs" />
     <Compile Include="ehr\models\Account.cs">
-      <DependentUpon>ehr.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ehr\models\AccountPreference.cs">
       <DependentUpon>ehr.tt</DependentUpon>
     </Compile>
     <Compile Include="ehr\models\Address.cs">
@@ -384,14 +380,15 @@
     <Compile Include="ehr\models\User.cs">
       <DependentUpon>ehr.tt</DependentUpon>
     </Compile>
+    <Compile Include="ehr\models\UserPreference.cs">
+      <DependentUpon>ehr.tt</DependentUpon>
+    </Compile>
     <Compile Include="ehr\models\UserRole.cs">
       <DependentUpon>ehr.tt</DependentUpon>
     </Compile>
     <Compile Include="ehr\models\Utilities.cs" />
     <Compile Include="ehr\payers\PayerViewModel.cs" />
     <Compile Include="ehr\payments\PaymentViewModel.cs" />
-    <Compile Include="ehr\pos\PosViewModel.cs" />
-    <Compile Include="ehr\providers\ProviderViewModel.cs" />
     <Compile Include="ehr\services\BatchServiceController.cs" />
     <Compile Include="ehr\services\ClaimsServiceController.cs" />
     <Compile Include="ehr\services\AuthServiceController.cs" />
@@ -406,6 +403,9 @@
     <Compile Include="ehr\services\SubscriberServiceController.cs" />
     <Compile Include="ehr\services\USState.cs" />
     <Compile Include="ehr\services\ListServiceController.cs" />
+    <Compile Include="ehr\setup\FacilityViewModel.cs" />
+    <Compile Include="ehr\setup\PosViewModel.cs" />
+    <Compile Include="ehr\setup\ProviderViewModel.cs" />
     <Compile Include="ehr\subscribers\DependentViewModel.cs" />
     <Compile Include="ehr\subscribers\SubscriberViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -459,12 +459,6 @@
     <Content Include="ehr\css\jquery-ui.min.css" />
     <Content Include="ehr\css\ngDialog-theme-default.min.css" />
     <Content Include="ehr\css\ngDialog.min.css" />
-    <Content Include="ehr\facilities\facilities-master.html" />
-    <Content Include="ehr\facilities\facilitiesController.js" />
-    <Content Include="ehr\facilities\facilityController.js" />
-    <Content Include="ehr\groups\groups-edit.html" />
-    <Content Include="ehr\groups\groups-get.html" />
-    <Content Include="ehr\groups\groups-list.html" />
     <Content Include="ehr\account\home.html" />
     <Content Include="ehr\images\CMS-1500.png" />
     <Content Include="ehr\images\cms15000.svg" />
@@ -503,9 +497,6 @@
     <Content Include="ehr\js\lib\jquery-3.3.1.min.js" />
     <Content Include="ehr\js\lib\jquery-ui.min.js" />
     <Content Include="ehr\js\lib\jquery.mask.min.js" />
-    <Content Include="ehr\facilities\facilities-edit.html" />
-    <Content Include="ehr\facilities\facilities-get.html" />
-    <Content Include="ehr\facilities\facilities-list.html" />
     <Content Include="ehr\claims\claim-data.js" />
     <Content Include="ehr\js\lib\ngDialog.min.js" />
     <Content Include="ehr\models\ehr.Context.tt">
@@ -534,12 +525,6 @@
     <Content Include="ehr\payments\payment-edit-provider.html" />
     <Content Include="ehr\payments\payment-edit-subscriber.html" />
     <Content Include="ehr\payments\payments-list.html" />
-    <Content Include="ehr\pos\pos-edit.html" />
-    <Content Include="ehr\pos\pos-get.html" />
-    <Content Include="ehr\pos\pos-list.html" />
-    <Content Include="ehr\providers\providers-edit.html" />
-    <Content Include="ehr\providers\providers-get.html" />
-    <Content Include="ehr\providers\providers-list.html" />
     <Content Include="ehr\setup\ehr.setup.controller.js" />
     <Content Include="ehr\setup\ehr.setup.service.js" />
     <Content Include="ehr\setup\setup-facilities.html" />

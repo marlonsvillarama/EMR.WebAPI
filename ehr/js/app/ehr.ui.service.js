@@ -69,7 +69,7 @@
             var str = '';
 
             if (id > 0) {
-                str = AuthService.getAccount().substring(3, 6).toUpperCase() +
+                str = AuthService.getAccountName().substring(3, 6).toUpperCase() +
                     '-' + service.padLeft(id, 6, '0');
             }
             else {
