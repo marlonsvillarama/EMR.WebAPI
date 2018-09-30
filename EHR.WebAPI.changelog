@@ -1,3 +1,4 @@
 Version     Date Start    Date End      Description
 0.1                       9/25/2018     master
 0.1.1       9/26/2018     9/30/2018     Added Account Preferences/Claim Defaults
+0.1.2       9/30/2018                   Started adding daily batch creation/"Add to Batch" in claim page
