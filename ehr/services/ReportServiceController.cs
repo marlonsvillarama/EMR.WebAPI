@@ -1046,32 +1046,25 @@ namespace EMR.WebAPI.ehr.services
                 return null;
             }
 
-            if (String.IsNullOrEmpty(sParms[0]) == true)
+            if (String.IsNullOrEmpty(sParms[0]) == false)
             {
-                return null;
+                apiParams.Type = sParms[0];
             }
-            apiParams.Type = sParms[0];
 
-            if (String.IsNullOrEmpty(sParms[1]) == true)
-            {
-                return null;
-            }
-            else
+            if (String.IsNullOrEmpty(sParms[1]) == false)
             {
                 int id = 0;
                 try
                 {
                     id = int.Parse(sParms[1]);
-                    if (id <= 0)
+                    if (id > 0)
                     {
-                        return null;
+                        apiParams.BatchId = int.Parse(sParms[1]);
                     }
-
-                    apiParams.CreatedById = id;
                 }
-                catch(Exception ex)
+                catch
                 {
-                    return null;
+                    apiParams.BatchId = -1;
                 }
             }
 
@@ -1079,11 +1072,7 @@ namespace EMR.WebAPI.ehr.services
             {
                 if (String.IsNullOrEmpty(sParms[2]) == false)
                 {
-                    try
-                    {
-                        apiParams.BatchId = int.Parse(sParms[2]);
-                    }
-                    finally { }
+                    apiParams.ClaimIds = sParms[2];
                 }
             }
 

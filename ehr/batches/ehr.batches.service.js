@@ -30,7 +30,7 @@
         };
 
         _this.setBatch = function (b) {
-            console.log('setBatch db: ' + db + ', udb: ' + AuthService.getAccount());
+            console.log('setBatch');
             console.log(batch);
 
             if (batch) {
@@ -64,6 +64,8 @@
 
         _this.setBatchClaims = function (list) {
             claims = list;
+            console.log('setBatchClaims');
+            console.log(claims);
         };
 
         /*

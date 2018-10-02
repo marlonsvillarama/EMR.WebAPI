@@ -169,6 +169,58 @@ namespace EMR.WebAPI.ehr.services
             return Ok(new { result = status });
         }
 
+        [HttpGet]
+        [Route("~/api/addClaimToBatch/{dbname}/{userId}/{claimId}/{batchId}")]
+        public IHttpActionResult AddClaimToBatch(string dbname, int userId, int claimId, int batchId)
+        {
+            ServiceRequestStatus status;
+
+            try
+            {
+                EHRDB db = new EHRDB();
+                DateTime dt = new DateTime();
+
+                db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+                Batch batch;
+
+                if (batchId > 0)
+                {
+                    batch = db.Batches.Find(batchId);
+                    List<string> ids = batch.ClaimIDs.Split(new[] { ',' }).ToList();
+                    ids.Add(claimId.ToString());
+                    batch.ClaimIDs = String.Join(",", ids.ToArray());
+                }
+                else
+                {
+                    batch = new Batch
+                    {
+                        CreatedById = userId,
+                        DateCreated = DateTime.Now,
+                        SystemNoteKey = System.Guid.NewGuid().ToString()
+                    };
+                    
+                }
+
+                
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = batch
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
+        }
+
         [HttpPost]
         [Route("api/updateClaim/{dbname}")]
         public IHttpActionResult UpdateClaim(Claim claim, string dbname)
@@ -305,21 +357,38 @@ namespace EMR.WebAPI.ehr.services
                 {
                     EHRDB db = new EHRDB();
                     db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                    string fn = "", ln = "", dos = "";
+                    string fn = "", ln = "",
+                        dcreated = "", dos = "";
+                    string dtStr;
+                    DateTime dt;
 
                     string[] vals = parms.Split(new[] { '|' });
 
                     fn = vals.Length > 0 ? vals[0] : "";
                     ln = vals.Length > 1 ? vals[1] : "";
-                    dos = vals.Length > 2 ? vals[2] : "";
+                    dcreated = vals.Length > 2 ? vals[2] : "";
+                    dos = vals.Length > 3 ? vals[3] : "";
 
                     List<Claim> claims = db.Claims.Where(c =>
                                            c.PrimarySubscriber.FirstName.StartsWith(fn) &&
                                            c.PrimarySubscriber.LastName.StartsWith(ln)).ToList();
 
+                    if (String.IsNullOrEmpty(dcreated) == false)
+                    {
+                        dtStr = dcreated.Substring(0, 2) + "/" +
+                            dcreated.Substring(2, 2) + "/" + dcreated.Substring(4);
+                        dt = DateTime.Parse(dtStr);
+
+                        claims = claims.Where(c => dt <= c.DateCreated && c.DateCreated < dt.AddDays(1)).ToList();
+                    }
+
                     if (String.IsNullOrEmpty(dos) == false)
                     {
-                        claims = claims.Where(c => c.DateOfService == DateTime.Parse(dos)).ToList();
+                        dtStr = dos.Substring(0, 2) + "/" +
+                            dos.Substring(2, 2) + "/" + dos.Substring(4);
+                        dt = DateTime.Parse(dtStr);
+
+                        claims = claims.Where(c => dt <= c.DateOfService && c.DateOfService < dt.AddDays(1)).ToList();
                     }
 
                     foreach (Claim c in claims)

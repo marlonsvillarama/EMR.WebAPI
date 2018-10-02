@@ -102,9 +102,12 @@ namespace EMR.WebAPI.ehr.services
 
                         for (int i = 0, n = claimIds.Length; i < n; i++)
                         {
-                            int claimId = int.Parse(claimIds[i]);
-                            Claim c = db.Claims.Find(claimId);
-                            claims.Add(new ClaimViewModel(c));
+                            if (String.IsNullOrEmpty(claimIds[i]) == false)
+                            {
+                                int claimId = int.Parse(claimIds[i]);
+                                Claim c = db.Claims.Find(claimId);
+                                claims.Add(new ClaimViewModel(c));
+                            }
                         }
                     }
                 }

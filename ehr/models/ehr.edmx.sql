@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/30/2018 18:58:03
+-- Date Created: 10/02/2018 10:33:36
 -- Generated from EDMX file: D:\DEV\PROJECTS\git\EMR.WebAPI\ehr\models\ehr.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [HK_Kogan];
+USE [HK_MASTER];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO

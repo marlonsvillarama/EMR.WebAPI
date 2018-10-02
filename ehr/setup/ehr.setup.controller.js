@@ -186,6 +186,7 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
+                        $state.go('setup.providers.list');
                     }
                     else if (actionType == 'create') {
                         alert('Provider successfully created!');
@@ -343,6 +344,7 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
+                        $state.go('setup.facilities.list');
                     }
                     else if (actionType == 'create') {
                         alert('Facility successfully created!');
@@ -423,6 +425,10 @@
                 _this.errors.push('Group NPI is required');
             }
 
+            if (!_this.entity.EIN) {
+                _this.errors.push('Group EIN is required');
+            }
+
             if (_this.errors.length > 0) {
                 var str = 'Please correct the following errors first:\n\n';
                 for (var i = 0, n = _this.errors.length; i < n; i++) {
@@ -464,6 +470,7 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
+                        $state.go('setup.groups.list');
                     }
                     else if (actionType == 'create') {
                         alert('Group successfully created!');
