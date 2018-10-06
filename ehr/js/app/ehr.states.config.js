@@ -77,7 +77,8 @@
             name: 'subscribers',
             url: "/subscribers",
             templateUrl: AppConfig.EHRBase + 'subscribers/subscriber-list.html',
-            controller: 'ehrSubscriberListController as subListCtrl',
+            controller: 'ehrSubscriberListController as subListCtrl'//,
+            /*
             resolve: {
                 entityList: ['ApiService', function (ApiService) {
                     var resp = ApiService.getEntityList('Subscribers', 'subscriber');
@@ -85,15 +86,8 @@
                         return ApiService.prepareResponse(response);
                     });
                 }]//,
-                /*
-                payerList: ['ApiService', function (ApiService) {
-                    var resp = ApiService.getEntityList('Payers', 'payer');
-                    return resp.then(function (response) {
-                        return prepareResponse(response);
-                    })
-                }]
-                */
             }
+            */
         });
 
         // Subscriber: Edit
@@ -125,7 +119,8 @@
             name: 'claims',
             url: "/claims",
             templateUrl: AppConfig.EHRBase + 'claims/claim-list.html',
-            controller: 'ehrClaimListController as clmListCtrl',
+            controller: 'ehrClaimListController as clmListCtrl'//,
+            /*
             resolve: {
                 entityList: ['ApiService', function (ApiService) {
                     var resp = ApiService.getEntityList('Claims', 'claim');
@@ -134,6 +129,7 @@
                     });
                 }]
             }
+            */
         });
 
         // Claim: Edit

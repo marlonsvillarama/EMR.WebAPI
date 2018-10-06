@@ -18,10 +18,6 @@
             return ApiService.getEntityList(p, s);
         };
 
-        _this.formatProviderList = function (list) {
-
-        };
-
         _this.setList = function (type, list) {
             _this.lists[type] = list;
         };

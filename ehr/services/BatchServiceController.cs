@@ -154,12 +154,13 @@ namespace EMR.WebAPI.ehr.services
                     };
                 }
 
-                b.ClaimIDs = batch.ClaimIDs;
+                b.ClaimIDs = String.IsNullOrEmpty(batch.ClaimIDs) ? "" : batch.ClaimIDs;
 
                 if (b.Id <= 0)
                 {
+                    string ticks = DateTime.Now.Ticks.ToString();
+                    b.Identifier = ticks.Substring(ticks.Length - 9);
                     b.CreatedById = batch.CreatedById;
-                    b.Identifier = DateTime.Now.Ticks.ToString();
                     db.Batches.Add(b);
                 }
 

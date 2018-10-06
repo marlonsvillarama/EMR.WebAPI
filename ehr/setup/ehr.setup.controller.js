@@ -25,6 +25,11 @@
             }
         });
 
+        $stateProvider.state('setup.billing', {
+            templateUrl: '/ehr/setup/setup-billing.html',
+            controller: 'ehrSetupBillingController as sBillCtrl'
+        });
+
         $stateProvider.state('setup.facilities', {
             controller: 'ehrSetupFacilitiesController as sFacCtrl'
         });
@@ -245,6 +250,45 @@
             _this.showTaxonomy(_this.entity.TaxonomyCode);
             _this.states = ApiService.getList('usstates').options;
             _this.savingForm = false;
+        };
+
+        _this.init();
+    }
+
+    ehrSetupBillingController.$inject = ['$q', '$state', 'SetupService'];
+    function ehrSetupBillingController($q, $state, SetupService) {
+        var _this = this;
+
+        _this.init = function () {
+            _this.searching = true;
+            var billProvs = [], renProvs = [], reqs = [];
+            var map = {};
+
+            reqs.push(
+                SetupService.search('Providers', 'provider').then(function (response) {
+                    if (response.data.results.IsSuccess == true) {
+                        renProvs = response.data.result.Data;
+                    }
+                })
+            );
+
+            reqs.push(
+                SetupService.search('Groups', 'group').then(function (response) {
+                    if (response.data.results.IsSuccess == true) {
+                        billProvs = response.data.result.Data;
+                    }
+                })
+            );
+
+            $q.all(reqs).then(function (response) {
+                for (var i = 0, n = billProvs.length; i < n; i++) {
+                    for (var j = 0, o = renProvs.length; j < o; j++) {
+
+                    }
+                }
+
+                _this.searching == false;
+            });
         };
 
         _this.init();
@@ -505,6 +549,7 @@
         .controller('ehrSetupController', ehrSetupController)
         .controller('ehrSetupProvidersController', ehrSetupProvidersController)
         .controller('ehrSetupEditProviderController', ehrSetupEditProviderController)
+        .controller('ehrSetupBillingController', ehrSetupBillingController)
         .controller('ehrSetupFacilitiesController', ehrSetupFacilitiesController)
         .controller('ehrSetupEditFacilityController', ehrSetupEditFacilityController)
         .controller('ehrSetupGroupsController', ehrSetupGroupsController)

@@ -43,7 +43,7 @@ namespace EMR.WebAPI.ehr.services
                 };
             }
 
-            return Ok(new { results = status });
+            return Ok(new { result = status });
         }
 
         [HttpGet]
@@ -353,44 +353,67 @@ namespace EMR.WebAPI.ehr.services
 
             try
             {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 if (String.IsNullOrEmpty(parms) == false)
                 {
                     EHRDB db = new EHRDB();
                     db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                    string fn = "", ln = "",
+                    string fn = "", ln = "", dob = "",
                         dcreated = "", dos = "";
                     string dtStr;
                     DateTime dt;
 
                     string[] vals = parms.Split(new[] { '|' });
+                    sb.Append(parms).Append("*");
 
-                    fn = vals.Length > 0 ? vals[0] : "";
-                    ln = vals.Length > 1 ? vals[1] : "";
+                    //fn = vals.Length > 0 ? vals[0] : "";
+                    ln = vals.Length > 0 ? vals[0] : "";
+                    dob = vals.Length > 1 ? vals[1] : "";
                     dcreated = vals.Length > 2 ? vals[2] : "";
                     dos = vals.Length > 3 ? vals[3] : "";
 
                     List<Claim> claims = db.Claims.Where(c =>
-                                           c.PrimarySubscriber.FirstName.StartsWith(fn) &&
+                                           //c.PrimarySubscriber.FirstName.StartsWith(fn) &&
                                            c.PrimarySubscriber.LastName.StartsWith(ln)).ToList();
+                    sb.Append("ln").Append(ln).Append("*");
+
+                    if (String.IsNullOrEmpty(dob) == false)
+                    {
+                        dtStr = dob.Substring(0, 2) + "/" +
+                            dob.Substring(2, 2) + "/" + dob.Substring(4);
+                        dt = DateTime.ParseExact(dtStr, "dd/MM/yyyy", null);
+                        sb.Append("dob:").Append(dtStr).Append("*");
+
+                        claims = claims.Where(c =>
+                            dt <= c.PrimarySubscriber.DateOfBirth &&
+                            c.PrimarySubscriber.DateOfBirth < dt.AddDays(1)).ToList();
+                    }
 
                     if (String.IsNullOrEmpty(dcreated) == false)
                     {
                         dtStr = dcreated.Substring(0, 2) + "/" +
                             dcreated.Substring(2, 2) + "/" + dcreated.Substring(4);
-                        dt = DateTime.Parse(dtStr);
+                        dt = DateTime.ParseExact(dtStr, "dd/MM/yyyy", null);
+                        sb.Append("dcreated:").Append(dtStr).Append("*");
 
-                        claims = claims.Where(c => dt <= c.DateCreated && c.DateCreated < dt.AddDays(1)).ToList();
+                        claims = claims.Where(c =>
+                            dt <= c.DateCreated &&
+                            c.DateCreated < dt.AddDays(1)).ToList();
                     }
 
                     if (String.IsNullOrEmpty(dos) == false)
                     {
                         dtStr = dos.Substring(0, 2) + "/" +
                             dos.Substring(2, 2) + "/" + dos.Substring(4);
-                        dt = DateTime.Parse(dtStr);
+                        dt = DateTime.ParseExact(dtStr, "dd/MM/yyyy", null);
+                        sb.Append("dos:").Append(dtStr).Append("*");
 
-                        claims = claims.Where(c => dt <= c.DateOfService && c.DateOfService < dt.AddDays(1)).ToList();
+                        claims = claims.Where(c =>
+                            dt <= c.DateOfService &&
+                            c.DateOfService < dt.AddDays(1)).ToList();
                     }
 
+                    claims = claims.OrderBy(c => c.PrimarySubscriber.LastName).ToList();
                     foreach (Claim c in claims)
                     {
                         vmList.Add(new ClaimViewModel(c));
@@ -400,6 +423,7 @@ namespace EMR.WebAPI.ehr.services
                 status = new ServiceRequestStatus
                 {
                     IsSuccess = true,
+                    //Debug = sb.ToString(),
                     Data = vmList
                 };
             }

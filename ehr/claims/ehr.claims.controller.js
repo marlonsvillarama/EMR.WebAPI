@@ -4,10 +4,38 @@
     var url;
 
     // Declare: ehrClaimListController
-    ehrClaimListController.$inject = ['entityList'];
-    function ehrClaimListController(entityList) {
-        var clmListCtrl = this;
-        clmListCtrl.entities = entityList.entityList;
+    //ehrClaimListController.$inject = ['entityList'];
+    //function ehrClaimListController(entityList) {
+
+    ehrClaimListController.$inject = ['ApiService', 'UIService'];
+    function ehrClaimListController(ApiService, UIService) {
+        var _this = this;
+
+        _this.searchList = function () {
+            var arrParms = [
+                _this.lastName ? _this.lastName : "",
+                _this.dateOfBirth ? UIService.getDateParam(_this.dateOfBirth) : ""
+            ];
+
+            var parms = arrParms.join('|');
+            console.log('searchClms: ' + parms);
+            _this.searching = true;
+
+            ApiService.searchEntities('Claims', parms).then(function (response) {
+                _this.entities = (response.data.result.IsSuccess == true) ?
+                    response.data.result.Data : [];
+
+                _this.searching = false;
+            });
+
+        };
+
+        _this.init = function () {
+            _this.searching = false;
+            UIService.applyDatePickers();
+        };
+
+        _this.init();
     }
 
     // Register: ehrClaimListController

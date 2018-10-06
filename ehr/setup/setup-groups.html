@@ -40,6 +40,14 @@
                     </th>
                 </tr>
 
+                <!-- Search loading -->
+                <tr class="ehr-table-row" ng-if="sGrpCtrl.searching == true">
+                    <td colspan="8">
+                        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                        <strong>Searching...</strong>
+                    </td>
+                </tr>
+
                 <!-- Groups repeater -->
                 <tr class="ehr-table-row" ng-repeat="x in sGrpCtrl.list" ng-click="sGrpCtrl.editGrp(x.Id)">
                     <td class="col-sm-2-5">

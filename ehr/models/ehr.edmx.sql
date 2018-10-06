@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/02/2018 10:33:36
+-- Date Created: 10/03/2018 11:30:03
 -- Generated from EDMX file: D:\DEV\PROJECTS\git\EMR.WebAPI\ehr\models\ehr.edmx
 -- --------------------------------------------------
 

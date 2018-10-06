@@ -93,7 +93,7 @@
         };
 
         _this.searchClaims = function (parms) {
-            return ApiService.searchClaimsForBatch(parms);
+            return ApiService.searchEntities('Claims', parms);
         };
 
         // TO BE DELETED

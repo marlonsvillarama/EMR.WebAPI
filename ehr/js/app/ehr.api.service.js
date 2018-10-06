@@ -22,6 +22,14 @@
             return AuthService.getCurrentUser();
         };
 
+        service.searchEntities = function (p, parms) {
+            url = AppConfig.ApiBase + 'search' + p + '/' +
+                AuthService.getAccountName() + '/' + parms;
+
+            console.log('ApiService searchEntities' + url);
+            return $http.get(url);
+        };
+
         service.getEntityList = function (p, s) {
             url = AppConfig.ApiBase + 'get' + p;
             if (exList.indexOf(p) < 0)  {
@@ -192,11 +200,13 @@
             return $http.get(url);
         };
 
+        /*
         service.searchClaimsForBatch = function (parms) {
             url = AppConfig.ApiBase + 'searchClaims/' + AuthService.getAccountName() + '/' + parms;
             console.log('ApiService searchClaimsForBatch: ' + url);
             return $http.get(url);
         };
+        */
     }
 
     angular.module('ehrApp').service('ApiService', ApiService);

@@ -240,19 +240,13 @@
             return UIService.formatAcctNumber(id);
         };
 
-        _this.getDateParam = function (dt) {
-            var dt = new Date(dt);
-            return UIService.padLeft(dt.getDate(), 2, '0') +
-                UIService.padLeft((dt.getMonth() + 1), 2, '0') +
-                dt.getFullYear();
-        };
-
         _this.searchClaims = function () {
             var arrParms = [
-                _this.firstName ? _this.firstName : "",
+                //_this.firstName ? _this.firstName : "",
                 _this.lastName ? _this.lastName : "",
-                _this.dateEntered ? _this.getDateParam(_this.dateEntered) : "",
-                _this.dateOfService ? _this.getDateParam(_this.dateOfService) : ""
+                "",
+                _this.dateEntered ? UIService.getDateParam(_this.dateEntered) : "",
+                _this.dateOfService ? UIService.getDateParam(_this.dateOfService) : ""
             ];
             var parms = arrParms.join('|');
             console.log('searchClaims: ' + parms);
