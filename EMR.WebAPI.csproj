@@ -527,6 +527,7 @@
     <Content Include="ehr\payments\payments-list.html" />
     <Content Include="ehr\setup\ehr.setup.controller.js" />
     <Content Include="ehr\setup\ehr.setup.service.js" />
+    <Content Include="ehr\setup\setup-billing.html" />
     <Content Include="ehr\setup\setup-facilities.html" />
     <Content Include="ehr\setup\setup-facility-edit.html" />
     <Content Include="ehr\setup\setup-group-edit.html" />
