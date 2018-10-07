@@ -7,19 +7,23 @@
 
     var ehrApp = angular.module('ehrApp', ['ui.router', 'ngDialog']);
 
-    ehrApp.config(["ngDialogProvider", function (ngDialogProvider) {
-        ngDialogProvider.setDefaults({
-            className: "ngdialog-theme-default",
-            plain: false,
-            showClose: true,
-            closeByDocument: true,
-            closeByEscape: true,
-            appendTo: false,
-            preCloseCallback: function () {
-                console.log("default pre-close callback");
-            }
-        });
-    }]);
+    ehrApp.config(["$locationProvider", "ngDialogProvider",
+        function ($locationProvider, ngDialogProvider) {
+            //$locationProvider.html5Mode(true);
+
+            ngDialogProvider.setDefaults({
+                className: "ngdialog-theme-default",
+                plain: false,
+                showClose: true,
+                closeByDocument: true,
+                closeByEscape: true,
+                appendTo: false,
+                preCloseCallback: function () {
+                    console.log("default pre-close callback");
+                }
+            });
+        }
+    ]);
 
     /*
     angular.module('ehrApp')

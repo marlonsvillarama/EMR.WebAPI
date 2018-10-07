@@ -111,6 +111,10 @@
 
         _this.setUserPreferences = function (pref) {
             if (pref) {
+                if (pref.Id <= 0) {
+                    pref.AccountId = _this.account.Id;
+                    pref.UserId = _this.currentUser.Id;
+                }
                 _this.userPreferences = pref;
                 console.log('AuthService.setUserPreferences');
                 console.log(_this.userPreferences);

@@ -54,7 +54,7 @@ namespace EMR.WebAPI.ehr.services
         #endregion
 
         #region CMS Functions
-        private HttpResponseMessage CreateCMS1500(List<Claim> claims, Batch batch, string dbname)
+        private HttpResponseMessage CreateCMS1500(List<Claim> claims, Batch batch, List<PayTo> payToes, string dbname)
         {
             string fileName = dlPath + "\\CMS1500-" + batch.Identifier + ".pdf";
 
@@ -84,23 +84,30 @@ namespace EMR.WebAPI.ehr.services
                 doc.Add(new Paragraph(""));
                 doc.Add(img);
 
-                Dictionary<string, string> map = MapClaimToCMS(claims[i], dbname);
-                foreach (string key in CMSCoordinates.Keys)
+                try
                 {
-                    ct = new ColumnText(pcb);
-                    ct.SetSimpleColumn(CMSCoordinates[key]);
-                    if (String.IsNullOrEmpty(map[key]) == false)
+                    Dictionary<string, string> map = MapClaimToCMS(claims[i], payToes, dbname);
+                    foreach (string key in CMSCoordinates.Keys)
                     {
-                        Paragraph pg = new Paragraph(map[key].ToUpper(), font);
-                        pg.SetLeading(1.0f, 0.0f);
-                        ct.AddText(pg);
+                        ct = new ColumnText(pcb);
+                        ct.SetSimpleColumn(CMSCoordinates[key]);
+                        if (String.IsNullOrEmpty(map[key]) == false)
+                        {
+                            Paragraph pg = new Paragraph(map[key].ToUpper(), font);
+                            pg.SetLeading(1.0f, 0.0f);
+                            ct.AddText(pg);
+                        }
+                        ct.Go();
                     }
-                    ct.Go();
-                }
 
-                if (i < (n - 1))
+                    if (i < (n - 1))
+                    {
+                        doc.NewPage();
+                    }
+                }
+                catch (Exception ex)
                 {
-                    doc.NewPage();
+                    doc.Add(new Paragraph(ex.ToString()));
                 }
             }
 
@@ -654,6 +661,8 @@ namespace EMR.WebAPI.ehr.services
                 "32-tax",
                 "32-npi",
 
+                "33-phonearea",
+                "33-phonenum",
                 "33-name",
                 "33-line1",
                 "33-line2"
@@ -669,7 +678,7 @@ namespace EMR.WebAPI.ehr.services
             return map;
         }
 
-        private Dictionary<string, string> MapClaimToCMS(Claim claim, string dbname)
+        private Dictionary<string, string> MapClaimToCMS(Claim claim, List<PayTo> payToes, string dbname)
         {
             Dictionary<string, string> map = GetBlankCMSValues();
             Subscriber subPrimary = claim.PrimarySubscriber;
@@ -886,6 +895,10 @@ namespace EMR.WebAPI.ehr.services
                         {
                             map[pre + "mod" + (++modctr).ToString()] = mods[j];
                         }
+                        else
+                        {
+                            map[pre + "mod" + (++modctr).ToString()] = "";
+                        }
                     }
                 }
 
@@ -897,10 +910,17 @@ namespace EMR.WebAPI.ehr.services
                 map[pre + "npi"] = claim.RenderingProvider.NPI;
             }
 
+            /*
             map["25"] = String.IsNullOrEmpty(claim.RenderingProvider.EIN) == true ?
                 claim.RenderingProvider.SSN : claim.RenderingProvider.EIN;
-            map["25-ssn"] = String.IsNullOrEmpty(claim.RenderingProvider.SSN) == true ? "" : "X";
             map["25-ein"] = String.IsNullOrEmpty(claim.RenderingProvider.EIN) == true ? "" : "X";
+            map["25-ssn"] = String.IsNullOrEmpty(claim.RenderingProvider.SSN) == true ? "" : "X";
+            */
+
+            map["25"] = claim.Facility.BillUnder == "1" ?
+                claim.Facility.TaxId : claim.RenderingProvider.SSN;
+            map["25-ein"] = claim.Facility.BillUnder == "1" ? "X" : "";
+            map["25-ssn"] = claim.Facility.BillUnder == "2" ? "X" : "";
 
             map["27-yes"] = claim.AcceptAssignment != "C" ? "X" : "";
             map["27-no"] = claim.AcceptAssignment == "C" ? "X" : "";
@@ -908,7 +928,8 @@ namespace EMR.WebAPI.ehr.services
             map["29"] = GetDecimalAmountValue(claim.AmountCopay);
 
             // Provider Signature
-            map["31"] = claim.RenderingProvider.LastName + ", " + claim.RenderingProvider.FirstName;
+            map["31"] = claim.RenderingProvider.LastName + ", " + claim.RenderingProvider.FirstName + ", " +
+                claim.RenderingProvider.Credential;
             dt = GetDateTimeValue(claim.DateCreated);
             if (dt != null)
             {
@@ -930,9 +951,9 @@ namespace EMR.WebAPI.ehr.services
                     "-" + claim.BillingProvider.Phone_1.Substring(6);
             }
 
-            EHRDB db = new EHRDB();
-            db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-            PayTo payTo = db.PayToes.Where(x => x.BillingProviderId == claim.BillingProvider.Id &&
+            //EHRDB db = new EHRDB();
+            //db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+            PayTo payTo = payToes.Where(x => x.BillingProviderId == claim.BillingProvider.Id &&
                                             x.RenderingProviderId == claim.RenderingProvider.Id).First();
 
             map["33-name"] = claim.BillingProvider.LastName;
@@ -945,12 +966,28 @@ namespace EMR.WebAPI.ehr.services
         #endregion
 
         #region X837 Functions
-        private HttpResponseMessage CreateX837(List<Claim> claims, Batch batch, string dbName)
+        private HttpResponseMessage CreateX837(List<Claim> claims, Batch batch, List<PayTo> payToes, string dbName)
         {
             string fileName = dlPath + "\\X837-" + batch.Identifier + ".txt";
 
-            X837 x837 = new X837(claims, batch, dbName);
-            string output = x837.WriteX837(null, true); // true -> new line separator per segment
+            //X837 x837 = new X837(claims, batch, dbName);
+            X837 x837 = new X837(dbName)
+            {
+                Claims = claims,
+                Batch = batch,
+                PayToes = payToes
+            };
+
+            string output;
+            try
+            {
+                output = x837.WriteX837(null, true); // true -> new line separator per segment
+            }
+            catch(Exception ex)
+            {
+                output = ex.ToString();
+            }
+
 
             FileStream fs = new FileStream(fileName, FileMode.Create);
             MemoryStream ms = new MemoryStream();
@@ -1046,32 +1083,25 @@ namespace EMR.WebAPI.ehr.services
                 return null;
             }
 
-            if (String.IsNullOrEmpty(sParms[0]) == true)
+            if (String.IsNullOrEmpty(sParms[0]) == false)
             {
-                return null;
+                apiParams.Type = sParms[0];
             }
-            apiParams.Type = sParms[0];
 
-            if (String.IsNullOrEmpty(sParms[1]) == true)
-            {
-                return null;
-            }
-            else
+            if (String.IsNullOrEmpty(sParms[1]) == false)
             {
                 int id = 0;
                 try
                 {
                     id = int.Parse(sParms[1]);
-                    if (id <= 0)
+                    if (id > 0)
                     {
-                        return null;
+                        apiParams.BatchId = int.Parse(sParms[1]);
                     }
-
-                    apiParams.CreatedById = id;
                 }
-                catch(Exception ex)
+                catch
                 {
-                    return null;
+                    apiParams.BatchId = -1;
                 }
             }
 
@@ -1079,11 +1109,7 @@ namespace EMR.WebAPI.ehr.services
             {
                 if (String.IsNullOrEmpty(sParms[2]) == false)
                 {
-                    try
-                    {
-                        apiParams.BatchId = int.Parse(sParms[2]);
-                    }
-                    finally { }
+                    apiParams.ClaimIds = sParms[2];
                 }
             }
 
@@ -1146,10 +1172,10 @@ namespace EMR.WebAPI.ehr.services
             switch (apiParms.Type.ToUpper())
             {
                 case "CMS":
-                    msg = CreateCMS1500(claims, batch, dbname);
+                    msg = CreateCMS1500(claims, batch, db.PayToes.ToList(), dbname);
                     break;
                 case "X837":
-                    msg = CreateX837(claims, batch, dbname);
+                    msg = CreateX837(claims, batch, db.PayToes.ToList(), dbname);
                     break;
             }
 

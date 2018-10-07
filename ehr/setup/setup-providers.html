@@ -25,7 +25,7 @@
                         NPI
                     </th>
                     <th class="col-sm-1">
-                        EIN
+                        SSN
                     </th>
                     <th class="col-sm-1">
                         Phone No.
@@ -40,8 +40,19 @@
                     </th>
                 </tr>
 
-                <!-- Provier table repeater -->
-                <tr class="ehr-table-row" ng-repeat="x in sProvCtrl.list" ng-click="sProvCtrl.editProv(x.Id)">
+                <!-- Search loading -->
+                <tr class="ehr-table-row" ng-if="sProvCtrl.searching == true">
+                    <td colspan="8">
+                        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                        <strong>Searching...</strong>
+                    </td>
+                </tr>
+
+                <!-- Provider table repeater -->
+                <tr class="ehr-table-row"
+                    ng-if="sProvCtrl.searching != true"
+                    ng-repeat="x in sProvCtrl.list"
+                    ng-click="sProvCtrl.editProv(x.Id)">
                     <td class="col-sm-1-5">
                         {{x.LastName}}
                     </td>
@@ -52,7 +63,7 @@
                         {{x.NPI}}
                     </td>
                     <td class="col-sm-1">
-                        {{x.EIN}}
+                        {{x.SSN}}
                     </td>
                     <td class="col-sm-1">
                         {{x.Phone_1 | tel}}
@@ -66,11 +77,11 @@
                     </td>
                     <td class="col-sm-1 ehr-table-actions text-right">
                         <!--
-        <button type="button" ng-if="bLineCtrl.batchIsProcessed() == false"
-                ng-click="bLineCtrl.removeClaim($index)">
-            <i class="fa fa-times"></i>
-        </button>
-        -->
+            <button type="button" ng-if="bLineCtrl.batchIsProcessed() == false"
+                    ng-click="bLineCtrl.removeClaim($index)">
+                <i class="fa fa-times"></i>
+            </button>
+            -->
                     </td>
                 </tr>
 

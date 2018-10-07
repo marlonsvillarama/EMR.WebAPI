@@ -109,14 +109,13 @@
         };
 
         _this.showResponse = function (res, type, fld) {
-            var result;
+            var result = res;
             
-            if (res.data) {
-                result = res.data.result.Data;
-                AuthService.setPreference(type, result);
-            }
-            else {
-                result = res;
+            if (res) {
+                if (res.data) {
+                    result = res.data.result.Data;
+                    AuthService.setPreference(type, result);
+                }
             }
 
             switch (fld) {
@@ -176,6 +175,9 @@
                             _this.showResponse(response, type, fld);
                         })
                     );
+                }
+                else {
+                    _this.showResponse(null, type, fld);
                 }
             }
         };

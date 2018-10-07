@@ -3,42 +3,73 @@
     <div class="col-sm-12">
         <div class="ehr-row clearfix">
             <div class="col-sm-2">
-                <div class="ehr-row clearfix">
-                    <label class="ehr-fld-label col-sm-12">First Name</label><br />
-                    <div class="col-sm-12">
-                        <input type="text" class="ehr-fld-input" maxlength="100"
-                               ng-model="bSearchCtrl.firstName" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
                 <label class="ehr-fld-label col-sm-12">Last Name</label><br />
                 <div class="col-sm-12">
                     <input type="text" class="ehr-fld-input" maxlength="100"
                            ng-model="bSearchCtrl.lastName" />
                 </div>
             </div>
-            <!--
+            <div class="col-sm-2">
+                <label class="ehr-fld-label col-sm-12">Date Entered</label><br />
+                <div class="col-sm-8">
+                    <input type="text" class="ehr-fld-input ehr-fld-dob" maxlength="100"
+                           data-toggle="datepicker"
+                           ng-required="true"
+                           ng-model="bSearchCtrl.dateEntered" />
+                </div>
+            </div>
             <div class="col-sm-2">
                 <label class="ehr-fld-label col-sm-12">Date of Service</label><br />
                 <div class="col-sm-8">
-                    <input type="text" class="ehr-fld-input" maxlength="100"
+                    <input type="text" class="ehr-fld-input ehr-fld-dob" maxlength="100"
+                           data-toggle="datepicker"
                            ng-required="true"
                            ng-model="bSearchCtrl.dateOfService" />
                 </div>
             </div>
-            -->
-            <div class="col-sm-2">
+            <!--
+    <div class="col-sm-2">
+        <div class="ehr-row clearfix">
+            <label class="ehr-fld-label col-sm-12">First Name</label><br />
+            <div class="col-sm-12">
+                <input type="text" class="ehr-fld-input" maxlength="100"
+                       ng-model="bSearchCtrl.firstName" />
+            </div>
+        </div>
+    </div>
+    -->
+            <!--
+    <div class="col-sm-2">
+        <label class="ehr-fld-label col-sm-12">Date of Service</label><br />
+        <div class="col-sm-8">
+            <input type="text" class="ehr-fld-input" maxlength="100"
+                   ng-required="true"
+                   ng-model="bSearchCtrl.dateOfService" />
+        </div>
+    </div>
+    -->
+            <div class="col-sm-3">
                 <label class="ehr-fld-label col-sm-12">&nbsp;</label><br />
-                <button type="button" ng-click="bSearchCtrl.searchClaims()">
+                <button type="button"
+                        ng-if="bSearchCtrl.searching == false"
+                        ng-click="bSearchCtrl.searchClaims()">
                     <i class="fa fa-search"></i>
-                    <span>Apply filters</span>
+                    <span>Search</span>
                 </button>&nbsp;&nbsp;
-                <!--
-                <button type="button" ng-click="bSearchCtrl.hideBatchClaims()">
-                    <span>Hide all claims already included in batch</span>
-                </button>
-                -->
+                <button type="button" disabled
+                        ng-if="bSearchCtrl.searching == true">
+                    <span>Searching</span>
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>&nbsp;&nbsp;
+                <button type="button"
+                        ng-if="bSearchCtrl.searching == false && bSearchCtrl.searchResults.length > 0"
+                        ng-click="bSearchCtrl.addAllToBatch()">
+                    <span>Add all to batch</span>
+                </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="ehr-warning"
+                      ng-if="bSearchCtrl.searching == false && bSearchCtrl.searchResults">
+                    <strong>Claims found: {{bSearchCtrl.searchResults.length}}</strong>
+                </span>
             </div>
         </div>
 
@@ -68,8 +99,8 @@
                     Provider
                 </th>
                 <th class="col-sm-1 ehr-table-actions text-right">
-                    <a href="#" ng-if="bSearchCtrl.searchResults.length > 0">All</a>&nbsp;&nbsp;
-                    <a href="#" ng-if="bSearchCtrl.searchResults.length > 0">None</a>
+                    <!--<a href="#" ng-if="bSearchCtrl.searchResults.length > 0">All</a>&nbsp;&nbsp;-->
+                    <!--<a href="#" ng-if="bSearchCtrl.searchResults.length > 0">None</a>-->
                 </th>
             </tr>
 

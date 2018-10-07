@@ -40,7 +40,7 @@ namespace EMR.WebAPI.ehr.ansi5010
                 DateTime.Parse("01/01/1000") : dateTime.Value;
         }
 
-        public X837(List<Claim> claims, Batch batch, string dbName)
+        public X837(string dbName)
         {
             CONFIG = X837Config.Items;
 
@@ -48,10 +48,10 @@ namespace EMR.WebAPI.ehr.ansi5010
             {
                 db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbName);
-                Claims = claims;
-                Batch = batch;
-                InterchangeControlNumber = batch.Identifier;
-                GroupControlNumber = batch.Id.ToString().PadLeft(0, '8');
+                //Claims = claims;
+                //Batch = batch;
+                //InterchangeControlNumber = batch.Identifier;
+                //GroupControlNumber = batch.Id.ToString().PadLeft(0, '8');
                 controlST = (1).ToString().PadLeft(4, '0');
                 controlDT = DateTime.Now;
                 hl = 0;
@@ -67,8 +67,12 @@ namespace EMR.WebAPI.ehr.ansi5010
         #region Properties
         public List<Claim> Claims { get; set; }
 
+        public List<PayTo> PayToes { get; set; }
+
         public Batch Batch { get; set; }
 
+        public string Database { get; set; }
+        
         public string InterchangeControlNumber { get; set; }
 
         public string GroupControlNumber { get; set; }
@@ -82,6 +86,8 @@ namespace EMR.WebAPI.ehr.ansi5010
         {
             get
             {
+                InterchangeControlNumber = Batch.Identifier;
+
                 Segment seg = new Segment("ISA");
                 seg.Items["ISA01"] = CONFIG["ISA01"];
                 seg.Items["ISA02"] = CONFIG["ISA02"];
@@ -118,6 +124,8 @@ namespace EMR.WebAPI.ehr.ansi5010
         {
             get
             {
+                GroupControlNumber = Batch.Id.ToString().PadLeft(0, '8');
+
                 Segment seg = new Segment("GS");
                 seg.Items["GS01"] = CONFIG["GS01"];
                 seg.Items["GS02"] = CONFIG["GS02"];
@@ -425,18 +433,24 @@ namespace EMR.WebAPI.ehr.ansi5010
 
             #region Pay-To Provider
             List<PayTo> ptList;
-            PayTo payTo;
+            PayTo payTo = null;
             if (isCompany == true)
             {
-                ptList = db.PayToes.Where(x => x.BillingProviderId == billingProvider.Id &&
+                ptList = PayToes.Where(x => x.BillingProviderId == billingProvider.Id &&
                                             x.RenderingProviderId == renderingProvider.Id).ToList();
-                payTo = ptList.First();
+                if (ptList.Count > 0)
+                {
+                    payTo = ptList.First();
+                }
             }
             else
             {
-                ptList = db.PayToes.Where(x => x.BillingProviderId == billingProvider.Id &&
+                ptList = PayToes.Where(x => x.BillingProviderId == billingProvider.Id &&
                                             x.RenderingProviderId == billingProvider.Id).ToList();
-                payTo = ptList.First();
+                if (ptList.Count > 0)
+                {
+                    payTo = ptList.First();
+                }
             }
 
             if (payTo != null)

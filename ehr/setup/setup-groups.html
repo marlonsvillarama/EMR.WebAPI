@@ -4,7 +4,7 @@
         <div class="row clearfix">
             <div class="col-sm-12">
                 <button type="button" ng-click="sGrpCtrl.editGrp(-1)">
-                    <span>ADD NEW GROUP</span>
+                    <span>ADD BILLING GROUP</span>
                     <i class="fa fa-plus"></i>
                 </button>
             </div>
@@ -15,11 +15,14 @@
 
                 <!-- Facilities table headers -->
                 <tr class="ehr-table-header">
-                    <th class="col-sm-3">
-                        Group Name
+                    <th class="col-sm-2-5">
+                        Billing Group
                     </th>
                     <th class="col-sm-1">
                         NPI
+                    </th>
+                    <th class="col-sm-1">
+                        EIN
                     </th>
                     <th class="col-sm-1-5">
                         Phone #1
@@ -30,20 +33,31 @@
                     <th class="col-sm-1-5">
                         Fax
                     </th>
-                    <th class="col-sm-2-5">
+                    <th class="col-sm-2">
                         Email
                     </th>
                     <th class="col-sm-1 ehr-table-actions text-right">
                     </th>
                 </tr>
 
+                <!-- Search loading -->
+                <tr class="ehr-table-row" ng-if="sGrpCtrl.searching == true">
+                    <td colspan="8">
+                        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                        <strong>Searching...</strong>
+                    </td>
+                </tr>
+
                 <!-- Groups repeater -->
                 <tr class="ehr-table-row" ng-repeat="x in sGrpCtrl.list" ng-click="sGrpCtrl.editGrp(x.Id)">
-                    <td class="col-sm-3">
+                    <td class="col-sm-2-5">
                         {{x.LastName}}
                     </td>
                     <td class="col-sm-1">
                         {{x.NPI}}
+                    </td>
+                    <td class="col-sm-1">
+                        {{x.EIN}}
                     </td>
                     <td class="col-sm-1-5">
                         {{x.Phone_1 | tel}}
@@ -54,7 +68,7 @@
                     <td class="col-sm-1-5">
                         {{x.Fax | tel}}
                     </td>
-                    <td class="col-sm-2-5">
+                    <td class="col-sm-2">
                         {{x.Email}}
                     </td>
                     <td class="col-sm-1 ehr-table-actions text-right"></td>

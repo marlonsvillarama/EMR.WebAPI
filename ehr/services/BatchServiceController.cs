@@ -102,9 +102,12 @@ namespace EMR.WebAPI.ehr.services
 
                         for (int i = 0, n = claimIds.Length; i < n; i++)
                         {
-                            int claimId = int.Parse(claimIds[i]);
-                            Claim c = db.Claims.Find(claimId);
-                            claims.Add(new ClaimViewModel(c));
+                            if (String.IsNullOrEmpty(claimIds[i]) == false)
+                            {
+                                int claimId = int.Parse(claimIds[i]);
+                                Claim c = db.Claims.Find(claimId);
+                                claims.Add(new ClaimViewModel(c));
+                            }
                         }
                     }
                 }
@@ -151,12 +154,13 @@ namespace EMR.WebAPI.ehr.services
                     };
                 }
 
-                b.ClaimIDs = batch.ClaimIDs;
+                b.ClaimIDs = String.IsNullOrEmpty(batch.ClaimIDs) ? "" : batch.ClaimIDs;
 
                 if (b.Id <= 0)
                 {
+                    string ticks = DateTime.Now.Ticks.ToString();
+                    b.Identifier = ticks.Substring(ticks.Length - 9);
                     b.CreatedById = batch.CreatedById;
-                    b.Identifier = DateTime.Now.Ticks.ToString();
                     db.Batches.Add(b);
                 }
 

@@ -184,9 +184,20 @@ namespace EMR.WebAPI.ehr.services
                                 pref.Id = prefUser[0].Id;
                                 //pref.UserId = userId;
                             }
-                            else
-                            {
+                        }
+                    }
+                    else
+                    {
+                        if (userId > 0)
+                        {
+                            List<UserPreference> prefUser = prefList.Where(x => x.UserId == userId).ToList();
 
+                            if (prefUser.Count > 0)
+                            {
+                                pref = CopyPreferences(prefUser[0], pref);
+                                pref.Id = prefUser[0].Id;
+                                pref.AccountId = dbId;
+                                pref.UserId = userId;
                             }
                         }
                     }

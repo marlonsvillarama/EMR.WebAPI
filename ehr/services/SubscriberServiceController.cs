@@ -43,7 +43,63 @@ namespace EMR.WebAPI.ehr.services
                 };
             }
 
-            return Ok(new { results = status });
+            return Ok(new { result = status });
+        }
+
+        [HttpGet]
+        [Route("~/api/searchSubscribers/{dbname}/{parms}")]
+        public IHttpActionResult SearchSubscribers(string dbname, string parms)
+        {
+            ServiceRequestStatus status;
+            List<SubscriberViewModel> vmList = new List<SubscriberViewModel>();
+
+            try
+            {
+                EHRDB db = new EHRDB();
+                db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+                string fn, ln, dob, dtStr;
+                DateTime dt;
+                string[] vals = parms.Split(new[] { '|' });
+
+                //fn = vals.Length > 0 ? vals[0] : "";
+                ln = vals.Length > 0 ? vals[0] : "";
+                dob = vals.Length > 1 ? vals[1] : "";
+
+                List<Subscriber> subscribers = db.Subscribers.Where(s =>
+                                       s.LastName.StartsWith(ln)).ToList();
+                //s.FirstName.StartsWith(fn) &&
+
+                if (String.IsNullOrEmpty(dob) == false)
+                {
+                    dtStr = dob.Substring(0, 2) + "/" +
+                        dob.Substring(2, 2) + "/" + dob.Substring(4);
+                    dt = DateTime.Parse(dtStr);
+
+                    subscribers = subscribers.Where(s => dt <= s.DateOfBirth && s.DateOfBirth < dt.AddDays(1)).ToList();
+                }
+
+                subscribers = subscribers.OrderBy(x => x.LastName).ToList();
+                foreach (Subscriber sub in subscribers)
+                {
+                    vmList.Add(new SubscriberViewModel(sub));
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = vmList
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
         }
 
         [HttpGet]

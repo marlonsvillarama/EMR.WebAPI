@@ -1,4 +1,4 @@
-﻿<!-- SetupFacilites page -->
+﻿<!-- Setup Facilites page -->
 <div class="ehr-row clearfix">
     <div class="col-sm-12">
         <div class="row clearfix">
@@ -41,8 +41,19 @@
                     </th>
                 </tr>
 
+                <!-- Search loading -->
+                <tr class="ehr-table-row" ng-if="sFacCtrl.searching == true">
+                    <td colspan="8">
+                        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                        <strong>Searching...</strong>
+                    </td>
+                </tr>
+
                 <!-- Facilities repeater -->
-                <tr class="ehr-table-row" ng-repeat="x in sFacCtrl.list" ng-click="sFacCtrl.editFac(x.Id)">
+                <tr class="ehr-table-row"
+                    ng-if="sFacCtrl.searching != true"
+                    ng-repeat="x in sFacCtrl.list"
+                    ng-click="sFacCtrl.editFac(x.Id)">
                     <td class="col-sm-2">
                         {{x.Name}}
                     </td>

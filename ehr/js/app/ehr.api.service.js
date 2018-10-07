@@ -10,25 +10,6 @@
         var exList = ['Payers', 'PlacesOfService', 'Users'];
         var exEntity = ['Payer', 'PlaceOfService', 'User'];
 
-        /*
-        service.login = function (un, pw) {
-            url = AppConfig.ApiBase + 'loginUser';
-            console.log('ApiService login: ' + un + ', ' + pw);
-
-            return $http.post(url,
-                {
-                    UserName: un,
-                    Password: pw
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-        };
-        */
-
         service.doneInitializing = function () {
             service.initialized = true;
         };
@@ -39,6 +20,14 @@
 
         service.getCurrentUser = function () {
             return AuthService.getCurrentUser();
+        };
+
+        service.searchEntities = function (p, parms) {
+            url = AppConfig.ApiBase + 'search' + p + '/' +
+                AuthService.getAccountName() + '/' + parms;
+
+            console.log('ApiService searchEntities' + url);
+            return $http.get(url);
         };
 
         service.getEntityList = function (p, s) {
@@ -196,11 +185,13 @@
         }
 
         service.printReport = function (type, batchId, claimId) {
-            url = AppConfig.ApiBase + 'report/' + AuthService.getAccountName() + '/' + type + '|' + (batchId ? batchId : "") +
-                '|' + (claimId ? claimId : "");
+            url = AppConfig.ApiBase + 'report/' + AuthService.getAccountName() + '/' +
+                type + '|' +
+                (batchId ? batchId : "") + '|' +
+                (claimId ? claimId : "");
+
             console.log('printCMS: ' + url);
             window.open(url);
-            //return $http.get(url);
         };
 
         service.getBatchClaims = function (id) {
@@ -209,11 +200,13 @@
             return $http.get(url);
         };
 
+        /*
         service.searchClaimsForBatch = function (parms) {
             url = AppConfig.ApiBase + 'searchClaims/' + AuthService.getAccountName() + '/' + parms;
             console.log('ApiService searchClaimsForBatch: ' + url);
             return $http.get(url);
         };
+        */
     }
 
     angular.module('ehrApp').service('ApiService', ApiService);

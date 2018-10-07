@@ -1,10 +1,41 @@
 ﻿(function () {
     'use strict';
 
-    ehrSubscriberListController.$inject = ['entityList'];
-    function ehrSubscriberListController(entityList) {
+    //ehrSubscriberListController.$inject = ['entityList'];
+    //function ehrSubscriberListController(entityList) {
+
+    ehrSubscriberListController.$inject = ['ApiService', 'UIService'];
+    function ehrSubscriberListController(ApiService, UIService) {
         var _this = this;
-        _this.entities = entityList.entityList;
+
+        _this.searchList = function () {
+            var arrParms = [
+                _this.lastName ? _this.lastName : "",
+                _this.dateOfBirth ? UIService.getDateParam(_this.dateOfBirth) : ""
+            ];
+
+            var parms = arrParms.join('|');
+            console.log('searchSubs: ' + parms);
+            _this.searching = true;
+
+            ApiService.searchEntities('Subscribers', parms).then(function (response) {
+                var subs = [];
+
+                _this.entities = (response.data.result.IsSuccess == true) ?
+                    response.data.result.Data : [];
+
+                _this.searching = false;
+            });
+
+        };
+        //_this.entities = entityList.entityList;
+
+        _this.init = function () {
+            _this.searching = false;
+            UIService.applyDatePickers();
+        };
+
+        _this.init();
     }
 
     angular.module('ehrApp').controller('ehrSubscriberListController', ehrSubscriberListController);

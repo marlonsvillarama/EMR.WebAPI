@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="ehr/css/all.min.css" />
     <link rel="stylesheet" href="ehr/css/ngDialog.min.css" />
     <link rel="stylesheet" href="ehr/css/datepicker.min.css" />
-    
+
     <!-- GOOGLE FONTS -->
     <!--<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
@@ -29,11 +29,12 @@
     <script type="text/javascript" src="ehr/js/lib/ngDialog.min.js"></script>
     <script type="text/javascript" src="ehr/js/lib/datepicker.min.js"></script>
 
+    <!--<base href="/" />-->
 </head>
 <body ng-controller="ehrAppController as appCtrl">
 
     <nav class="ehr-navbar-hidden" ng-class="appCtrl.isReady() == true ? 'ehr-navbar' : 'ehr-navbar-hidden'">
-        <span id="ehrLogo">HEALTH KINECT</span>
+        <span id="ehrLogo">KUREKINECT</span>
         <a ui-sref="subscribers"><i class="fa fa-user"></i> Subscribers</a>
         <a ui-sref="claims"><i class="fa fa-file-medical-alt"></i> Claims</a>
         <a ui-sref="batches"><i class="fa fa-university"></i> Batches</a>

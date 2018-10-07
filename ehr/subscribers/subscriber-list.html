@@ -13,6 +13,41 @@
 
     <div class="ehr-group clearfix">
         <div class="ehr-group-inner">
+
+            <div class="ehr-row clearfix">
+                <div class="col-sm-2">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Last Name</label><br />
+                        <div class="col-sm-12">
+                            <input type="text" class="ehr-fld-input" maxlength="100"
+                                   ng-model="subListCtrl.lastName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <label class="ehr-fld-label col-sm-12">Date of Birth</label><br />
+                    <div class="col-sm-8">
+                        <input type="text" class="ehr-fld-input ehr-fld-dob" maxlength="100"
+                               data-toggle="datepicker"
+                               ng-required="true"
+                               ng-model="subListCtrl.dateOfBirth" />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <label class="ehr-fld-label col-sm-12">&nbsp;</label><br />
+                    <button type="button" ng-click="subListCtrl.searchList()"
+                            ng-if="subListCtrl.searching == false">
+                        Search
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button type="button" disabled
+                            ng-if="subListCtrl.searching == true">
+                        Searching
+                        <i class="fa fa-ellipsis-h"></i>
+                    </button>
+                </div>
+            </div>
+
             <table id="ehr-claim-lines" class="ehr-table col-sm-12">
                 <tr class="ehr-table-header">
                     <th class="col-sm-1-5">
@@ -36,7 +71,18 @@
                     <th class="col-sm-0-5">
                     </th>
                 </tr>
-                <tr class="ehr-table-row" ng-repeat="s in subListCtrl.entities" ui-sref="subscriber-edit({ id: s.Id })">
+
+                <!-- Search loading -->
+                <tr class="ehr-table-row" ng-if="subListCtrl.searching == true">
+                    <td colspan="7">
+                        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                        <strong>Searching for subscribers...</strong>
+                    </td>
+                </tr>
+
+                <tr class="ehr-table-row" ui-sref="subscriber-edit({ id: s.Id })"
+                     ng-if="subListCtrl.searching == false"
+                    ng-repeat="s in subListCtrl.entities">
                     <td class="col-sm-1-5">
                         <span>{{s.LastName}}</span>
                     </td>

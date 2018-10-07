@@ -11,8 +11,15 @@
             console.log('fire ehrBatchListController');
 
             for (var i = 0, n = entities.length; i < n; i++) {
-                var ids = entities[i].ClaimIds.split(',');
+                var idArr = entities[i].ClaimIds.split(',');
+                var idCount = 0;
                 var status = '';
+
+                for (var j = 0, k = idArr.length; j < k; j++) {
+                    if (idArr[j]) {
+                        idCount++;
+                    }
+                }
 
                 switch (entities[i].Status) {
                     case 'S': {
@@ -31,7 +38,7 @@
                     dateCreated: entities[i].DateCreated,
                     timeCreated: entities[i].TimeCreated,
                     createdBy: entities[i].CreatedBy,
-                    numClaims: ids.length,
+                    numClaims: idCount,
                     status: status
                 })
             }
@@ -120,9 +127,9 @@
         };
 
         _this.printReport = function (type) {
-            ApiService.printReport(type, _this.batch.Id).then(function (response) {
-                console.log(response);
-            });
+            ApiService.printReport(type, _this.batch.Id);//.then(function (response) {
+                //console.log(response);
+            //});
         };
 
         _this.init = function () {
@@ -206,6 +213,16 @@
             return UIService.formatAcctNumber(id);
         };
 
+        _this.removeAllClaims = function () {
+            if (confirm('Are you sure you want to remove all claims from this batch?') == false) {
+                return;
+            }
+
+            for (var i = _this.claims.length - 1; i >= 0; i--) {
+                _this.claims.splice(i);
+            }
+        };
+
         _this.init = function () {
             console.log('fire ehrBatchLinesController');
             _this.batch = BatchEditService.getBatch();
@@ -224,9 +241,14 @@
         };
 
         _this.searchClaims = function () {
-            var parms = (_this.firstName ? _this.firstName : "") + '|' +
-                (_this.lastName ? _this.lastName : "") + '|';// +
-
+            var arrParms = [
+                //_this.firstName ? _this.firstName : "",
+                _this.lastName ? _this.lastName : "",
+                "",
+                _this.dateEntered ? UIService.getDateParam(_this.dateEntered) : "",
+                _this.dateOfService ? UIService.getDateParam(_this.dateOfService) : ""
+            ];
+            var parms = arrParms.join('|');
             console.log('searchClaims: ' + parms);
             _this.searching = true;
 
@@ -236,9 +258,10 @@
                 if (response.data.result.IsSuccess == true) {
                     var list = response.data.result.Data;
                     var batchClaims = BatchEditService.getBatchClaims();
+                    console.log(batchClaims);
 
-                    for (var i = (list.length - 1), n = 0; i >= n; i--) {
-                        for (var k = 0, o = batchClaims.length; k < o; k++) {
+                    for (var k = 0, o = batchClaims.length; k < o; k++) {
+                        for (var i = (list.length - 1), n = 0; i >= n; i--) {
                             if (list[i].Id == batchClaims[k].Id) {
                                 list.splice(i, 1);
                             }
@@ -263,6 +286,12 @@
             BatchEditService.addClaimToBatch(index);
         };
 
+        _this.addAllToBatch = function () {
+            for (var i = _this.searchResults.length - 1, n=0; i >= n; i--) {
+                BatchEditService.addClaimToBatch(i);
+            }
+        };
+
         _this.hideBatchClaims = function () {
             BatchEditService.hideBatchClaimsFromSearch();
         };
@@ -273,6 +302,8 @@
 
             _this.searchResults = BatchEditService.getSearchResults();
             console.log(_this.searchResults);
+
+            UIService.applyDatePickers();
         };
 
         _this.init();

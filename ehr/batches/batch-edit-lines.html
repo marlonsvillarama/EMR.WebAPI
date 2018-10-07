@@ -28,6 +28,11 @@
                         Provider
                     </th>
                     <th class="col-sm-1 ehr-table-actions text-right">
+                        <button type="button"
+                                ng-if="bLineCtrl.claims.length > 0"
+                                ng-click="bLineCtrl.removeAllClaims()">
+                            <i class="fa fa-times"></i>
+                        </button>
                     </th>
                 </tr>
 

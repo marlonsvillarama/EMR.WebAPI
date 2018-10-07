@@ -27,6 +27,13 @@
             return ~~((Date.now() - dt) / (31557600000));
         };
 
+        service.getDateParam = function (dt) {
+            var dt = new Date(dt);
+            return service.padLeft(dt.getDate(), 2, '0') +
+                service.padLeft((dt.getMonth() + 1), 2, '0') +
+                dt.getFullYear();
+        };
+
         service.parseDate = function (str) {
             var dt = '';
             var output = '';

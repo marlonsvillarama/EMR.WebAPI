@@ -14,6 +14,12 @@ namespace EMR.WebAPI.ehr.models
     
     public partial class Facility
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Facility()
+        {
+            this.BillUnder = "1";
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
@@ -34,5 +40,6 @@ namespace EMR.WebAPI.ehr.models
         public string PaytoState { get; set; }
         public string PaytoZip { get; set; }
         public string ContactName { get; set; }
+        public string BillUnder { get; set; }
     }
 }
