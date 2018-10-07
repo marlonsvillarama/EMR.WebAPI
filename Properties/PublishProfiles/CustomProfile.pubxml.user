@@ -97,16 +97,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2018 09:27:44</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>10/07/2018 02:51:21</publishTime>
+      <publishTime>10/08/2018 05:25:50</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>10/07/2018 02:51:21</publishTime>
+      <publishTime>10/08/2018 05:25:50</publishTime>
     </File>
     <File Include="bin/EMR.WebAPI.dll">
-      <publishTime>10/07/2018 02:51:15</publishTime>
+      <publishTime>10/08/2018 05:25:44</publishTime>
     </File>
     <File Include="bin/EMR.WebAPI.pdb">
-      <publishTime>10/07/2018 02:51:15</publishTime>
+      <publishTime>10/08/2018 05:25:44</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/03/2015 01:32:26</publishTime>
@@ -682,7 +682,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/23/2018 08:53:58</publishTime>
     </File>
     <File Include="ehr/setup/ehr.setup.controller.js">
-      <publishTime>10/05/2018 13:42:18</publishTime>
+      <publishTime>10/07/2018 04:47:32</publishTime>
     </File>
     <File Include="ehr/setup/ehr.setup.service.js">
       <publishTime>10/05/2018 13:30:56</publishTime>
@@ -694,13 +694,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/05/2018 13:19:43</publishTime>
     </File>
     <File Include="ehr/setup/setup-facility-edit.html">
-      <publishTime>09/17/2018 09:03:17</publishTime>
+      <publishTime>10/08/2018 05:02:52</publishTime>
     </File>
     <File Include="ehr/setup/setup-group-edit.html">
-      <publishTime>10/02/2018 13:15:56</publishTime>
+      <publishTime>10/07/2018 04:53:03</publishTime>
     </File>
     <File Include="ehr/setup/setup-groups.html">
-      <publishTime>10/05/2018 13:18:00</publishTime>
+      <publishTime>10/07/2018 04:47:27</publishTime>
     </File>
     <File Include="ehr/setup/setup-provider-edit.html">
       <publishTime>10/03/2018 11:48:35</publishTime>
@@ -709,7 +709,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/05/2018 13:16:59</publishTime>
     </File>
     <File Include="ehr/setup/setup.html">
-      <publishTime>10/05/2018 13:42:30</publishTime>
+      <publishTime>10/07/2018 04:47:29</publishTime>
     </File>
     <File Include="ehr/shared/js/ehr.shared.modal.controller.js">
       <publishTime>09/24/2018 06:10:11</publishTime>
@@ -844,7 +844,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/28/2018 10:07:30</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>10/07/2018 02:51:16</publishTime>
+      <publishTime>10/08/2018 05:25:45</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>07/22/2018 09:27:44</publishTime>
@@ -892,7 +892,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2018 09:27:44</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/07/2018 02:18:48</publishTime>
+      <publishTime>10/08/2018 05:25:44</publishTime>
     </File>
   </ItemGroup>
 </Project>

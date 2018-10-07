@@ -377,6 +377,7 @@
     <Property Name="PaytoState" Type="nvarchar(max)" Nullable="true" />
     <Property Name="PaytoZip" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ContactName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BillUnder" Type="nvarchar(max)" Nullable="true" DefaultValue="1" />
   </EntityType>
   <EntityType Name="ICDCodes">
     <Key>
@@ -1816,6 +1817,7 @@
           <Property Name="PaytoState" Type="String" />
           <Property Name="PaytoZip" Type="String" />
           <Property Name="ContactName" Type="String" />
+          <Property Name="BillUnder" Type="String" DefaultValue="1" />
         </EntityType>
         <EntityType Name="ICDCode">
           <Key>
@@ -3122,6 +3124,7 @@
           <ScalarProperty Name="PaytoState" ColumnName="PaytoState" />
           <ScalarProperty Name="PaytoZip" ColumnName="PaytoZip" />
           <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="BillUnder" ColumnName="BillUnder" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

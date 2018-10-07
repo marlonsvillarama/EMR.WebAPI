@@ -400,6 +400,7 @@
     <Compile Include="ehr\services\PosServiceController.cs" />
     <Compile Include="ehr\services\ProvidersServiceController.cs" />
     <Compile Include="ehr\services\ReportServiceController.cs" />
+    <Compile Include="ehr\services\ScheduleServiceController.cs" />
     <Compile Include="ehr\services\SubscriberServiceController.cs" />
     <Compile Include="ehr\services\USState.cs" />
     <Compile Include="ehr\services\ListServiceController.cs" />

@@ -25,11 +25,6 @@
             }
         });
 
-        $stateProvider.state('setup.billing', {
-            templateUrl: '/ehr/setup/setup-billing.html',
-            controller: 'ehrSetupBillingController as sBillCtrl'
-        });
-
         $stateProvider.state('setup.facilities', {
             controller: 'ehrSetupFacilitiesController as sFacCtrl'
         });
@@ -52,16 +47,16 @@
             }
         });
 
-        $stateProvider.state('setup.groups', {
+        $stateProvider.state('setup.billing', {
             controller: 'ehrSetupGroupsController as sGrpCtrl'
         });
 
-        $stateProvider.state('setup.groups.list', {
+        $stateProvider.state('setup.billing.list', {
             templateUrl: '/ehr/setup/setup-groups.html',
             controller: 'ehrSetupGroupsController as sGrpCtrl'
         });
 
-        $stateProvider.state('setup.groups.edit', {
+        $stateProvider.state('setup.billing.edit', {
             templateUrl: '/ehr/setup/setup-group-edit.html',
             controller: 'ehrSetupEditGroupController as sEditGrpCtrl',
             resolve: {
@@ -425,7 +420,7 @@
         _this.editGrp = function (id) {
             UIService.log('editGrp: ' + id);
             SetupService.setCurrentId('group', id);
-            $state.go('setup.groups.edit');
+            $state.go('setup.billing.edit');
         };
 
         _this.search = function () {
@@ -447,7 +442,7 @@
             UIService.log('fire ehrSetupGroupsController');
 
             _this.search();
-            $state.go('setup.groups.list');
+            $state.go('setup.billing.list');
         };
 
         _this.init();
@@ -514,12 +509,12 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
-                        $state.go('setup.groups.list');
+                        $state.go('setup.billing.list');
                     }
                     else if (actionType == 'create') {
                         alert('Group successfully created!');
                         SetupService.setCurrentId('group', resData);
-                        $state.go('setup.groups.edit', { id: resData });
+                        $state.go('setup.billing.edit', { id: resData });
                     }
                 }
             });
@@ -527,7 +522,7 @@
 
         _this.cancelEdit = function () {
             if (confirm('Any unsaved changes will be lost. Are you sure?')) {
-                $state.go('setup.groups.list');
+                $state.go('setup.billing.list');
             }
         };
 

@@ -910,10 +910,17 @@ namespace EMR.WebAPI.ehr.services
                 map[pre + "npi"] = claim.RenderingProvider.NPI;
             }
 
+            /*
             map["25"] = String.IsNullOrEmpty(claim.RenderingProvider.EIN) == true ?
                 claim.RenderingProvider.SSN : claim.RenderingProvider.EIN;
-            map["25-ssn"] = String.IsNullOrEmpty(claim.RenderingProvider.SSN) == true ? "" : "X";
             map["25-ein"] = String.IsNullOrEmpty(claim.RenderingProvider.EIN) == true ? "" : "X";
+            map["25-ssn"] = String.IsNullOrEmpty(claim.RenderingProvider.SSN) == true ? "" : "X";
+            */
+
+            map["25"] = claim.Facility.BillUnder == "1" ?
+                claim.Facility.TaxId : claim.RenderingProvider.SSN;
+            map["25-ein"] = claim.Facility.BillUnder == "1" ? "X" : "";
+            map["25-ssn"] = claim.Facility.BillUnder == "2" ? "X" : "";
 
             map["27-yes"] = claim.AcceptAssignment != "C" ? "X" : "";
             map["27-no"] = claim.AcceptAssignment == "C" ? "X" : "";
