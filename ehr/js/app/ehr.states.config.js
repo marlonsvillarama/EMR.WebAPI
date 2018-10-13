@@ -256,6 +256,14 @@
             }
         });
 
+        // Schedule
+        $stateProvider.state({
+            name: 'schedule',
+            url: '/schedule',
+            templateUrl: AppConfig.EHRBase + 'schedule/schedule.html',
+            controller: 'ehrScheduleController as schedCtrl'
+        });
+
         function prepareSingleEntity(response) {
             var result = {};
 

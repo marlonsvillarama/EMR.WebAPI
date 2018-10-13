@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/03/2018 11:30:03
+-- Date Created: 10/14/2018 03:25:09
 -- Generated from EDMX file: D:\DEV\PROJECTS\git\EMR.WebAPI\ehr\models\ehr.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [HK_MASTER];
+USE [HK_FastCare];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -453,7 +453,8 @@ CREATE TABLE [dbo].[Facilities] (
     [PaytoCity] nvarchar(max)  NULL,
     [PaytoState] nvarchar(max)  NULL,
     [PaytoZip] nvarchar(max)  NULL,
-    [ContactName] nvarchar(max)  NULL
+    [ContactName] nvarchar(max)  NULL,
+    [BillUnder] nvarchar(max)  NULL
 );
 GO
 

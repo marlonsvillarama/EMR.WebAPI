@@ -160,9 +160,11 @@ namespace EMR.WebAPI.ehr.services
 
             try
             {
+                bool isUpdate = provider.Id > 0;
                 EHRDB db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                if (provider.Id > 0)
+
+                if (isUpdate == true)
                 {
                     p = db.Providers.Find(provider.Id);
                 }
@@ -193,11 +195,50 @@ namespace EMR.WebAPI.ehr.services
                 p.City = provider.City;
                 p.State = provider.State;
                 p.Zip = provider.Zip;
+                p.IsCompany = provider.IsCompany;
 
-                if (p.Id <= 0)
+                List<Provider> provs;
+                List<PayTo> rpPT;
+                PayTo pt;
+
+                if (isUpdate == false)
                 {
-                    p.IsCompany = provider.IsCompany;
                     db.Providers.Add(p);
+                    db.SaveChanges();
+                }
+
+                provs = db.Providers.Where(x => x.IsCompany == (p.IsCompany == true ? false : true)).ToList();
+
+                int bpId, rpId;
+
+                foreach (Provider rp in provs)
+                {
+                    pt = new PayTo();
+
+                    bpId = p.IsCompany == true ? p.Id : rp.Id;
+                    rpId = p.IsCompany == true ? rp.Id : p.Id;
+
+                    rpPT = db.PayToes.Where(y =>
+                                y.BillingProviderId == bpId &&
+                                y.RenderingProviderId == rpId)
+                            .ToList();
+
+                    if (rpPT.Count > 0)
+                    {
+                        continue;
+                    }
+
+                    pt.BillingProviderId = bpId;
+                    pt.RenderingProviderId = rpId;
+                    pt.IsCompany = true;
+                    pt.Name = p.LastName;
+                    pt.Address_1 = p.Address_1;
+                    pt.Address_2 = p.Address_2;
+                    pt.City = p.City;
+                    pt.State = p.State;
+                    pt.Zip = p.Zip;
+
+                    db.PayToes.Add(pt);
                 }
 
                 db.SaveChanges();

@@ -186,13 +186,12 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
-                        $state.go('setup.providers.list');
                     }
                     else if (actionType == 'create') {
                         alert('Provider successfully created!');
                         SetupService.setCurrentId('provider', resData);
-                        $state.go('setup.providers.edit');
                     }
+                    $state.go('setup.providers.list');
                 }
             });
         };
@@ -383,13 +382,12 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
-                        $state.go('setup.facilities.list');
                     }
                     else if (actionType == 'create') {
                         alert('Facility successfully created!');
                         SetupService.setCurrentId('facility', resData);
-                        $state.go('setup.facilities.edit');
                     }
+                    $state.go('setup.facilities.list');
                 }
             });
         };
@@ -509,13 +507,12 @@
                     _this.savingForm = false;
                     if (actionType == 'update') {
                         alert('Changes successfully saved!');
-                        $state.go('setup.billing.list');
                     }
                     else if (actionType == 'create') {
                         alert('Group successfully created!');
                         SetupService.setCurrentId('group', resData);
-                        $state.go('setup.billing.edit', { id: resData });
                     }
+                    $state.go('setup.billing.list');
                 }
             });
         };

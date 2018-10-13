@@ -613,3 +613,15 @@ ul.subtab-nav li a:hover {
 .ehr-modal {
     width: 900px;
 }
+
+/* MAP */
+#ehr-map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+
+

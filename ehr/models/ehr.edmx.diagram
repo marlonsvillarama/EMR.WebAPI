@@ -28,7 +28,11 @@
         <AssociationConnector Association="EMR.WebAPI.ehr.models.ClaimLineRefClaimLine" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.ClaimLineSupplemental" Width="1.75" PointX="28.125" PointY="40.375" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.ClaimLineDrug" Width="1.5" PointX="11.75" PointY="40.375" />
-        <AssociationConnector Association="EMR.WebAPI.ehr.models.ClaimLineDrugClaimLine" />
+        <AssociationConnector Association="EMR.WebAPI.ehr.models.ClaimLineDrugClaimLine" ManuallyRouted="true" >
+          <ConnectorPoint PointX="12.5" PointY="40.375" />
+          <ConnectorPoint PointX="12.5" PointY="33.4157030664062" />
+          <ConnectorPoint PointX="10.875" PointY="33.4157030664062" />
+        </AssociationConnector>
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.ClaimLineAttachment" Width="1.5" PointX="2.625" PointY="40.375" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.ClaimLineAttachmentClaimLine" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.ClaimLineDurable" Width="1.5" PointX="14" PointY="40.375" />
