@@ -22,10 +22,31 @@ namespace EMR.WebAPI.ehr.services
                 EHRDB db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
                 List<Claim> claims = db.Claims.ToList();
+                Dictionary<string, Claim> dictClaims = new Dictionary<string, Claim>();
+                ClaimViewModel cvm;
+                string fl;
 
-                foreach(Claim c in claims)
+                foreach (Claim c in claims)
                 {
-                    vmList.Add(new ClaimViewModel(c));
+                    cvm = new ClaimViewModel(c);
+                    fl = cvm.FirstName + " " + cvm.LastName;
+
+                    if (dictClaims.ContainsKey(fl))
+                    {
+                        if (dictClaims[fl].Id > c.Id)
+                        {
+                            dictClaims[fl] = c;
+                        }
+                    }
+                    else
+                    {
+                        dictClaims.Add(fl, c);
+                    }
+                }
+
+                foreach (string key in dictClaims.Keys)
+                {
+                    vmList.Add(new ClaimViewModel(dictClaims[key]));
                 }
 
                 status = new ServiceRequestStatus
@@ -112,6 +133,19 @@ namespace EMR.WebAPI.ehr.services
                 {
                     claim.Payment = new Payment();
                     claim.Payment.ErrorCode = new ErrorCode();
+                }
+
+                foreach(ClaimLine line in claim.ClaimLines)
+                {
+                    if (line.Supplemental == null)
+                    {
+                        line.Supplemental = new ClaimLineSupplemental();
+                    }
+
+                    if (line.Drug == null)
+                    {
+                        line.Drug = new ClaimLineDrug();
+                    }
                 }
 
                 status = new ServiceRequestStatus
@@ -246,6 +280,7 @@ namespace EMR.WebAPI.ehr.services
                     };
                 }
 
+                #region Body Fields
                 c.AcceptAssignment = claim.AcceptAssignment;
                 c.AmountBalance = claim.AmountBalance;
                 c.AmountCopay = claim.AmountCopay;
@@ -277,7 +312,9 @@ namespace EMR.WebAPI.ehr.services
                 c.Notes = claim.Notes;
                 c.HomeBound = claim.HomeBound;
                 c.ClaimPayerType = claim.ClaimPayerType;
+                #endregion
 
+                #region Claim Lines
                 ClaimLine[] lines1, lines2;
                 lines1 = c.ClaimLines.ToArray();
                 lines2 = claim.ClaimLines.ToArray();
@@ -303,7 +340,67 @@ namespace EMR.WebAPI.ehr.services
                         lines1[i].Pointer = foundLines[0].Pointer;
                         lines1[i].Quantity = foundLines[0].Quantity;
                         lines1[i].StartDate = foundLines[0].StartDate;
-                        lines1[i].Unit = foundLines[0].Unit; 
+                        lines1[i].Unit = foundLines[0].Unit;
+
+                        #region Update claim line drug info
+                        ClaimLineDrug drug, dr;
+                        dr = foundLines[0].Drug;
+
+                        if (lines1[i].Drug == null)
+                        {
+                            if (String.IsNullOrEmpty(dr.Code) == false ||
+                                String.IsNullOrEmpty(dr.Qualifier) == false ||
+                                String.IsNullOrEmpty(dr.Unit) == false)
+                            {
+                                drug = new ClaimLineDrug
+                                {
+                                    //ClaimLine = lines1[i],
+                                    Code = dr.Code,
+                                    Qualifier = dr.Qualifier,
+                                    Quantity = dr.Quantity,
+                                    Unit = dr.Unit
+                                };
+                                //db.ClaimLineDrugs.Add(drug);
+                                //db.SaveChanges();
+
+                                lines1[i].Drug = drug;
+                            }
+                        }
+                        else
+                        {
+                            lines1[i].Drug.Code = dr.Code;
+                            lines1[i].Drug.Qualifier = dr.Qualifier;
+                            lines1[i].Drug.Quantity = dr.Quantity;
+                            lines1[i].Drug.Unit = dr.Unit;
+                        }
+                        #endregion
+
+                        #region Supplemental Info
+                        ClaimLineSupplemental supp, su;
+                        su = foundLines[0].Supplemental;
+
+                        if (lines1[i].Supplemental == null)
+                        {
+                            if (String.IsNullOrEmpty(su.NoteDescription) == false)
+                            {
+                                supp = new ClaimLineSupplemental
+                                {
+                                    //ClaimLine = lines1[i],
+                                    NoteDescription = su.NoteDescription
+                                };
+                                //db.ClaimLineSupplementals.Add(supp);
+                                //db.SaveChanges();
+
+                                lines1[i].Supplemental = supp;
+                            }
+                        }
+                        else
+                        {
+                            lines1[i].Supplemental.NoteDescription = su.NoteDescription;
+                        }
+                        #endregion
+
+
                     }
                     else
                     {
@@ -319,6 +416,7 @@ namespace EMR.WebAPI.ehr.services
                     //l.ClaimId = c.Id;
                     c.ClaimLines.Add(l);
                 }
+                #endregion
 
                 if (c.Id <= 0)
                 {
@@ -414,10 +512,41 @@ namespace EMR.WebAPI.ehr.services
                     }
 
                     claims = claims.OrderBy(c => c.PrimarySubscriber.LastName).ToList();
+
+                    /*
                     foreach (Claim c in claims)
                     {
                         vmList.Add(new ClaimViewModel(c));
                     }
+                    */
+
+                    Dictionary<string, Claim> dictClaims = new Dictionary<string, Claim>();
+                    ClaimViewModel cvm;
+                    string fl;
+
+                    foreach (Claim c in claims)
+                    {
+                        cvm = new ClaimViewModel(c);
+                        fl = cvm.FirstName + " " + cvm.LastName;
+
+                        if (dictClaims.ContainsKey(fl))
+                        {
+                            if (dictClaims[fl].Id < c.Id)
+                            {
+                                dictClaims[fl] = c;
+                            }
+                        }
+                        else
+                        {
+                            dictClaims.Add(fl, c);
+                        }
+                    }
+
+                    foreach (string key in dictClaims.Keys)
+                    {
+                        vmList.Add(new ClaimViewModel(dictClaims[key]));
+                    }
+
                 }
 
                 status = new ServiceRequestStatus

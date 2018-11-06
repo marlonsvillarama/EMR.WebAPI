@@ -226,6 +226,8 @@ namespace EMR.WebAPI.ehr.services
                     { "18-ddto", new Rectangle(536, 376, 550, 10) },
                     { "18-yyto", new Rectangle(566, 376, 580, 10) },
 
+                    { "19", new Rectangle( 45, 351, 345, 10) },
+
                     { "20-yes", new Rectangle(393, 352, 406, 10) },
                     { "20-no", new Rectangle(430, 352, 442, 10) },
                     { "20-ch1", new Rectangle(470, 351, 530, 10) },
@@ -500,6 +502,8 @@ namespace EMR.WebAPI.ehr.services
                 "18-mmto",
                 "18-ddto",
                 "18-yyto",
+
+                "19",
 
                 "20-yes",
                 "20-no",
@@ -824,8 +828,6 @@ namespace EMR.WebAPI.ehr.services
                     map["16-yyto"] = dt.Year.ToString();
                 }
 
-                // #17 REFERRING PROVIDER - NOT YET IMPLEMENTED
-
                 dt = GetDateTimeValue(claim.Dates.Admission);
                 if (dt != null)
                 {
@@ -842,6 +844,11 @@ namespace EMR.WebAPI.ehr.services
                     map["18-yyto"] = dt.Year.ToString();
                 }
             }
+
+            // #17 REFERRING PROVIDER - NOT YET IMPLEMENTED
+            map["17"] = "PHYSICIAN, REFERRING";
+
+            map["19"] = "ADDITIONAL CLAIM INFORMATION";
 
             map["20-yes"] = claim.OutsideLab == true ? "X" : "";
 
@@ -1132,20 +1139,11 @@ namespace EMR.WebAPI.ehr.services
             return apiParams;
         }
 
-        // REPORTS ENTRY POINT
-        [HttpGet]
-        [Route("api/report/{dbname}/{parms}")]
-        public HttpResponseMessage GetReport(string dbname, string parms)
+        private HttpResponseMessage GetFileForSubmission(EHRDB db, ApiReportParams apiParms, string dbname)
         {
-            ApiReportParams apiParms = GetApiParams(parms);
-
             HttpResponseMessage msg = new HttpResponseMessage();
-            EHRDB db = new EHRDB();
-            db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-
-            Batch batch = null;
             List<Claim> claims = new List<Claim>();
-
+            Batch batch = null;
 
             if (apiParms.BatchId > 0)
             {
@@ -1177,6 +1175,35 @@ namespace EMR.WebAPI.ehr.services
                 case "X837":
                     msg = CreateX837(claims, batch, db.PayToes.ToList(), dbname);
                     break;
+            }
+
+            return msg;
+        }
+
+        // REPORTS ENTRY POINT
+        [HttpGet]
+        [Route("api/generate/{dbname}/{parms}")]
+        public HttpResponseMessage GenerateFile(string dbname, string parms)
+        {
+            ApiReportParams apiParms = GetApiParams(parms);
+
+            List<Claim> claims = new List<Claim>();
+            HttpResponseMessage msg = new HttpResponseMessage();
+            EHRDB db = new EHRDB();
+            db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+
+            switch (apiParms.Type)
+            {
+                case "CMS":
+                case "X837":
+                    {
+                        msg = GetFileForSubmission(db, apiParms, dbname);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
             }
 
             return msg;

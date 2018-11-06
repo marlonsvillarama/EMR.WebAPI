@@ -59,8 +59,10 @@
                         First Name
                     </th>
                     <th class="col-sm-1-5">
-                        Service Date
+                        Date of Birth
                     </th>
+                    <th class="col-sm-6"></th>
+                    <!--
                     <th class="col-sm-2-5">
                         Provider
                     </th>
@@ -70,6 +72,7 @@
                     <th class="col-sm-1">
                         Amount ($)
                     </th>
+                    -->
                     <th class="col-sm-0-5">
                     </th>
                 </tr>
@@ -92,8 +95,10 @@
                         <span>{{c.FirstName}}</span>
                     </td>
                     <td class="col-sm-1-5">
-                        <span>{{c.DateOfService}}</span>
+                        <span>{{c.DateOfBirth}}</span>
                     </td>
+                    <td class="col-sm-6">&nbsp;</td>
+                    <!--
                     <td class="col-sm-2-5">
                         <span>{{c.Provider}}</span>
                     </td>
@@ -103,6 +108,7 @@
                     <td class="col-sm-1">
                         <span>{{c.AmountTotal}}</span>
                     </td>
+                    -->
                     <td class="col-sm-0-5 ehr-table-actions">
                         <a href="#" title="Edit this claim"
                            ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })">

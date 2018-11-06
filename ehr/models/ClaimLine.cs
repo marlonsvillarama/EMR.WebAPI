@@ -44,6 +44,8 @@ namespace EMR.WebAPI.ehr.models
         public Nullable<bool> CopayExempt { get; set; }
         public string DocumentType { get; set; }
         public Nullable<int> ClaimId { get; set; }
+        public string AnesStart { get; set; }
+        public string AnesEnd { get; set; }
     
         public virtual ClaimLineDate Dates { get; set; }
         public virtual ClaimLineReference Reference { get; set; }

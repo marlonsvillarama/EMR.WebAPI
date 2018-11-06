@@ -533,22 +533,10 @@
                         </tr>
 
                         <!-- Claim line repeater -->
-                        <tr ng-repeat="line in clmLinesCtrl.claim.ClaimLines">
+                        <tr ng-repeat="line in clmLinesCtrl.claim.ClaimLines" ng-class="$index % 2 == 0 && 'ehr-table-row' || 'ehr-table-row even'">
                             <td colspan="13">
                                 <table cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
-                                        <td class="ehr-table-row even" colspan="13">
-                                            <table class="col-sm-12">
-                                                <tr>
-                                                    <td>
-                                                        {{line.Id}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <strong>Line Note</strong>: <input type="text" class="ehr-fld-text" ng-model="line.Supplemental.NoteDescription" />
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr class="ehr-table-row">
                                         <td class="col-sm-1">
                                             <input type="text" class="ehr-line-input" disabled
                                                    ng-model="line.StartDate" />
@@ -612,6 +600,41 @@
                                                     ng-click="clmLinesCtrl.removeClaimLine($index)">
                                                 <i class="fa fa-times"></i>
                                             </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="13">
+                                            <div class="col-sm-1">&nbsp;</div>
+                                            <div class="col-sm-3">
+                                                <strong>Line Note</strong><input type="text" class="ehr-line-input" ng-model="line.Supplemental.NoteDescription" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <strong>Anes Start</strong><input type="text" class="ehr-line-input" ng-model="line.AnesStart" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <strong>Anes End</strong><input type="text" class="ehr-line-input" ng-model="line.AnesEnd" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <strong>NDC Qual</strong><select class="ehr-line-input" ng-model="line.Drug.Qualifier">
+                                                    <option value=""></option>
+                                                    <option value="EN">EN</option>
+                                                    <option value="EO">EO</option>
+                                                    <option value="HI">HI</option>
+                                                    <option value="N4">N4</option>
+                                                    <option value="ON">ON</option>
+                                                    <option value="UK">UK</option>
+                                                    <option value="UP">UP</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <strong>NDC Code</strong><input type="text" class="ehr-line-input" ng-model="line.Drug.Code" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <strong>NDC Qty</strong><input type="text" class="ehr-line-input" ng-model="line.Drug.Quantity" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <strong>NDC Unit</strong><input type="text" class="ehr-line-input" ng-model="line.Drug.Unit" />
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>

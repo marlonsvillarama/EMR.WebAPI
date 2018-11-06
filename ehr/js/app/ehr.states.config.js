@@ -211,6 +211,24 @@
             }
         });
 
+        // Reports
+        $stateProvider.state({
+            name: 'reports',
+            url: "/reports",
+            templateUrl: AppConfig.EHRBase + 'reports/reports.html',
+            controller: 'ehrReportController as reportsCtrl'//,
+            /*
+            resolve: {
+                entityList: ['ApiService', function (ApiService) {
+                    var resp = ApiService.getEntityList('Batches', 'batch');
+                    return resp.then(function (response) {
+                        return ApiService.prepareResponse(response);
+                    });
+                }]
+            }
+            */
+        });
+
         // Setup
         $stateProvider.state({
             name: 'setup',

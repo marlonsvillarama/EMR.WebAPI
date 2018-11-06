@@ -29,6 +29,11 @@ namespace EMR.WebAPI.ehr.models
             get => c.PrimarySubscriber.LastName;
         }
 
+        public string DateOfBirth
+        {
+            get => c.PrimarySubscriber.DateOfBirth.Value.ToString("M/d/yyyy");
+        }
+
         public string SubscriberName
         {
             get => c.PrimarySubscriber.LastName + ", " + c.PrimarySubscriber.FirstName;

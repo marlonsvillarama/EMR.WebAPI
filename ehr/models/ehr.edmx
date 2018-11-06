@@ -291,6 +291,8 @@
     <Property Name="CopayExempt" Type="bit" Nullable="true" DefaultValue="false" />
     <Property Name="DocumentType" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
     <Property Name="ClaimId" Type="int" Nullable="true" />
+    <Property Name="AnesStart" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AnesEnd" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Claims">
     <Key>
@@ -1721,6 +1723,8 @@
           <NavigationProperty Name="Supplemental" Relationship="EMR.WebAPI.ehr.models.ClaimLineSupplementalClaimLine" FromRole="ClaimLine" ToRole="ClaimLineSupplemental" />
           <Property Name="ClaimId" Type="Int32" />
           <NavigationProperty Name="DMERC" Relationship="EMR.WebAPI.ehr.models.ClaimLineClaimLineDMERC" FromRole="ClaimLine" ToRole="ClaimLineDMERC" />
+          <Property Name="AnesStart" Type="String" />
+          <Property Name="AnesEnd" Type="String" />
           </EntityType>
         <EntityType Name="Claim">
           <Key>
@@ -3046,6 +3050,8 @@
           <ScalarProperty Name="CopayExempt" ColumnName="CopayExempt" />
           <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
           <ScalarProperty Name="ClaimId" ColumnName="ClaimId" />
+          <ScalarProperty Name="AnesStart" ColumnName="AnesStart" />
+          <ScalarProperty Name="AnesEnd" ColumnName="AnesEnd" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
