@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -52,23 +52,41 @@ namespace EMR.WebAPI.ehr.services
         {
             ServiceRequestStatus status;
             List<SubscriberViewModel> vmList = new List<SubscriberViewModel>();
+            int resultsCount = 0;
 
             try
             {
                 EHRDB db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                string fn, ln, dob, dtStr;
-                DateTime dt;
-                string[] vals = parms.Split(new[] { '|' });
+                
+                //string ln, dob, dtStr;
+                //DateTime dt;
+                //string[] vals = parms.Split(new[] { '|' });
+                //ln = vals.Length > 0 ? vals[0] : "";
+                //dob = vals.Length > 1 ? vals[1] : "";
 
-                //fn = vals.Length > 0 ? vals[0] : "";
-                ln = vals.Length > 0 ? vals[0] : "";
-                dob = vals.Length > 1 ? vals[1] : "";
+                List<Subscriber> subscribers = new List<Subscriber>();
+                SearchFilter filters = new SearchFilter(parms);
 
-                List<Subscriber> subscribers = db.Subscribers.Where(s =>
-                                       s.LastName.StartsWith(ln)).ToList();
-                //s.FirstName.StartsWith(fn) &&
+                // Filter by Last Name
+                if (String.IsNullOrEmpty(filters.LastName) == true)
+                {
+                    subscribers = db.Subscribers.ToList();
+                }
+                else
+                {
+                    subscribers = db.Subscribers.Where(s =>
+                                       s.LastName.StartsWith(filters.LastName)).ToList();
+                }
 
+                // Filter by Date of Birth
+                if (filters.DateOfBirth != null)
+                {
+                    subscribers = subscribers.Where(s => filters.DateOfBirth.Value <= s.DateOfBirth &&
+                                                        s.DateOfBirth < filters.DateOfBirth.Value.AddDays(1)).ToList();
+                }
+
+                /*
                 if (String.IsNullOrEmpty(dob) == false)
                 {
                     dtStr = dob.Substring(0, 2) + "/" +
@@ -77,8 +95,21 @@ namespace EMR.WebAPI.ehr.services
 
                     subscribers = subscribers.Where(s => dt <= s.DateOfBirth && s.DateOfBirth < dt.AddDays(1)).ToList();
                 }
+                */
 
-                subscribers = subscribers.OrderBy(x => x.LastName).ToList();
+                subscribers = subscribers.OrderBy(x => x.LastName.ToUpper())
+                    .ThenBy(x => x.FirstName.ToUpper())
+                    .ToList();
+                resultsCount = subscribers.Count();
+
+                List<string> skipped = new List<string>();
+                string fl;
+                int start = (filters.PageNumber - 1) * filters.PageSize;
+                int end = (start + filters.PageSize) < resultsCount ? (start + filters.PageSize) : resultsCount;
+                int n = 0;
+
+                subscribers = subscribers.Skip(start).Take(filters.PageSize).ToList();
+
                 foreach (Subscriber sub in subscribers)
                 {
                     vmList.Add(new SubscriberViewModel(sub));
@@ -87,6 +118,7 @@ namespace EMR.WebAPI.ehr.services
                 status = new ServiceRequestStatus
                 {
                     IsSuccess = true,
+                    Count = resultsCount,
                     Data = vmList
                 };
             }

@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/14/2018 03:25:09
+-- Date Created: 11/09/2018 11:48:36
 -- Generated from EDMX file: D:\DEV\PROJECTS\git\EMR.WebAPI\ehr\models\ehr.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [HK_FastCare];
+USE [HK_MASTER];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -367,7 +367,9 @@ CREATE TABLE [dbo].[ClaimLines] (
     [FamilyPlanning] bit  NULL,
     [CopayExempt] bit  NULL,
     [DocumentType] nvarchar(max)  NULL,
-    [ClaimId] int  NULL
+    [ClaimId] int  NULL,
+    [AnesStart] nvarchar(max)  NULL,
+    [AnesEnd] nvarchar(max)  NULL
 );
 GO
 
@@ -410,6 +412,7 @@ CREATE TABLE [dbo].[Claims] (
     [SystemNoteKey] nvarchar(max)  NULL,
     [ClaimPayerType] nvarchar(max)  NULL,
     [DateModified] datetime  NULL,
+    [ReferringProviderId] int  NULL,
     [Dates_Id] int  NULL,
     [Accident_Id] int  NULL,
     [Supplemental_Id] int  NULL,
@@ -548,7 +551,8 @@ CREATE TABLE [dbo].[Providers] (
     [Zip] nvarchar(max)  NULL,
     [IsCompany] bit  NOT NULL,
     [Credential] nvarchar(max)  NULL,
-    [DateModified] datetime  NULL
+    [DateModified] datetime  NULL,
+    [IsReferrer] bit  NOT NULL
 );
 GO
 
@@ -2192,6 +2196,21 @@ GO
 CREATE INDEX [IX_FK_UserAccount_Account]
 ON [dbo].[UserAccount]
     ([Accounts_Id]);
+GO
+
+-- Creating foreign key on [ReferringProviderId] in table 'Claims'
+ALTER TABLE [dbo].[Claims]
+ADD CONSTRAINT [FK_ProviderClaim2]
+    FOREIGN KEY ([ReferringProviderId])
+    REFERENCES [dbo].[Providers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProviderClaim2'
+CREATE INDEX [IX_FK_ProviderClaim2]
+ON [dbo].[Claims]
+    ([ReferringProviderId]);
 GO
 
 -- --------------------------------------------------

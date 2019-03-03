@@ -1,0 +1,51 @@
+﻿<!-- Setup Billing page -->
+<div class="ehr-row clearfix">
+    <div class="col-sm-12">
+
+        <div class="ehr-row clearfix">
+            <table id="ehr-claim-lines" class="col-sm-12">
+
+                <!-- Facilities table headers -->
+                <tr class="ehr-table-header">
+                    <th class="col-sm-3">
+                        Billing Group
+                    </th>
+                    <th class="col-sm-3">
+                        Rendering Provider
+                    </th>
+                    <th class="col-sm-3">
+                        Billing Type
+                    </th>
+                </tr>
+
+                <!-- Search loading -->
+                <tr class="ehr-table-row" ng-if="sBillCtrl.searching == true">
+                    <td colspan="3">
+                        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                        <strong>Searching...</strong>
+                    </td>
+                </tr>
+
+                <!-- Facilities repeater -->
+                <tr class="ehr-table-row"
+                    ng-if="sBillCtrl.searching != true"
+                    ng-repeat="x in sBillCtrl.list"
+                    ng-click="sBillCtrl.editFac(x.Id)">
+                    <td class="col-sm-3">
+                        {{x.group}}
+                    </td>
+                    <td class="col-sm-3">
+                        {{x.provider}}
+                    </td>
+                    <td class="col-sm-3">
+                        <select ng-model="sBillCtrl.IsCompany">
+                            <option value="0">Bill individually</option>
+                            <option value="1">Bill under group</option>
+                        </select>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

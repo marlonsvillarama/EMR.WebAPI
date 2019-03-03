@@ -48,6 +48,30 @@
                 </div>
             </div>
 
+            <!-- Top Pager Controls -->
+            <div class="row clearfix" ng-if="subListCtrl.searched">
+                <div class="col-sm-4">
+                    <strong>Found {{subListCtrl.resultsCount}} subscribers</strong>&nbsp;
+                </div>
+                <div class="col-sm-8 text-right" ng-if="subListCtrl.searching == false">
+                    <span ng-if="subListCtrl.resultsCount > 0"><i>Showing results {{subListCtrl.startIndex}} - {{subListCtrl.endIndex}}</i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="ehr-btn-right-action"
+                            ng-if="subListCtrl.searching == false && subListCtrl.pageNum > 1"
+                            ng-click="subListCtrl.searchList(-1)">
+                        &lt; Previous
+                    </button>
+                    <button type="button" class="ehr-btn-right-action"
+                            ng-if="subListCtrl.searching == false && subListCtrl.endIndex < subListCtrl.resultsCount"
+                            ng-click="subListCtrl.searchList(1)">
+                        Next &gt;
+                    </button>
+                </div>
+                <div class="col-sm-8 text-right" ng-if="subListCtrl.searching == true">
+                    <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                    <strong>Searching...</strong>
+                </div>
+            </div>
+
             <table id="ehr-claim-lines" class="ehr-table col-sm-12">
                 <tr class="ehr-table-header">
                     <th class="col-sm-1-5">
@@ -81,7 +105,7 @@
                 </tr>
 
                 <tr class="ehr-table-row" ui-sref="subscriber-edit({ id: s.Id })"
-                     ng-if="subListCtrl.searching == false"
+                    ng-if="subListCtrl.searching == false"
                     ng-repeat="s in subListCtrl.entities">
                     <td class="col-sm-1-5">
                         <span>{{s.LastName}}</span>
@@ -111,6 +135,29 @@
                     </td>
                 </tr>
             </table>
+
+            <!-- Bottom Pager Controls -->
+            <div class="row clearfix" ng-if="subListCtrl.searched">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8 text-right" ng-if="subListCtrl.searching == false">
+                    <span ng-if="subListCtrl.resultsCount > 0"><i>Showing results {{subListCtrl.startIndex}} - {{subListCtrl.endIndex}}</i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="ehr-btn-right-action"
+                            ng-if="subListCtrl.searching == false && subListCtrl.pageNum > 1"
+                            ng-click="subListCtrl.searchList(-1)">
+                        &lt; Previous
+                    </button>
+                    <button type="button" class="ehr-btn-right-action"
+                            ng-if="subListCtrl.searching == false && subListCtrl.endIndex < subListCtrl.resultsCount"
+                            ng-click="subListCtrl.searchList(1)">
+                        Next &gt;
+                    </button>
+                </div>
+                <div class="col-sm-8 text-right" ng-if="subListCtrl.searching == true">
+                    <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                    <strong>Searching...</strong>
+                </div>
+            </div>
         </div>
     </div>
 </div>

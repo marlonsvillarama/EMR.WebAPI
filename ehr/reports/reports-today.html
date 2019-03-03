@@ -1,0 +1,71 @@
+﻿<div class="ehr-report" ng-if="reportsCtrl.execReport == true">
+    <div class="ehr-report-title"><strong>Claims Entered Today</strong> - {{reportsCtrl.today}}</div>
+    <div class="ehr-report-subtitle">
+        <span>Results found: {{reportsCtrl.entities.length}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button ng-click="reportsCtrl.getReport()">Refresh</button>
+    </div>
+
+    <div ng-if="reportsCtrl.generating == true">
+        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+        <strong>Generating report...</strong>
+    </div>
+
+    <table class="ehr-report-table col-sm-12"
+           ng-if="reportsCtrl.generating == false">
+        <tr class="ehr-report-table-header">
+            <th class="col-sm-1-5">
+                Claim ID
+            </th>
+            <th class="col-sm-2">
+                Last Name
+            </th>
+            <th class="col-sm-1-5">
+                First Name
+            </th>
+            <th class="col-sm-1-5">
+                Date of Birth
+            </th>
+            <th class="col-sm-1-5">
+                Amount ($)
+            </th>
+            <th class="col-sm-4">
+                Diagnosis
+            </th>
+            <!--
+            <th class="col-sm-0-5">
+            </th>
+            -->
+        </tr>
+
+        <tr class="ehr-report-table-row" ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })"
+            ng-repeat="c in reportsCtrl.entities"
+            ng-if="reportsCtrl.generating == false">
+            <td class="col-sm-1-5">
+                <span>{{c.Id}}</span>
+            </td>
+            <td class="col-sm-2">
+                <span>{{c.LastName}}</span>
+            </td>
+            <td class="col-sm-1-5">
+                <span>{{c.FirstName}}</span>
+            </td>
+            <td class="col-sm-1-5">
+                <span>{{c.DateOfBirth}}</span>
+            </td>
+            <td class="col-sm-1-5">
+                <span>{{c.AmountTotal}}</span>
+            </td>
+            <td class="col-sm-4">
+                <span>{{c.Diagnosis}}</span>
+            </td>
+            <!--
+            <td class="col-sm-2-5">
+                <span>{{c.Provider}}</span>
+            </td>
+            <td class="col-sm-2-5">
+                <span>{{c.Facility}}</span>
+            </td>
+            -->
+        </tr>
+    </table>
+</div>

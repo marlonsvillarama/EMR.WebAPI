@@ -170,6 +170,55 @@
             </div>
         </div>
 
+        <div class="col-sm-4">
+
+            <!-- Search Preferences -->
+            <div class="ehr-group-inner-border">
+
+                <div class="ehr-section-header">
+                    <span>Search Preferences</span>
+                </div>
+
+                <div class="ehr-row clearfix">
+                    <div class="col-sm-6">
+                        <div class="ehr-row clearfix">
+                            <label class="col-sm-12 ehr-fld-label">Results per pages</label>
+                            <div class="col-sm-12">
+                                <select class="ehr-fld-input"
+                                        ng-model="acctCtrl.pageSize">
+                                    <option value="10">10</option>
+                                    <option value="10" selected>20</option>
+                                    <option value="10">50</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="ehr-row clearfix">
+                            <div class="col-sm-12">
+                                <button type="button"
+                                        ng-if="acctCtrl.connecting == false || acctCtrl.savingPrefs == false || acctCtrl.savingSrchPrefs == false"
+                                        ng-click="acctCtrl.saveSearchPreferences()">
+                                    Save Search Preferences
+                                </button>
+                                <button type="button" disabled
+                                        ng-if="acctCtrl.connecting == true">
+                                    Retrieving
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
+                                <button type="button" disabled
+                                        ng-if="acctCtrl.savingSrchPrefs == true">
+                                    Saving
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <!--
         <div class="col-sm-6">
             <div class="ehr-group-inner-border">

@@ -121,6 +121,12 @@
             return $http.get(url);
         };
 
+        service.getBalanceBySubId = function (id) {
+            url = AppConfig.ApiBase + 'getBalanceBySubId/' + AuthService.getAccountName() + '/' + id;
+            console.log('ApiService getBalanceBySubId: ' + url);
+            return $http.get(url);
+        };
+
         service.getDependentsList = function (id) {
             url = AppConfig.ApiBase + 'getPatientsBySubscriberId/' + AuthService.getAccountName() + '/' + id;
             console.log('ApiService getDependentsList: ' + url);
@@ -185,7 +191,7 @@
         }
 
         service.printReport = function (type, batchId, claimId) {
-            url = AppConfig.ApiBase + 'report/' + AuthService.getAccountName() + '/' +
+            url = AppConfig.ApiBase + 'generate/' + AuthService.getAccountName() + '/' +
                 type + '|' +
                 (batchId ? batchId : "") + '|' +
                 (claimId ? claimId : "");
@@ -200,6 +206,13 @@
             return $http.get(url);
         };
 
+        service.getClaimReport = function (type) {
+            url = AppConfig.ApiBase + 'claimReport/' +
+                AuthService.getAccountName() + '/' + type;
+
+            console.log('ApiService getClaimReport' + url);
+            return $http.get(url);
+        };
         /*
         service.searchClaimsForBatch = function (parms) {
             url = AppConfig.ApiBase + 'searchClaims/' + AuthService.getAccountName() + '/' + parms;

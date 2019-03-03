@@ -243,6 +243,8 @@
         _this.searchClaims = function () {
             var arrParms = [
                 //_this.firstName ? _this.firstName : "",
+                "batch",
+                1, 1000,
                 _this.lastName ? _this.lastName : "",
                 "",
                 _this.dateEntered ? UIService.getDateParam(_this.dateEntered) : "",

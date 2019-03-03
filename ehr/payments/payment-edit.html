@@ -32,26 +32,27 @@
                 <!-- PATIENT/SUBSCRIBER -->
                 <div class="ehr-row clearfix" ng-controller="ehrClaimHeaderController as clmHeaderCtrl">
 
-                    <!-- CLAIM HISTORY -->
+                    <!-- CLAIM BALANCE HISTORY -->
                     <div class="col-sm-3">
                         <div class="ehr-row clearfix">
                             <div id="claim-history" class="col-sm-12 div-scrollable">
                                 <table class="ehr-small-table">
                                     <thead>
                                         <tr>
-                                            <th class="col-sm-4">Acct</th>
+                                            <th class="col-sm-2">Acct</th>
                                             <th class="col-sm-4">Date</th>
-                                            <!--<th>CPT</th>-->
-                                            <th class="col-sm-4 text-right">Payment ($)</th>
+                                            <th class="col-sm-3 text-right">Payment ($)</th>
+                                            <th class="col-sm-3 text-right">Balance ($)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="c in clmHeaderCtrl.claimHistory"
+                                        <tr ng-repeat="c in pmtEditCtrl.claimHistory"
                                             ng-class="c.id == pmtEditCtrl.claim.Id ? 'ehr-small-table-row-hilite' : ''"
                                             ng-click="pmtEditCtrl.switchClaim(c.id)">
                                             <td>{{c.acct}}</td>
                                             <td>{{c.date}}</td>
-                                            <td align="right">{{c.amt}}</td>
+                                            <td align="right">{{c.pmt}}</td>
+                                            <td align="right">{{c.balance}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -389,6 +390,9 @@
                                         <th class="col-sm-2 text-center">
                                             Deductible ($)
                                         </th>
+                                        <th class="col-sm-2 text-center">
+                                            Write-off
+                                        </th>
                                     </tr>
 
                                     <!-- Claim line repeater -->
@@ -415,6 +419,9 @@
                                             <input type="text" class="ehr-line-input text-right"
                                                    ng-blur="pmtLinesCtrl.calculateTotals()"
                                                    ng-model="pmtLinesCtrl.getPaymentLine(line.Id).AmountDeductible" />
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <input type="checkbox" class="ehr-line-input" />
                                         </td>
                                     </tr>
 

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using EMR.WebAPI.ehr.models;
 using Newtonsoft.Json;
 
 namespace EMR.WebAPI.ehr.services
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FacilitiesServiceController : ApiController
     {
         [HttpGet]

@@ -12,6 +12,8 @@ namespace EMR.WebAPI.ehr.models
             IsSuccess = status;
             Debug = "";
             Data = null;
+            Data2 = null;
+            Count = 0;
         }
 
         public ServiceRequestStatus(bool status, Object data)
@@ -19,10 +21,14 @@ namespace EMR.WebAPI.ehr.models
             IsSuccess = status;
             Debug = "";
             Data = data;
+            Data2 = null;
+            Count = 0;
         }
 
         public bool IsSuccess;
         public string Debug;
         public Object Data;
+        public Object Data2;
+        public int Count;
     }
 }

@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function () { 
     'use strict';
 
     ehrPaymentListController.$inject = ['ApiService'];
@@ -19,9 +19,10 @@
         _this.init();
     }
 
-    ehrPaymentEditController.$inject = ['$state', 'claim', 'history', 'ApiService', 'PaymentEditService', 'UIService'];
-    function ehrPaymentEditController($state, claim, history, ApiService, PaymentEditService, UIService) {
+    ehrPaymentEditController.$inject = ['$state', 'claim', 'history', 'ApiService', 'PaymentEditService', 'ClaimEditService', 'UIService'];
+    function ehrPaymentEditController($state, claim, history, ApiService, PaymentEditService, ClaimEditService, UIService) {
         var _this = this;
+        var hist;
 
         _this.switchClaim = function (id) {
             UIService.log('switchClaim: ' + id + ', ' + _this.claim.Id);
@@ -61,7 +62,7 @@
             }).then(function (response) {
                 var resSuccess = response.data.result.IsSuccess;
                 var resData = response.data.result.Data;
-                UIService.log(resData);
+                UIService.log(response.data.result);
 
                 _this.savingForm = false;
 
@@ -71,16 +72,13 @@
                     }
                     else {
                         alert('Payment successfully created!');
-                    }
-
-                    if (resData != claim.Payment.Id) {
                         UIService.log('redirecting - subscriberId: ' + claim.PrimarySubscriber.Id + ', claimId: ' + claim.Id);
-
-                        _this.payment.Id = resData;
-                        _this.initUI();
                     }
 
-                    //_this.init();
+                    $state.go('payment-edit', {
+                        subscriberId: _this.claim.PrimarySubscriber.Id,
+                        claimId: claim.Id
+                    }, { reload: true });
                 }
                 else {
                     UIService.log('exception: ' + resData.toString());
@@ -139,8 +137,8 @@
         _this.init = function () {
             UIService.log('fire ehrPaymentEditController');
             //UIService.log(payment);
-            UIService.log(claim);
-            UIService.log(history);
+            //UIService.log(claim);
+            //UIService.log(history);
 
             PaymentEditService.setClaim(claim.entityList);
             _this.claim = PaymentEditService.getClaim();
@@ -148,6 +146,13 @@
             PaymentEditService.setPayment(_this.claim.Payment);
             _this.payment = PaymentEditService.getPayment();
             UIService.log(_this.payment);
+
+            // Claim history
+            ClaimEditService.setClaimHistory(history.entityList);
+            hist = ClaimEditService.getClaimHistory();
+            console.log('Payment claim history');
+            console.log(hist);
+            _this.claimHistory = UIService.formatClaimHistory(hist);
 
             _this.errorCodes = ApiService.getList('errorcodes');
 

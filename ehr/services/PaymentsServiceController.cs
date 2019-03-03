@@ -185,7 +185,7 @@ namespace EMR.WebAPI.ehr.services
                 lines1 = p.PaymentLines.ToArray();
                 lines2 = payment.PaymentLines.ToArray();
 
-                PaymentLine l1, l2;
+                //PaymentLine l1, l2;
                 PaymentLine[] foundLines;
 
                 // Update the existing payment lines
@@ -218,16 +218,49 @@ namespace EMR.WebAPI.ehr.services
                     p.PaymentLines.Add(l);
                 }
 
+                decimal totalPmt = 0, totalCopay = 0, totalDeduct = 0, total = 0, balance = 0;
+                //for (int i = 0, n = p.PaymentLines.Count; i < n; i++)
+                foreach (PaymentLine pl in p.PaymentLines)
+                {
+                    //PaymentLine pl = p.PaymentLines[i];
+                    totalPmt += pl.AmountPayment.Value;
+                    totalCopay += pl.AmountCopay.Value;
+                    totalDeduct += pl.AmountDeductible.Value;
+                    total = totalPmt + totalCopay + totalDeduct;
+                    balance = claim.AmountTotal.Value - total;
+                }
+
+                p.AmountPayment = totalPmt;
+                p.AmountCopay = totalCopay;
+                p.AmountDeductible = totalDeduct;
+                p.AmountTotal = total;
+                p.AmountBalance = balance;
+
                 if (p.Id <= 0)
                 {
+                    //p.Id = 1;
                     db.Payments.Add(p);
                 }
 
                 db.SaveChanges();
+
+                // Retrieve claim history
+                List<ClaimHistoryViewModel> vmList = new List<ClaimHistoryViewModel>();
+                List<Claim> claims = new List<Claim>();
+                claims = db.Claims.Where(c => c.PrimarySubscriberId == claim.PrimarySubscriberId)
+                    .OrderByDescending(c => c.DateOfService)
+                    .ToList();
+
+                foreach (Claim c in claims)
+                {
+                    vmList.Add(new ClaimHistoryViewModel(c));
+                }
+
                 status = new ServiceRequestStatus
                 {
                     IsSuccess = true,
-                    Data = p.Id
+                    Data = p.Id,
+                    Data2 = vmList
                 };
             }
             catch (Exception e)

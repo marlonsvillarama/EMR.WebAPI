@@ -29,5 +29,6 @@ namespace EMR.WebAPI.ehr.models
         public Nullable<decimal> AmountCopay { get; set; }
         public Nullable<decimal> AmountDeductible { get; set; }
         public Nullable<int> PaymentId { get; set; }
+        public Nullable<bool> WriteOff { get; set; }
     }
 }

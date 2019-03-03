@@ -67,6 +67,7 @@ namespace EMR.WebAPI.ehr.models
         public string SystemNoteKey { get; set; }
         public string ClaimPayerType { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }
+        public Nullable<int> ReferringProviderId { get; set; }
     
         public virtual PlaceOfService PlaceOfService { get; set; }
         public virtual Subscriber PrimarySubscriber { get; set; }
@@ -90,5 +91,6 @@ namespace EMR.WebAPI.ehr.models
         public virtual ClaimRepricing Repricing { get; set; }
         public virtual ClaimAmount Amounts { get; set; }
         public virtual Payment Payment { get; set; }
+        public virtual Provider ReferringProvider { get; set; }
     }
 }

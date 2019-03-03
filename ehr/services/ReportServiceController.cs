@@ -53,7 +53,7 @@ namespace EMR.WebAPI.ehr.services
         }
         #endregion
 
-        #region CMS Functions
+        #region CMS-1500 HCFA Form Functions
         private HttpResponseMessage CreateCMS1500(List<Claim> claims, Batch batch, List<PayTo> payToes, string dbname)
         {
             string fileName = dlPath + "\\CMS1500-" + batch.Identifier + ".pdf";
@@ -789,7 +789,7 @@ namespace EMR.WebAPI.ehr.services
 
             // SIGNATURES
             map["12-sig"] = "SIGNATURE ON FILE";
-            dt = GetDateTimeValue(claim.DateCreated);
+            dt = GetDateTimeValue(claim.DateOfService);
             map["12-date"] = dt.ToString("MM/dd/yyyy");
             map["13-sig"] = "SIGNATURE ON FILE";
 
@@ -846,7 +846,13 @@ namespace EMR.WebAPI.ehr.services
             }
 
             // #17 REFERRING PROVIDER - NOT YET IMPLEMENTED
-            map["17"] = "PHYSICIAN, REFERRING";
+            map["17"] = "";
+            if (claim.ReferringProvider != null)
+            {
+                map["17"] = claim.ReferringProvider.LastName + ", " +
+                    claim.ReferringProvider.FirstName + ", " +
+                    claim.ReferringProvider.Credential;
+            }
 
             map["19"] = "ADDITIONAL CLAIM INFORMATION";
 
@@ -970,10 +976,180 @@ namespace EMR.WebAPI.ehr.services
 
             return map;
         }
+
+        // PENDING IMPLEM
+        private Dictionary<string, string> MapClaimToNF3(Claim claim, string dbname)
+        {
+            Dictionary<string, string> map = GetBlankCMSValues();
+            Subscriber subPrimary = claim.PrimarySubscriber;
+            Subscriber subSecondary = claim.SecondarySubscriber;
+            Patient patient = claim.Patient;
+            Provider rendering = claim.RenderingProvider;
+            Facility facility = claim.Facility;
+            DateTime dt;
+
+            // Header section
+            dt = GetDateTimeValue(claim.DateOfService);
+            map["date"] = dt.ToString("MM/dd/yyyy");
+            map["policyHolder"] = subPrimary.FirstName + " " + subPrimary.LastName;
+            map["policyNumber"] = subPrimary.PrimaryMemberID;
+
+            dt = GetDateTimeValue(claim.Accident.Date);
+            map["dateOfAccident"] = dt.ToString("MM/dd/yyyy");
+            map["claimNumber"] = claim.Id.ToString();
+
+            // Patient section
+            map["providerName"] = rendering.FirstName + " " + rendering.LastName + ", " + rendering.Credential;
+            map["providerAdd1"] = facility.Address_1;
+            map["providerAdd2"] = facility.Address_2;
+            map["providerCSZ"] = facility.City + ", " + facility.State + " " + facility.Zip;
+
+            // Patient section
+            if (claim.Relationship != "18" && patient != null)
+            {
+                map["patientName"] = patient.FirstName + " " + patient.LastName;
+                map["patientAdd1"] = patient.Address_1 + " " + patient.Address_2;
+                map["patientAdd2"] = patient.City + ", " + patient.State + " " + patient.Zip;
+
+                map["2-age"] = "";
+                map["3-sex"] = patient.Gender;
+                map["4-occ"] = "";
+                map["5-diag1"] = "";
+                map["5-diag2"] = "";
+                map["6-date"] = "";
+                map["7-date"] = "";
+                map["8-yes"] = "";
+                map["8-no"] = "";
+                map["8-desc"] = "";
+                map["9-yes"] = "";
+                map["9-no"] = "";
+                map["9-desc"] = "";
+                map["10-yes"] = "";
+                map["10-no"] = "";
+                map["11-yes"] = "";
+                map["11-no"] = "";
+                map["11-notdet"] = "";
+                map["11-ifyes"] = "";
+                map["12-from"] = "";
+                map["12-to"] = "";
+                map["13-work"] = "";
+                map["14-yes"] = "";
+                map["14-no"] = "";
+                map["14-ifyes"] = "";
+            }
+            else
+            {
+                map["patientName"] = subPrimary.FirstName + " " + subPrimary.LastName;
+                map["patientAdd1"] = subPrimary.Address_1 + " " + subPrimary.Address_2;
+                map["patientAdd2"] = subPrimary.City + ", " + subPrimary.State + " " + subPrimary.Zip;
+
+                map["2-age"] = "";
+                map["3-sex"] = patient.Gender;
+                map["4-occ"] = "";
+                map["5-diag1"] = "";
+                map["5-diag2"] = "";
+                map["6-date"] = "";
+                map["7-date"] = "";
+                map["8-yes"] = "";
+                map["8-no"] = "";
+                map["8-desc"] = "";
+                map["9-yes"] = "";
+                map["9-no"] = "";
+                map["9-desc"] = "";
+                map["10-yes"] = "";
+                map["10-no"] = "";
+                map["11-yes"] = "";
+                map["11-no"] = "";
+                map["11-notdet"] = "";
+                map["11-ifyes"] = "";
+                map["12-from"] = "";
+                map["12-to"] = "";
+                map["13-work"] = "";
+                map["14-yes"] = "";
+                map["14-no"] = "";
+                map["14-ifyes"] = "";
+            }
+
+            return map;
+        }
+        #endregion
+
+        #region NF-3 Form Functions
+        private HttpResponseMessage CreateNF3(List<Claim> claims, Batch batch, string dbname)
+        {
+            string fileName = dlPath + "\\NF3-" + batch.Identifier + ".pdf";
+
+            // OPTION: Save to File
+            FileStream fs = new FileStream(fileName, FileMode.Create);
+
+            // OPTION: Display Inline
+            MemoryStream ms = new MemoryStream();
+            Document doc = new Document(PageSize.LETTER, 0, 0, 0, 0);
+            PdfWriter pdfWriter = PdfWriter.GetInstance(doc, fs);
+
+            doc.AddAuthor("Marlon Villarama");
+            doc.AddTitle("NF-3 Form");
+            doc.Open();
+
+            // Create page 1
+            Image img1 = Image.GetInstance(imgPath + "\\nf_3_form_2009-2019-1.png");
+            img1.ScaleToFit(doc.PageSize.Width, doc.PageSize.Height);
+
+            Image img2 = Image.GetInstance(imgPath + "\\nf_3_form_2009-2019-2.png");
+            img2.ScaleToFit(doc.PageSize.Width, doc.PageSize.Height);
+
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
+            Font font = new Font(bf, 8);
+
+            PdfContentByte pcb = pdfWriter.DirectContent;
+            ColumnText ct;
+
+            for (int i = 0, n = claims.Count; i < n; i++)
+            {
+                doc.Add(new Paragraph(""));
+                doc.Add(img1);
+
+                try
+                {
+                    Dictionary<string, string> map = MapClaimToNF3(claims[i], dbname);
+                    foreach (string key in CMSCoordinates.Keys)
+                    {
+                        ct = new ColumnText(pcb);
+                        ct.SetSimpleColumn(CMSCoordinates[key]);
+                        if (String.IsNullOrEmpty(map[key]) == false)
+                        {
+                            Paragraph pg = new Paragraph(map[key].ToUpper(), font);
+                            pg.SetLeading(1.0f, 0.0f);
+                            ct.AddText(pg);
+                        }
+                        ct.Go();
+                    }
+
+                    if (i < (n - 1))
+                    {
+                        doc.NewPage();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    doc.Add(new Paragraph(ex.ToString()));
+                }
+            }
+
+            // TO-DO: Fix saving of PDF file to /ehr/downloads folder
+            doc.Close();
+            pdfWriter.Close();
+            fs.Close();
+
+            // OPTION: Provide option to both save to /ehr/downloads folder and download PDF file at the same time
+            HttpResponseMessage msg = BuildInlineMessage(fileName);//, "application/pdf");
+            //HttpResponseMessage msg = new HttpResponseMessage();
+            return msg;
+        }
         #endregion
 
         #region X837 Functions
-        private HttpResponseMessage CreateX837(List<Claim> claims, Batch batch, List<PayTo> payToes, string dbName)
+        private HttpResponseMessage CreateX837(List<Claim> claims, Batch batch, List<PayTo> payToes, string dbName, string receiver = "")
         {
             string fileName = dlPath + "\\X837-" + batch.Identifier + ".txt";
 
@@ -982,7 +1158,8 @@ namespace EMR.WebAPI.ehr.services
             {
                 Claims = claims,
                 Batch = batch,
-                PayToes = payToes
+                PayToes = payToes,
+                Receiver = receiver
             };
 
             string output;
@@ -1136,6 +1313,14 @@ namespace EMR.WebAPI.ehr.services
                 }
             }
 
+            if (sParms.Count > 5)
+            {
+                if (String.IsNullOrEmpty(sParms[5]) == false)
+                {
+                    apiParams.Receiver = sParms[5].ToUpper();
+                }
+            }
+
             return apiParams;
         }
 
@@ -1173,7 +1358,7 @@ namespace EMR.WebAPI.ehr.services
                     msg = CreateCMS1500(claims, batch, db.PayToes.ToList(), dbname);
                     break;
                 case "X837":
-                    msg = CreateX837(claims, batch, db.PayToes.ToList(), dbname);
+                    msg = CreateX837(claims, batch, db.PayToes.ToList(), dbname, apiParms.Receiver);
                     break;
             }
 
@@ -1218,6 +1403,7 @@ namespace EMR.WebAPI.ehr.services
             BatchId = -1;
             CreateBatch = false;
             CreatedById = 0;
+            Receiver = String.Empty;
         }
 
         public string Type { get; set; }
@@ -1225,5 +1411,6 @@ namespace EMR.WebAPI.ehr.services
         public string ClaimIds { get; set; }
         public bool CreateBatch { get; set; }
         public int CreatedById { get; set; }
+        public string Receiver { get; set; }
     }
 }

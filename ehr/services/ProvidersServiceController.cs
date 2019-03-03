@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using EMR.WebAPI.ehr.models;
 
 namespace EMR.WebAPI.ehr.services
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProvidersServiceController : ApiController
     {
         [HttpGet]
@@ -21,7 +23,7 @@ namespace EMR.WebAPI.ehr.services
             {
                 EHRDB db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                List<Provider> providers = db.Providers.Where(x => x.IsCompany == false).ToList();
+                List<Provider> providers = db.Providers.Where(x => x.IsCompany == false && x.IsReferrer == false).ToList();
 
                 foreach (var r in providers)
                 {
@@ -57,9 +59,45 @@ namespace EMR.WebAPI.ehr.services
             {
                 EHRDB db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                List<Provider> results = db.Providers.Where(x => x.IsCompany == true).ToList();
+                List<Provider> results = db.Providers.Where(x => x.IsCompany == true && x.IsReferrer == false).ToList();
 
                 foreach (var r in results)
+                {
+                    vmList.Add(new ProviderViewModel(r));
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = vmList
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { results = status });
+        }
+
+        [HttpGet]
+        [Route("~/api/getRefProviders/{dbname}")]
+        public IHttpActionResult GetReferringProviders(string dbname)
+        {
+            ServiceRequestStatus status;
+            List<ProviderViewModel> vmList = new List<ProviderViewModel>();
+
+            try
+            {
+                EHRDB db = new EHRDB();
+                db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+                List<Provider> providers = db.Providers.Where(x => x.IsCompany == false && x.IsReferrer == true).ToList();
+
+                foreach (var r in providers)
                 {
                     vmList.Add(new ProviderViewModel(r));
                 }
@@ -196,6 +234,7 @@ namespace EMR.WebAPI.ehr.services
                 p.State = provider.State;
                 p.Zip = provider.Zip;
                 p.IsCompany = provider.IsCompany;
+                p.IsReferrer = provider.IsReferrer;
 
                 List<Provider> provs;
                 List<PayTo> rpPT;
@@ -207,41 +246,45 @@ namespace EMR.WebAPI.ehr.services
                     db.SaveChanges();
                 }
 
-                provs = db.Providers.Where(x => x.IsCompany == (p.IsCompany == true ? false : true)).ToList();
-
-                int bpId, rpId;
-
-                foreach (Provider rp in provs)
+                if (p.IsReferrer == false)
                 {
-                    pt = new PayTo();
+                    provs = db.Providers.Where(x => x.IsCompany == (p.IsCompany == true ? false : true)).ToList();
 
-                    bpId = p.IsCompany == true ? p.Id : rp.Id;
-                    rpId = p.IsCompany == true ? rp.Id : p.Id;
+                    int bpId, rpId;
 
-                    rpPT = db.PayToes.Where(y =>
-                                y.BillingProviderId == bpId &&
-                                y.RenderingProviderId == rpId)
-                            .ToList();
-
-                    if (rpPT.Count > 0)
+                    foreach (Provider rp in provs)
                     {
-                        continue;
+                        pt = new PayTo();
+
+                        bpId = p.IsCompany == true ? p.Id : rp.Id;
+                        rpId = p.IsCompany == true ? rp.Id : p.Id;
+
+                        rpPT = db.PayToes.Where(y =>
+                                    y.BillingProviderId == bpId &&
+                                    y.RenderingProviderId == rpId)
+                                .ToList();
+
+                        if (rpPT.Count > 0)
+                        {
+                            continue;
+                        }
+
+                        pt.BillingProviderId = bpId;
+                        pt.RenderingProviderId = rpId;
+                        pt.IsCompany = true;
+                        pt.Name = p.LastName;
+                        pt.Address_1 = p.Address_1;
+                        pt.Address_2 = p.Address_2;
+                        pt.City = p.City;
+                        pt.State = p.State;
+                        pt.Zip = p.Zip;
+
+                        db.PayToes.Add(pt);
                     }
-
-                    pt.BillingProviderId = bpId;
-                    pt.RenderingProviderId = rpId;
-                    pt.IsCompany = true;
-                    pt.Name = p.LastName;
-                    pt.Address_1 = p.Address_1;
-                    pt.Address_2 = p.Address_2;
-                    pt.City = p.City;
-                    pt.State = p.State;
-                    pt.Zip = p.Zip;
-
-                    db.PayToes.Add(pt);
                 }
 
                 db.SaveChanges();
+
                 status = new ServiceRequestStatus
                 {
                     IsSuccess = true,

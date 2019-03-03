@@ -7,9 +7,24 @@
     ehrSubscriberListController.$inject = ['ApiService', 'UIService'];
     function ehrSubscriberListController(ApiService, UIService) {
         var _this = this;
+        _this.pageNum = 1;
+        _this.pageSize = 20;
 
-        _this.searchList = function () {
+        _this.searchList = function (page) {
+            if (page == '' || page == null || page == undefined) {
+                _this.pageNum = 1;
+            }
+            else {
+                _this.pageNum += page;
+
+                if (_this.pageNum < 1) {
+                    _this.pageNum = 1;
+                }
+            }
+
             var arrParms = [
+                "subscribers",
+                _this.pageNum, _this.pageSize,
                 _this.lastName ? _this.lastName : "",
                 _this.dateOfBirth ? UIService.getDateParam(_this.dateOfBirth) : ""
             ];
@@ -21,9 +36,14 @@
             ApiService.searchEntities('Subscribers', parms).then(function (response) {
                 var subs = [];
 
+                _this.searched = true;
                 _this.entities = (response.data.result.IsSuccess == true) ?
                     response.data.result.Data : [];
 
+                _this.resultsCount = response.data.result.Count;
+                _this.startIndex = ((_this.pageNum - 1) * _this.pageSize) + 1;
+                _this.endIndex = _this.resultsCount > (_this.pageNum * _this.pageSize) ?
+                    (_this.pageNum * _this.pageSize) : _this.resultsCount;
                 _this.searching = false;
             });
 

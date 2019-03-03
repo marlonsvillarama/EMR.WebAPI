@@ -1,4 +1,4 @@
-﻿<div class="container ehr-content">
+﻿<div class="container-fluid ehr-content">
     <div class="ehr-page-header row">
         <div class="col-sm-7">
             <span>PAYERS</span>
@@ -13,10 +13,35 @@
 
     <div class="ehr-group clearfix">
         <div class="ehr-group-inner">
+
+            <!-- Top Pager Controls -->
+            <div class="row clearfix" ng-if="pyrListCtrl.searched">
+                <div class="col-sm-4">
+                    <strong>Found {{pyrListCtrl.resultsCount}} payers</strong>&nbsp;
+                </div>
+                <div class="col-sm-8 text-right" ng-if="pyrListCtrl.searching == false">
+                    <span ng-if="pyrListCtrl.resultsCount > 0"><i>Showing results {{pyrListCtrl.startIndex}} - {{pyrListCtrl.endIndex}}</i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="ehr-btn-right-action"
+                            ng-if="pyrListCtrl.searching == false && pyrListCtrl.pageNum > 1"
+                            ng-click="pyrListCtrl.searchList(-1)">
+                        &lt; Previous
+                    </button>
+                    <button type="button" class="ehr-btn-right-action"
+                            ng-if="pyrListCtrl.searching == false && pyrListCtrl.endIndex < pyrListCtrl.resultsCount"
+                            ng-click="pyrListCtrl.searchList(1)">
+                        Next &gt;
+                    </button>
+                </div>
+                <div class="col-sm-8 text-right" ng-if="pyrListCtrl.searching == true">
+                    <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+                    <strong>Searching...</strong>
+                </div>
+            </div>
+
             <table class="ehr-table col-sm-12">
                 <tr class="ehr-table-header">
                     <th class="col-sm-3">
-                        Insurance Name
+                        Payer Name
                     </th>
                     <th class="col-sm-1-5">
                         Payer ID

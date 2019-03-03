@@ -19,6 +19,7 @@ namespace EMR.WebAPI.ehr.models
         {
             this.IsCompany = false;
             this.Credential = "MD";
+            this.IsReferrer = false;
             this.Addresses = new HashSet<Address>();
             this.Providers = new HashSet<Provider>();
         }
@@ -47,6 +48,7 @@ namespace EMR.WebAPI.ehr.models
         public bool IsCompany { get; set; }
         public string Credential { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }
+        public bool IsReferrer { get; set; }
     
         public virtual TaxonomyCode TaxonomyCode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -56,6 +56,20 @@
             );
         };
 
+        _this.saveSearchPreferences = function () {
+            _this.savingSrchPrefs = true;
+            AuthService.saveSearchPreferences().then(function (response) {
+                console.log(response);
+                var res = response.data.results;
+                if (res.IsSuccess) {
+                    AuthSservice.setUserPreferences(res.Data);
+                    _this.savingSrchPrefs = false;
+                }
+            });
+
+            _this.savingSrchPref = false;
+        };
+
         _this.saveClaimDefaults = function () {
             _this.savingPrefs = true;
             AuthService.saveUserPreferences().then(function (response) {

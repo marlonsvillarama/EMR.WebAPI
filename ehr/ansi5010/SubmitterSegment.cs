@@ -14,7 +14,7 @@ namespace EMR.WebAPI.ehr.ansi5010
         Segment receiver;
         int segmentCount;
 
-        public SubmitterSegment(EHRDB db)
+        public SubmitterSegment(EHRDB db, string recName = "")
         {
             segmentCount = 0;
 
@@ -37,7 +37,27 @@ namespace EMR.WebAPI.ehr.ansi5010
                 sub.Fax
             );
 
-            Receiver rec = db.Receivers.FirstOrDefault();
+            Receiver rec = null;
+            if (string.IsNullOrEmpty(recName))
+            {
+                rec = db.Receivers.FirstOrDefault();
+            }
+            else
+            {
+                List<Receiver> recs = db.Receivers.Where(x => x.Name == recName).ToList();
+                if (recs.Count > 0)
+                {
+                    rec = recs[0];
+                }
+            }
+
+            if (rec == null)
+            {
+                receiver = null;
+                return;
+            }
+
+            rec = db.Receivers.FirstOrDefault();
             receiver = new Segment("NM1");
             receiver["NM101"] = "40";
             receiver["NM102"] = "2";

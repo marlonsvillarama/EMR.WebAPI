@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -135,7 +136,7 @@ namespace EMR.WebAPI.ehr.services
                     claim.Payment.ErrorCode = new ErrorCode();
                 }
 
-                foreach(ClaimLine line in claim.ClaimLines)
+                foreach (ClaimLine line in claim.ClaimLines)
                 {
                     if (line.Supplemental == null)
                     {
@@ -166,23 +167,85 @@ namespace EMR.WebAPI.ehr.services
             return Ok(new { result = status });
         }
 
+        public List<ClaimHistoryViewModel> GetClaimHistoryById(string dbname, int id)
+        {
+            List<ClaimHistoryViewModel> vmList = new List<ClaimHistoryViewModel>();
+
+            EHRDB db = new EHRDB();
+            db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+            List<Claim> claims = new List<Claim>();
+            claims = db.Claims.Where(c => c.PrimarySubscriberId == id)
+                .OrderByDescending(c => c.DateOfService)
+                .ToList();
+
+            foreach (Claim c in claims)
+            {
+                vmList.Add(new ClaimHistoryViewModel(c));
+            }
+
+            return vmList;
+        }
+
         [HttpGet]
         [Route("api/getClaimsBySubscriberId/{dbname}/{id}")]
         public IHttpActionResult GetClaimsBySubsciberId(string dbname, int id)
         {
             ServiceRequestStatus status;
-            List<ClaimViewModel> vmList = new List<ClaimViewModel>();
+            //List<ClaimHistoryViewModel> vmList = new List<ClaimHistoryViewModel>();
+
+            try
+            {
+                /*
+                EHRDB db = new EHRDB();
+                db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+                List<Claim> claims = new List<Claim>();
+                claims = db.Claims.Where(c => c.PrimarySubscriberId == id)
+                    .OrderByDescending(c => c.DateOfService)
+                    .ToList();
+
+                foreach (Claim c in claims)
+                {
+                    vmList.Add(new ClaimHistoryViewModel(c));
+                }
+                */
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = GetClaimHistoryById(dbname, id)
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
+        }
+
+        [HttpGet]
+        [Route("api/getBalanceBySubId/{dbname}/{id}")]
+        public IHttpActionResult GetBalanceBySubId(string dbname, int id)
+        {
+            ServiceRequestStatus status;
+            List<ClaimPaymentViewModel> vmList = new List<ClaimPaymentViewModel>();
 
             try
             {
                 EHRDB db = new EHRDB();
                 db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
                 List<Claim> claims = new List<Claim>();
-                claims = db.Claims.Where(c => c.PrimarySubscriberId == id).ToList();
+                claims = db.Claims.Where(c => c.PrimarySubscriberId == id)
+                    .OrderByDescending(c => c.DateOfService)
+                    .ToList();
 
-                foreach(Claim c in claims)
+                foreach (Claim c in claims)
                 {
-                    vmList.Add(new ClaimViewModel(c));
+                    vmList.Add(new ClaimPaymentViewModel(c));
                 }
 
                 status = new ServiceRequestStatus
@@ -191,7 +254,7 @@ namespace EMR.WebAPI.ehr.services
                     Data = vmList
                 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 status = new ServiceRequestStatus
                 {
@@ -232,10 +295,10 @@ namespace EMR.WebAPI.ehr.services
                         DateCreated = DateTime.Now,
                         SystemNoteKey = System.Guid.NewGuid().ToString()
                     };
-                    
+
                 }
 
-                
+
 
                 status = new ServiceRequestStatus
                 {
@@ -302,6 +365,7 @@ namespace EMR.WebAPI.ehr.services
                 c.OutsideLabCharges = claim.OutsideLabCharges;
                 c.DateOfService = claim.DateOfService;
                 c.RenderingProviderId = claim.RenderingProviderId;
+                c.ReferringProviderId = claim.ReferringProviderId;
                 c.BillingProviderId = claim.BillingProviderId;
                 c.AssignBenefits = claim.AssignBenefits;
                 c.AllowRelease = claim.AllowRelease;
@@ -448,97 +512,218 @@ namespace EMR.WebAPI.ehr.services
         {
             ServiceRequestStatus status;
             List<ClaimViewModel> vmList = new List<ClaimViewModel>();
+            int resultsCount = 0;
 
             try
             {
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 if (String.IsNullOrEmpty(parms) == false)
                 {
                     EHRDB db = new EHRDB();
                     db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
-                    string fn = "", ln = "", dob = "",
-                        dcreated = "", dos = "";
-                    string dtStr;
-                    DateTime dt;
 
-                    string[] vals = parms.Split(new[] { '|' });
-                    sb.Append(parms).Append("*");
+                    List<Claim> claims = new List<Claim>();
+                    SearchFilter filters = new SearchFilter(parms);
 
-                    //fn = vals.Length > 0 ? vals[0] : "";
-                    ln = vals.Length > 0 ? vals[0] : "";
-                    dob = vals.Length > 1 ? vals[1] : "";
-                    dcreated = vals.Length > 2 ? vals[2] : "";
-                    dos = vals.Length > 3 ? vals[3] : "";
-
-                    List<Claim> claims = db.Claims.Where(c =>
-                                           //c.PrimarySubscriber.FirstName.StartsWith(fn) &&
-                                           c.PrimarySubscriber.LastName.StartsWith(ln)).ToList();
-                    sb.Append("ln").Append(ln).Append("*");
-
-                    if (String.IsNullOrEmpty(dob) == false)
+                    // Filter by Last Name
+                    if (String.IsNullOrEmpty(filters.LastName) == true)
                     {
-                        dtStr = dob.Substring(0, 2) + "/" +
-                            dob.Substring(2, 2) + "/" + dob.Substring(4);
-                        dt = DateTime.ParseExact(dtStr, "dd/MM/yyyy", null);
-                        sb.Append("dob:").Append(dtStr).Append("*");
-
-                        claims = claims.Where(c =>
-                            dt <= c.PrimarySubscriber.DateOfBirth &&
-                            c.PrimarySubscriber.DateOfBirth < dt.AddDays(1)).ToList();
+                        claims = db.Claims.ToList();
+                    }
+                    else
+                    {
+                        claims = db.Claims.Where(c =>
+                                    c.PrimarySubscriber.LastName.StartsWith(filters.LastName)).ToList();
                     }
 
-                    if (String.IsNullOrEmpty(dcreated) == false)
+                    // Look at aging report first
+                    if (filters.Type == "CLAIMS_PAYMENT")
                     {
-                        dtStr = dcreated.Substring(0, 2) + "/" +
-                            dcreated.Substring(2, 2) + "/" + dcreated.Substring(4);
-                        dt = DateTime.ParseExact(dtStr, "dd/MM/yyyy", null);
-                        sb.Append("dcreated:").Append(dtStr).Append("*");
+                        claims = claims.Where(c => c.Payment != null && c.Payment.AmountBalance > 0).ToList();
+                    }
+                    else if (filters.Type == "CLAIMS_AGING_SUMMARY")
+                    {
+                        if (String.IsNullOrEmpty(filters.AgingPeriod) == false)
+                        {
+                            claims = claims.Where(c => c.Payment != null && c.Payment.AmountBalance > 0).ToList();
 
-                        claims = claims.Where(c =>
-                            dt <= c.DateCreated &&
-                            c.DateCreated < dt.AddDays(1)).ToList();
+                            switch (filters.AgingPeriod)
+                            {
+                                case "0 TO 30":
+                                    {
+                                        claims = claims.Where(c =>
+                                            ((DateTime.Today - c.DateCreated.Value).TotalDays <= 30)).ToList();
+                                        break;
+                                    }
+                                case "31 TO 60":
+                                    {
+                                        claims = claims.Where(c =>
+                                            ((DateTime.Today - c.DateCreated.Value).TotalDays > 30) &&
+                                            ((DateTime.Today - c.DateCreated.Value).TotalDays <= 60)).ToList();
+                                        break;
+                                    }
+                                case "61 TO 90":
+                                    {
+                                        claims = claims.Where(c =>
+                                            ((DateTime.Today - c.DateCreated.Value).TotalDays > 60) &&
+                                            ((DateTime.Today - c.DateCreated.Value).TotalDays <= 90)).ToList();
+                                        break;
+                                    }
+                                case "OVER 90":
+                                    {
+                                        claims = claims.Where(c =>
+                                            ((DateTime.Today - c.DateCreated.Value).TotalDays > 90)).ToList();
+                                        break;
+                                    }
+                                default: break;
+                            }
+                        }
                     }
 
-                    if (String.IsNullOrEmpty(dos) == false)
+                    // Filter by Date of Birth
+                    if (filters.DateOfBirth != null)
                     {
-                        dtStr = dos.Substring(0, 2) + "/" +
-                            dos.Substring(2, 2) + "/" + dos.Substring(4);
-                        dt = DateTime.ParseExact(dtStr, "dd/MM/yyyy", null);
-                        sb.Append("dos:").Append(dtStr).Append("*");
-
                         claims = claims.Where(c =>
-                            dt <= c.DateOfService &&
-                            c.DateOfService < dt.AddDays(1)).ToList();
+                            filters.DateOfBirth.Value <= c.PrimarySubscriber.DateOfBirth &&
+                            c.PrimarySubscriber.DateOfBirth < filters.DateOfBirth.Value.AddDays(1)).ToList();
                     }
 
-                    claims = claims.OrderBy(c => c.PrimarySubscriber.LastName).ToList();
+                    // Filter by Date Created
+                    if (filters.DateCreated != null)
+                    {
+                        claims = claims.Where(c =>
+                            filters.DateCreated.Value <= c.DateCreated &&
+                            c.DateCreated < filters.DateCreated.Value.AddDays(1)).ToList();
+                    }
 
+                    // Filters by Date of Service
                     /*
-                    foreach (Claim c in claims)
+                    if (filters.DateOfService != null)
                     {
-                        vmList.Add(new ClaimViewModel(c));
+                        claims = claims.Where(c =>
+                            filters.DateOfService.Value <= c.DateOfService &&
+                            c.DateOfService < filters.DateOfService.Value.AddDays(1)).ToList();
                     }
                     */
 
-                    Dictionary<string, Claim> dictClaims = new Dictionary<string, Claim>();
-                    ClaimViewModel cvm;
-                    string fl;
-
-                    foreach (Claim c in claims)
+                    // Filter by Month/Year
+                    if (filters.MonthStartEnd.Count > 0)
                     {
-                        cvm = new ClaimViewModel(c);
-                        fl = cvm.FirstName + " " + cvm.LastName;
-
-                        if (dictClaims.ContainsKey(fl))
+                        if (filters.MonthStartEnd[0] != null &&
+                            filters.MonthStartEnd[1] != null)
                         {
-                            if (dictClaims[fl].Id < c.Id)
+                            claims = claims.Where(c =>
+                                filters.MonthStartEnd[0].Value <= c.DateCreated.Value &&
+                                filters.MonthStartEnd[1].Value >= c.DateCreated.Value).ToList();
+                        }
+                        else if (filters.MonthStartEnd[0] != null)
+                        {
+                            claims = claims.Where(c =>
+                                filters.MonthStartEnd[0].Value <= c.DateCreated.Value).ToList();
+                        }
+                        else if (filters.MonthStartEnd[1] != null)
+                        {
+                            claims = claims.Where(c =>
+                                filters.MonthStartEnd[1].Value >= c.DateCreated.Value).ToList();
+                        }
+                    }
+
+                    // Filter by Rendering Provider
+                    if (filters.ProviderId > 0)
+                    {
+                        claims = claims.Where(c =>
+                            filters.ProviderId == c.RenderingProviderId).ToList();
+                    }
+
+                    // Filter by Facility
+                    if (filters.FacilityId > 0)
+                    {
+                        claims = claims.Where(c =>
+                            filters.FacilityId == c.FacilityId).ToList();
+                    }
+
+                    if (string.IsNullOrEmpty(filters.CPT) == false)
+                    {
+                        claims = claims.Where(c =>
+                            c.DiagnosisCodes.Contains(filters.CPT) == true).ToList();
+                    }
+
+                    // Filter by Deductible
+                    if (filters.Deductible > 0)
+                    {
+                        claims = claims.Where(c =>
+                            c.Payment != null && c.Payment.AmountDeductible > 0).ToList();
+                    }
+
+                    // Filter by Copay
+                    if (filters.Copay > 0)
+                    {
+                        claims = claims.Where(c => c.Payment != null &&
+                            c.Payment.AmountCopay > 0).ToList();
+                    }
+
+                    claims = claims.OrderBy(c => c.PrimarySubscriber.LastName.ToUpper())
+                                .ThenBy(c => c.PrimarySubscriber.FirstName.ToUpper())
+                                .ToList();
+
+                    Dictionary<string, Claim> dictClaims = new Dictionary<string, Claim>();
+                    List<string> skipped = new List<string>();
+                    string fl;
+                    int start, end, n;
+                    Claim cl;
+
+                    if (filters.Type.ToUpper() == "CLAIMS")
+                    {
+                        List<string> claimSubs = claims
+                            .Select(c => (c.PrimarySubscriber.LastName + ", " + c.PrimarySubscriber.FirstName))
+                            .Distinct()
+                            .ToList();
+                        resultsCount = claimSubs.Count();
+
+                        start = (filters.PageNumber - 1) * filters.PageSize;
+                        end = (start + filters.PageSize) < resultsCount ? (start + filters.PageSize) : resultsCount;
+                        n = 0;
+
+                        for (int i = 0; i < claims.Count && n < end; i++)
+                        {
+                            cl = claims[i];
+                            fl = cl.PrimarySubscriber.LastName + ", " + cl.PrimarySubscriber.FirstName;
+
+                            if (dictClaims.ContainsKey(fl))
                             {
-                                dictClaims[fl] = c;
+                                if (dictClaims[fl].Id < cl.Id)
+                                {
+                                    dictClaims[fl] = cl;
+                                }
+                            }
+                            else
+                            {
+                                if (skipped.Contains(fl) == false)
+                                {
+                                    if (n >= start)
+                                    {
+                                        dictClaims.Add(fl, cl);
+                                    }
+                                    skipped.Add(fl);
+                                    n++;
+                                }
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        resultsCount = claims.Count();
+                        start = (filters.PageNumber - 1) * filters.PageSize;
+                        end = (start + filters.PageSize) < resultsCount ? (start + filters.PageSize) : resultsCount;
+                        n = 0;
+
+                        for (int i = 0; i < claims.Count && n < end; i++)
                         {
-                            dictClaims.Add(fl, c);
+                            if (n >= start)
+                            {
+                                cl = claims[i];
+                                dictClaims.Add(cl.Id.ToString(), cl);
+                            }
+                            n++;
                         }
                     }
 
@@ -546,13 +731,12 @@ namespace EMR.WebAPI.ehr.services
                     {
                         vmList.Add(new ClaimViewModel(dictClaims[key]));
                     }
-
                 }
 
                 status = new ServiceRequestStatus
                 {
                     IsSuccess = true,
-                    //Debug = sb.ToString(),
+                    Count = resultsCount,
                     Data = vmList
                 };
             }
@@ -566,6 +750,256 @@ namespace EMR.WebAPI.ehr.services
             }
 
             return Ok(new { result = status });
+        }
+
+        [HttpGet]
+        [Route("api/claimReport/{dbname}/{parms}")]
+        public IHttpActionResult GetClaimReport(string dbname, string parms)
+        {
+            ServiceRequestStatus status = new ServiceRequestStatus();
+            List<ClaimSummary> csum = new List<ClaimSummary>();
+
+            try
+            {
+                switch (parms)
+                {
+                    case "CLAIMS_BYMONTH_SUMMARY":
+                        {
+                            csum = GetClaimMonthlyReport(dbname);
+                            break;
+                        }
+                    case "CLAIMS_AGING_SUMMARY":
+                        {
+                            csum = GetClaimAgingReport(dbname);
+                            break;
+                        }
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = csum
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
+        }
+
+        public List<ClaimSummary> GetClaimMonthlyReport(string dbname)
+        {
+            //ServiceRequestStatus status;
+            //List<ClaimViewModel> vmList = new List<ClaimViewModel>();
+            List<ClaimSummary> csum = new List<ClaimSummary>();
+
+            EHRDB db = new EHRDB();
+            db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+
+            //string[] vals = parms.Split(new[] { '|' });
+            //string type = vals.Length > 0 ? vals[0] : "";
+
+            csum = db.Claims.GroupBy(c => new
+            {
+                Month = c.DateCreated.Value.Month,
+                Year = c.DateCreated.Value.Year
+            })
+            .Select(g => new ClaimSummary
+            {
+                Month = g.Key.Month,
+                Year = g.Key.Year,
+                TotalClaims = g.Count(),
+                TotalAmount = g.Sum(n => (Decimal)n.AmountTotal)
+            })
+            .OrderByDescending(a => a.Year)
+            .ThenByDescending(a => a.Month)
+            .ToList();
+
+            return csum;
+            /*
+            try
+            {
+                if (String.IsNullOrEmpty(parms) == false)
+                {
+                    EHRDB db = new EHRDB();
+                    db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+
+                    string[] vals = parms.Split(new[] { '|' });
+                    string type = vals.Length > 0 ? vals[0] : "";
+
+                    csum = db.Claims.GroupBy(c => new
+                    {
+                        Month = c.DateCreated.Value.Month,
+                        Year = c.DateCreated.Value.Year
+                    })
+                    .Select(g => new ClaimSummary
+                    {
+                        Month = g.Key.Month,
+                        Year = g.Key.Year,
+                        TotalClaims = g.Count(),
+                        TotalAmount = g.Sum(n => (Decimal)n.AmountTotal)
+                    })
+                    .OrderByDescending(a => a.Year)
+                    .ThenByDescending(a => a.Month)
+                    .ToList();
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = csum
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+            */
+
+            //return Ok(new { result = status });
+        }
+
+        /*
+        [HttpGet]
+        [Route("api/claimPaymentReport/{dbname}/{parms}")]
+        public IHttpActionResult GetClaimPaymentReport(string dbname, string parms)
+        {
+            ServiceRequestStatus status;
+            List<ClaimViewModel> vmList = new List<ClaimViewModel>();
+            List<ClaimMonthlySummary> csum = new List<ClaimMonthlySummary>();
+
+            try
+            {
+                if (String.IsNullOrEmpty(parms) == false)
+                {
+                    EHRDB db = new EHRDB();
+                    db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+
+                    List<Claim> claims = new List<Claim>();
+                    List<Payment> payments = new List<Payment>();
+                    List<Payment> allPayments = new List<Payment>();
+                    SearchFilter filters = new SearchFilter(parms);
+
+                    payments = db.Payments.ToList();
+
+                    if (filters.Deductible > 0)
+                    {
+                        payments.Where(p => p.AmountDeductible >= filters.Deductible).ToList();
+                    }
+
+                    if (filters.Copay > 0)
+                    {
+                        payments.Where(p => p.AmountCopay >= filters.Copay).ToList();
+                    }
+
+                    //db.Claims.Where(c => c.Payment.AmountDeductible > 0);
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = csum
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
+        }
+        */
+
+        public List<ClaimSummary> GetClaimAgingReport(string dbname)
+        {
+            //ServiceRequestStatus status;
+            //List<ClaimViewModel> vmList = new List<ClaimViewModel>();
+            List<ClaimSummary> csum = new List<ClaimSummary>();
+
+            EHRDB db = new EHRDB();
+            db.Database.Connection.ConnectionString = db.Database.Connection.ConnectionString.Replace("HK_MASTER", dbname);
+
+            List<Claim> openClaims = db.Claims.Where(c => c.Payment != null).ToList();
+            openClaims = openClaims.Where(c => c.Payment.AmountBalance > 0).ToList();
+
+            List<Claim> claims_0_30 = openClaims.Where(c =>
+                (DateTime.Today - c.DateCreated.Value).TotalDays <= 30)
+                .ToList();
+            csum.Add(new ClaimSummary
+            {
+                AgingPeriod = "0 to 30",
+                TotalAmount = claims_0_30.Sum(c => c.Payment.AmountBalance),
+                TotalClaims = claims_0_30.Count
+            });
+
+            List<Claim> claims_30_60 = openClaims.Where(c =>
+                (DateTime.Today - c.DateCreated.Value).TotalDays > 30 &&
+                (DateTime.Today - c.DateCreated.Value).TotalDays <= 60).ToList();
+            csum.Add(new ClaimSummary
+            {
+                AgingPeriod = "31 to 60",
+                TotalAmount = claims_30_60.Sum(c => c.Payment.AmountBalance),
+                TotalClaims = claims_30_60.Count
+            });
+
+            List<Claim> claims_60_90 = openClaims.Where(c =>
+                (DateTime.Today - c.DateCreated.Value).TotalDays > 60 &&
+                (DateTime.Today - c.DateCreated.Value).TotalDays <= 90).ToList();
+            csum.Add(new ClaimSummary
+            {
+                AgingPeriod = "61 to 90",
+                TotalAmount = claims_60_90.Sum(c => c.Payment.AmountBalance),
+                TotalClaims = claims_60_90.Count
+            });
+
+            List<Claim> claims_Over_90 = openClaims.Where(c =>
+                (DateTime.Today - c.DateCreated.Value).TotalDays > 90).ToList();
+            csum.Add(new ClaimSummary
+            {
+                AgingPeriod = "Over 90",
+                TotalAmount = claims_Over_90.Sum(c => c.Payment.AmountBalance),
+                TotalClaims = claims_Over_90.Count
+            });
+
+            return csum;
+            /*
+            try
+            {
+                if (String.IsNullOrEmpty(parms) == false)
+                {
+                }
+
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = true,
+                    Data = csum
+                };
+            }
+            catch (Exception e)
+            {
+                status = new ServiceRequestStatus
+                {
+                    IsSuccess = false,
+                    Data = e
+                };
+            }
+
+            return Ok(new { result = status });
+            */
         }
     }
 }

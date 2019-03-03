@@ -256,6 +256,10 @@
       <End Role="Account" EntitySet="Accounts" />
       <End Role="UserAccount" EntitySet="UserAccount" />
     </AssociationSet>
+    <AssociationSet Name="ProviderClaim2" Association="EMR.WebAPI.ehr.models.Store.ProviderClaim2">
+      <End Role="Provider" EntitySet="Providers" />
+      <End Role="Claim" EntitySet="Claims" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Addresses">
     <Key>
@@ -335,6 +339,7 @@
     <Property Name="SystemNoteKey" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ClaimPayerType" Type="nvarchar(max)" Nullable="true" DefaultValue="Other" />
     <Property Name="DateModified" Type="datetime" Nullable="true" />
+    <Property Name="ReferringProviderId" Type="int" Nullable="true" />
     <Property Name="Dates_Id" Type="int" Nullable="true" />
     <Property Name="Accident_Id" Type="int" Nullable="true" />
     <Property Name="Supplemental_Id" Type="int" Nullable="true" />
@@ -474,6 +479,7 @@
     <Property Name="IsCompany" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="Credential" Type="nvarchar(max)" Nullable="true" DefaultValue="MD" />
     <Property Name="DateModified" Type="datetime" Nullable="true" />
+    <Property Name="IsReferrer" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="PlaceOfServices">
     <Key>
@@ -1011,6 +1017,7 @@
     <Property Name="AmountCopay" Type="decimal" Nullable="true" />
     <Property Name="AmountDeductible" Type="decimal" Nullable="true" DefaultValue="0" />
     <Property Name="PaymentId" Type="int" Nullable="true" />
+    <Property Name="WriteOff" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="ErrorCodes">
     <Key>
@@ -1553,6 +1560,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ProviderClaim2">
+    <End Role="Provider" Type="EMR.WebAPI.ehr.models.Store.Providers" Multiplicity="0..1" />
+    <End Role="Claim" Type="EMR.WebAPI.ehr.models.Store.Claims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Claim">
+        <PropertyRef Name="ReferringProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AddressProvider_Address">
     <End Role="Address" Type="EMR.WebAPI.ehr.models.Store.Addresses" Multiplicity="1" />
     <End Role="AddressProvider" Type="EMR.WebAPI.ehr.models.Store.AddressProvider" Multiplicity="*" />
@@ -1788,6 +1807,8 @@
           <Property Name="ClaimPayerType" Type="String" ConcurrencyMode="None" DefaultValue="Other" />
           <Property Name="DateModified" Type="DateTime" />
           <NavigationProperty Name="Payment" Relationship="EMR.WebAPI.ehr.models.PaymentClaim" FromRole="Claim" ToRole="Payment" />
+          <NavigationProperty Name="ReferringProvider" Relationship="EMR.WebAPI.ehr.models.ProviderClaim2" FromRole="Claim" ToRole="Provider" />
+          <Property Name="ReferringProviderId" Type="Int32" Nullable="true" />
           </EntityType>
         <EntityType Name="CPTCode">
           <Key>
@@ -1919,6 +1940,7 @@
           <Property Name="Credential" Type="String" DefaultValue="MD" />
           <Property Name="DateModified" Type="DateTime" />
           <NavigationProperty Name="Providers" Relationship="EMR.WebAPI.ehr.models.ProviderProvider" FromRole="Provider" ToRole="Provider1" />
+          <Property Name="IsReferrer" Type="Boolean" Nullable="false" DefaultValue="False" />
         </EntityType>
         <EntityType Name="PlaceOfService">
           <Key>
@@ -2242,6 +2264,10 @@
             <End Role="Account" EntitySet="Accounts" />
           </AssociationSet>
           <EntitySet Name="UserPreferences" EntityType="EMR.WebAPI.ehr.models.UserPreference" />
+          <AssociationSet Name="ProviderClaim2" Association="EMR.WebAPI.ehr.models.ProviderClaim2">
+            <End Role="Provider" EntitySet="Providers" />
+            <End Role="Claim" EntitySet="Claims" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ClaimDate">
           <Key>
@@ -2929,11 +2955,11 @@
           <Property Name="DateCreated" Type="DateTime" Nullable="false" />
           <Property Name="Notes" Type="String" />
           <NavigationProperty Name="ErrorCode" Relationship="EMR.WebAPI.ehr.models.ErrorCodePayment" FromRole="Payment" ToRole="ErrorCode" />
-          <Property Name="AmountTotal" Type="Decimal" Nullable="false" DefaultValue="0" />
-          <Property Name="AmountPayment" Type="Decimal" Nullable="false" DefaultValue="0" />
-          <Property Name="AmountCopay" Type="Decimal" Nullable="false" />
-          <Property Name="AmountDeductible" Type="Decimal" Nullable="false" DefaultValue="0" />
-          <Property Name="AmountBalance" Type="Decimal" Nullable="false" />
+          <Property Name="AmountTotal" Type="Decimal" Nullable="false" DefaultValue="0" Scale="2" />
+          <Property Name="AmountPayment" Type="Decimal" Nullable="false" DefaultValue="0" Scale="2" />
+          <Property Name="AmountCopay" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="AmountDeductible" Type="Decimal" Nullable="false" DefaultValue="0" Scale="2" />
+          <Property Name="AmountBalance" Type="Decimal" Nullable="false" Scale="2" />
           <NavigationProperty Name="PaymentLines" Relationship="EMR.WebAPI.ehr.models.PaymentPaymentLine" FromRole="Payment" ToRole="PaymentLine" />
         </EntityType>
         <EntityType Name="PaymentLine">
@@ -2944,10 +2970,11 @@
           <Property Name="SystemNoteKey" Type="String" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" />
           <Property Name="ClaimLineId" Type="Int32" />
-          <Property Name="AmountPayment" Type="Decimal" DefaultValue="0" />
-          <Property Name="AmountCopay" Type="Decimal" />
-          <Property Name="AmountDeductible" Type="Decimal" DefaultValue="0" />
+          <Property Name="AmountPayment" Type="Decimal" DefaultValue="0" Scale="2" />
+          <Property Name="AmountCopay" Type="Decimal" Scale="2" />
+          <Property Name="AmountDeductible" Type="Decimal" DefaultValue="0" Scale="2" />
           <Property Name="PaymentId" Type="Int32" Nullable="true" />
+          <Property Name="WriteOff" Type="Boolean" />
         </EntityType>
         <EntityType Name="ErrorCode">
           <Key>
@@ -3010,6 +3037,18 @@
           <Property Name="FacilityId" Type="Int32" />
           <Property Name="PlaceOfServiceId" Type="Int32" />
         </EntityType>
+        <Association Name="ProviderClaim2">
+          <End Type="EMR.WebAPI.ehr.models.Provider" Role="Provider" Multiplicity="0..1" />
+          <End Type="EMR.WebAPI.ehr.models.Claim" Role="Claim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Claim">
+              <PropertyRef Name="ReferringProviderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3095,6 +3134,7 @@
           <ScalarProperty Name="SystemNoteKey" ColumnName="SystemNoteKey" />
           <ScalarProperty Name="ClaimPayerType" ColumnName="ClaimPayerType" />
           <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="ReferringProviderId" ColumnName="ReferringProviderId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -3230,6 +3270,7 @@
           <ScalarProperty Name="IsCompany" ColumnName="IsCompany" />
           <ScalarProperty Name="Credential" ColumnName="Credential" />
           <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="IsReferrer" ColumnName="IsReferrer" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -3790,6 +3831,7 @@
           <ScalarProperty Name="AmountCopay" ColumnName="AmountCopay" />
           <ScalarProperty Name="AmountDeductible" ColumnName="AmountDeductible" />
           <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+          <ScalarProperty Name="WriteOff" ColumnName="WriteOff" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

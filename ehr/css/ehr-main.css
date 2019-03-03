@@ -19,6 +19,7 @@ body {
 }
 
 .col-sm-1-5 {
+    /*border: 1px solid red;*/
     position: relative;
     min-height: 1px;
     width: 12.5%;
@@ -382,6 +383,10 @@ body {
     padding: 0 5px;
 }
 
+.ehr-btn-right-action {
+    margin-left: 10px;
+}
+
 .ehr-form-btn {
     margin-top: -2px;
     padding: 4px 8px;
@@ -624,4 +629,52 @@ ul.subtab-nav li a:hover {
 }
 
 
+.ehr-report { 
 
+}
+
+.ehr-report-title {
+    font-size: 2em;
+    /*font-weight: bold;*/
+}
+
+.ehr-report-subtitle {
+    margin-bottom: 10px;
+}
+
+.ehr-report-table {
+    font-size: 1em;
+}
+
+.ehr-report-table-header {
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.ehr-report-table-header th {
+    padding: 4px 0 4px 16px;
+    background-color: #666;
+    color: #fff;
+}
+
+.ehr-report-table tr:not(:last-child) {
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.5);
+}
+
+.ehr-report-table-row td {
+    padding: 4px 0 4px 16px;
+}
+
+.ehr-report-table-row:hover {
+    background-color: rgba(224, 224, 224, 0.25);
+    cursor: pointer;
+}
+
+.ehr-report-table {
+    border: 1px solid #666;
+}
+
+.ehr-diag-ui {
+    margin-right: 15px;
+}

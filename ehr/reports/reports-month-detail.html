@@ -1,0 +1,13 @@
+﻿<div class="ehr-report">
+    <div class="ehr-report-title"><strong>Claims by Month - Detail</strong></div>
+    <div class="ehr-report-subtitle">
+        <span>Total claims found: {{reportsCtrl.entities.length}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button ng-click="reportsCtrl.getReport()">Refresh</button>
+    </div>
+
+    <div ng-if="reportsCtrl.generating == true">
+        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+        <strong>Generating report...</strong>
+    </div>
+
+</div>

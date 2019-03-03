@@ -444,6 +444,11 @@
         _this.init();
     }
 
+    DateModalController.$inject = ['ApiService', 'ModalService', 'UIService'];
+    function DateModalController(ApiService, ModalService, UIService) {
+        var _this = this;
+    }
+
     angular.module('ehrApp')
         .controller('PayerModalController', PayerModalController)
         .controller('GroupModalController', GroupModalController)

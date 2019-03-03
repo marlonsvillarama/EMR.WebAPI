@@ -10,9 +10,24 @@
     ehrClaimListController.$inject = ['ApiService', 'UIService'];
     function ehrClaimListController(ApiService, UIService) {
         var _this = this;
+        _this.pageNum = 1;
+        _this.pageSize = 20;
 
-        _this.searchList = function () {
+        _this.searchList = function (page) {
+            if (page == '' || page == null || page == undefined) {
+                _this.pageNum = 1;
+            }
+            else {
+                _this.pageNum += page;  
+
+                if (_this.pageNum < 1) {
+                    _this.pageNum = 1;
+                }
+            }
+
             var arrParms = [
+                "claims",
+                _this.pageNum, _this.pageSize,
                 _this.lastName ? _this.lastName : "",
                 _this.dateOfBirth ? UIService.getDateParam(_this.dateOfBirth) : ""
             ];
@@ -22,9 +37,14 @@
             _this.searching = true;
 
             ApiService.searchEntities('Claims', parms).then(function (response) {
+                _this.searched = true;
                 _this.entities = (response.data.result.IsSuccess == true) ?
                     response.data.result.Data : [];
 
+                _this.resultsCount = response.data.result.Count;
+                _this.startIndex = ((_this.pageNum - 1) * _this.pageSize) + 1;
+                _this.endIndex = _this.resultsCount > (_this.pageNum * _this.pageSize) ?
+                        (_this.pageNum * _this.pageSize) : _this.resultsCount;
                 _this.searching = false;
             });
 
@@ -48,6 +68,21 @@
     function ehrClaimEditController($state, ngDialog, subscriber, claim, history, ApiService, ClaimEditService, UIService) {
         var _this = this;
         var list;
+
+        /*
+        _this.updateClaimHistory = function (subId) {
+            //resp = ApiService.getBalanceBySubId($stateParams.subscriberId);
+            ApiService.getClaimHistory(subId).then(function (response) {
+                var chSuccess = chRes.data.result.IsSuccess;
+                var chData = chRes.data.result.Data;
+                var chResp = ApiService.prepareResponse(response);
+
+                UIService.log('updateClaimHistory');
+                UIService.log(chResp);
+                _this.claimHistory = chResp;
+            });
+        };
+        */
 
         // Validate claim info before submitting
         _this.validateForm = function () {
@@ -226,6 +261,8 @@
         
         // Format the claim history for display
         _this.formatClaimHistory = function () {
+            return UIService.formatClaimHistory(history);
+            /*
             var clmHist = [];
 
             for (var i = 0, n = history.length; i < n; i++) {
@@ -235,11 +272,14 @@
                     id: ch.Id,
                     acct: UIService.padLeft(ch.Id, 5, '0'),
                     date: UIService.parseDate(ch.DateOfService),
-                    amt: ch.AmountTotal
+                    amt: ch.AmountTotal,
+                    pmt: ch.AmountPayment,
+                    balance: ch.AmountBalance
                 });
             }
 
             return clmHist;
+            */
         };
         
         // Go back to the Edit Subscriber page
@@ -422,7 +462,7 @@
             // Claim history
             history = ClaimEditService.getClaimHistory();
             console.log(history);
-            _this.claimHistory = _this.formatClaimHistory();
+            _this.claimHistory = UIService.formatClaimHistory(history);
 
             // Initialize claim if new
             if (_this.claim.Id <= 0) {
@@ -484,18 +524,27 @@
                     console.log(value);
                     switch (p) {
                         case 'Groups': {
+                            clm.BillingProvider = value;
                             clm.BillingProviderId = value.Id;
                             _this.billingProvName = value.LastName;
                             break;
                         }
                         case 'Providers': {
+                            clm.RenderingProvider = value;
                             clm.RenderingProviderId = value.Id;
                             _this.renderingProvFullName = value.LastName + ", " + value.FirstName;
-                            clm.RenderingProvider = value;
-                            ClaimEditService.updateRenderingNPI(value.NPI);
+                            //ClaimEditService.updateRenderingNPI(value.NPI);
+                            break;
+                        }
+                        case 'RefProviders': {
+                            clm.ReferringProvider = value;
+                            clm.ReferringProviderId = value.Id;
+                            _this.referringProvFullName = value.LastName + ", " + value.FirstName;
+                            //ClaimEditService.updateReferringNPI(value.NPI);
                             break;
                         }
                         case 'Facilities': {
+                            clm.Facility = value;
                             clm.FacilityId = value.Id;
                             _this.facilityName = value.Name;
                             break;
@@ -513,6 +562,42 @@
             );
         };
 
+        _this.clearField = function (type) {
+            switch (type.toUpperCase()) {
+                case 'REN': {
+                    _this.claim.RenderingProvider = null;
+                    _this.claim.RenderingProviderId = null;
+                    _this.renderingProvFullName = "";
+                    break;
+                }
+                case 'REF': {
+                    _this.claim.ReferringProvider = null;
+                    _this.claim.ReferringProviderId = null;
+                    _this.referringProvFullName = "";
+                    break;
+                }
+                case 'GRP': {
+                    _this.claim.BillingProvider = null;
+                    _this.claim.BillingProviderId = null;
+                    _this.billingProvName = "";
+                    break;
+                }
+                case 'FAC': {
+                    _this.claim.Facility = null;
+                    _this.claim.FacilityId = null;
+                    _this.facilityName = "";
+                    break;
+                }
+                case 'POS': {
+                    _this.claim.PlaceOfService = null;
+                    _this.claim.PlaceOfServiceId = null;
+                    _this.posName = "";
+                    break;
+                }
+                default: break;
+            }
+        };
+
         _this.initDefaults = function () {
             var cd, pref;
 
@@ -527,6 +612,12 @@
                 if (pref) {
                     _this.claim.RenderingProvider = pref;
                     _this.claim.RenderingProviderId = pref.Id;
+                }
+
+                pref = AuthService.getPreference('ReferringProvider');
+                if (pref) {
+                    _this.claim.ReferringProvider = pref;
+                    _this.claim.ReferringProviderId = pref.Id;
                 }
 
                 pref = AuthService.getPreference('Facility');
@@ -557,6 +648,10 @@
             _this.renderingProv = _this.claim.RenderingProvider;
             _this.renderingProvFullName = _this.renderingProv ?
                 (_this.renderingProv.LastName + ", " + _this.renderingProv.FirstName) : "";
+
+            _this.referringProv = _this.claim.ReferringProvider;
+            _this.referringProvFullName = _this.referringProv ?
+                (_this.referringProv.LastName + ", " + _this.referringProv.FirstName) : "";
 
             _this.facilityName = _this.claim.Facility ?
                 _this.claim.Facility.Name : "";

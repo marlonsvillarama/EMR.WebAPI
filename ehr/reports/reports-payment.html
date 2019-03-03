@@ -1,0 +1,107 @@
+﻿<div class="ehr-report" ng-if="reportsCtrl.execReport == true">
+    <div class="ehr-report-title"><strong>Payment Report</strong></div>
+    <div class="ehr-report-subtitle">
+        <span>Total claims found: {{reportsCtrl.resultsCount}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <!--<button ng-click="reportsCtrl.showMonthlySummary()" ng-if="reportsCtrl.viewDetail == true">Back to Summary</button>-->
+        <button ng-click="reportsCtrl.getReport()" ng-if="reportsCtrl.viewSummary == true">Refresh</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span ng-if="reportsCtrl.resultsCount > 0"><i>Showing results {{reportsCtrl.startIndex}} - {{reportsCtrl.endIndex}}</i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button"
+                text-align="right"
+                ng-if="reportsCtrl.generating == false && reportsCtrl.pageNum > 1"
+                ng-click="reportsCtrl.nextPage(-1)">
+            &lt; Previous
+        </button>
+        <button type="button"
+                ng-if="reportsCtrl.generating == false && reportsCtrl.endIndex < reportsCtrl.resultsCount"
+                ng-click="reportsCtrl.nextPage(1)">
+            Next &gt;
+        </button>
+    </div>
+
+    <!-- Top Pager Controls -->
+    <!--
+    <div class="row clearfix" ng-if="clmListCtrl.searched">
+        <div class="col-sm-4">
+            <strong>Found {{clmListCtrl.resultsCount}} results</strong>&nbsp;
+        </div>
+        <div class="col-sm-8 text-right" ng-if="clmListCtrl.searching == false">
+            <span ng-if="clmListCtrl.resultsCount > 0"><i>Showing results {{clmListCtrl.startIndex}} - {{clmListCtrl.endIndex}}</i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="ehr-btn-right-action"
+                    ng-if="clmListCtrl.searching == false && clmListCtrl.pageNum > 1"
+                    ng-click="clmListCtrl.searchList(-1)">
+                &lt; Previous
+            </button>
+            <button type="button" class="ehr-btn-right-action"
+                    ng-if="clmListCtrl.searching == false && clmListCtrl.endIndex < clmListCtrl.resultsCount"
+                    ng-click="clmListCtrl.searchList(1)">
+                Next &gt;
+            </button>
+        </div>
+        <div class="col-sm-8 text-right" ng-if="clmListCtrl.searching == true">
+            <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+            <strong>Searching...</strong>
+        </div>
+    </div>
+    -->
+
+    <div ng-if="reportsCtrl.generating == true">
+        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+        <strong>Generating report...</strong>
+    </div>
+
+    <!-- DETAILS TABLE -->
+    <table class="col-sm-12"
+           ng-if="reportsCtrl.generating == false">
+        <tr class="ehr-report-table-header">
+            <th class="col-sm-2">
+                Last Name
+            </th>
+            <th class="col-sm-2">
+                First Name
+            </th>
+            <th class="col-sm-1-5">
+                Date of Service
+            </th>
+            <th class="col-sm-1">
+                Amount ($)
+            </th>
+            <th class="col-sm-5">
+                Diagnosis Codes
+            </th>
+            <th class="col-sm-0-5">
+            </th>
+        </tr>
+
+        <tr class="ehr-table-row" ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })"
+            ng-if="reportsCtrl.generating == false"
+            ng-repeat="c in reportsCtrl.entities">
+            <td class="col-sm-2">
+                <span>{{c.LastName}}</span>
+            </td>
+            <td class="col-sm-2">
+                <span>{{c.FirstName}}</span>
+            </td>
+            <td class="col-sm-1-5">
+                <span>{{c.DateOfService}}</span>
+            </td>
+            <td class="col-sm-1">
+                <span>{{c.AmountTotal}}</span>
+            </td>
+            <td class="col-sm-5">
+                <span>{{c.Diagnosis}}</span>
+            </td>
+            <td class="col-sm-0-5"></td>
+            <!--
+            <td class="col-sm-0-5 ehr-table-actions">
+                <a href="#" title="Edit this claim"
+                   ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })">
+                    <i class="fa fa-pencil-alt"></i>
+                </a>
+                <a title="Delete this claim" href="#">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+            -->
+        </tr>
+    </table>
+</div>

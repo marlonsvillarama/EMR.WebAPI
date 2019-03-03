@@ -34,6 +34,28 @@
             controller: 'ehrSetupFacilitiesController as sFacCtrl'
         });
 
+        $stateProvider.state('setup.refproviders', {
+            controller: 'ehrSetupRefProvidersController as sRefProvCtrl'
+        });
+
+        $stateProvider.state('setup.refproviders.list', {
+            templateUrl: '/ehr/setup/setup-referring.html',
+            controller: 'ehrSetupRefProvidersController as sRefProvCtrl'
+        });
+
+        $stateProvider.state('setup.refproviders.edit', {
+            templateUrl: '/ehr/setup/setup-referring-edit.html',
+            controller: 'ehrSetupEditRefProviderController as sEditRefProvCtrl',
+            resolve: {
+                entity: ['$stateParams', 'ApiService', 'SetupService', function ($stateParams, ApiService, SetupService) {
+                    var resp = ApiService.getEntity('Provider', SetupService.getCurrentId('refprovider'));
+                    return resp.then(function (response) {
+                        return ApiService.prepareResponse(response);
+                    });
+                }]
+            }
+        });
+
         $stateProvider.state('setup.facilities.edit', {
             templateUrl: '/ehr/setup/setup-facility-edit.html',
             controller: 'ehrSetupEditFacilityController as sEditFacCtrl',
@@ -536,6 +558,140 @@
         _this.init();
     }
 
+    ehrSetupRefProvidersController.$inject = ['$state', 'SetupService', 'UIService'];
+    function ehrSetupRefProvidersController($state, SetupService, UIService) {
+        var _this = this;
+
+        _this.editProv = function (id) {
+            UIService.log('editProv: ' + id);
+            SetupService.setCurrentId('refprovider', id);
+            $state.go('setup.refproviders.edit');
+        };
+
+        _this.search = function () {
+            SetupService.search('RefProviders', 'provider').then(function (response) {
+                var list = [];
+
+                UIService.log(response);
+                if (response.data.results.IsSuccess == true) {
+                    list = response.data.results.Data;//SetupService.formatProviderList(response.data.result.Data);
+                }
+                UIService.log('done refproviders.search');
+
+                SetupService.setList('RefProviders', list);
+                UIService.log(list);
+                _this.list = list;
+            });
+        }
+
+        _this.init = function () {
+            UIService.log('fire ehrSetupRefProvidersController');
+
+            _this.search();
+            $state.go('setup.refproviders.list');
+        };
+
+        _this.init();
+    }
+
+    ehrSetupEditRefProviderController.$inject = ['$state', 'ngDialog', 'entity', 'ApiService', 'SetupService', 'UIService'];
+    function ehrSetupEditRefProviderController($state, ngDialog, entity, ApiService, SetupService, UIService) {
+        var _this = this;
+
+        _this.validateForm = function () {
+            UIService.log('validateForm');
+            _this.errors = [];
+
+            if (!_this.entity.FirstName) {
+                _this.errors.push('Provider First Name is required');
+            }
+
+            if (!_this.entity.LastName) {
+                _this.errors.push('Provider Last Name is required');
+            }
+
+            if (!_this.entity.NPI) {
+                _this.errors.push('Provider NPI is required');
+            }
+
+            /*
+            if (!_this.entity.TaxonomyCodeId) {
+                _this.errors.push('Taxonomy Code is required');
+            }
+            */
+
+            if (_this.errors.length > 0) {
+                var str = 'Please correct the following errors first:\n\n';
+                for (var i = 0, n = _this.errors.length; i < n; i++) {
+                    str += '- ' + _this.errors[i] + '\n';
+                }
+                alert(str);
+
+                return false;
+            }
+
+            return true;
+        };
+
+        _this.submitForm = function () {
+            UIService.log('submitForm');
+            UIService.log(_this.entity);
+
+            var actionType = '';
+            actionType = (_this.entity.Id != null &&
+                _this.entity.Id != undefined &&
+                _this.entity.Id != '') == true ?
+                'update' : 'create';
+
+            if (!_this.validateForm()) {
+                return false;
+            }
+
+            UIService.log('form is valid');
+            _this.savingForm = true;
+
+            // Make this a referring provider
+            _this.entity.IsReferrer = true;
+
+            SetupService.updateEntity({
+                type: 'Provider',
+                entity: _this.entity
+            }).then(function (response) {
+                var resSuccess = response.data.result.IsSuccess;
+                var resData = response.data.result.Data;
+
+                if (resSuccess == true) {
+                    _this.savingForm = false;
+                    if (actionType == 'update') {
+                        alert('Changes successfully saved!');
+                    }
+                    else if (actionType == 'create') {
+                        alert('Referring Provider successfully created!');
+                        SetupService.setCurrentId('refprovider', resData);
+                    }
+                    $state.go('setup.refproviders.list');
+                }
+            });
+        };
+
+        _this.cancelEdit = function () {
+            if (confirm('Any unsaved changes will be lost. Are you sure?')) {
+                $state.go('setup.refproviders.list');
+            }
+        };
+
+        _this.init = function () {
+            UIService.log('fire ehrSetupEditRefProviderController');
+
+            _this.entity = entity.entityList;
+            //_this.showTaxonomy(_this.entity.TaxonomyCode);
+            //_this.states = ApiService.getList('usstates').options;
+            _this.savingForm = false;
+        };
+
+        _this.init();
+    }
+
     angular.module('ehrApp')
         .config(setupSubtabConfig)
         .controller('ehrSetupController', ehrSetupController)
@@ -544,6 +700,8 @@
         .controller('ehrSetupBillingController', ehrSetupBillingController)
         .controller('ehrSetupFacilitiesController', ehrSetupFacilitiesController)
         .controller('ehrSetupEditFacilityController', ehrSetupEditFacilityController)
+        .controller('ehrSetupRefProvidersController', ehrSetupRefProvidersController)
+        .controller('ehrSetupEditRefProviderController', ehrSetupEditRefProviderController)
         .controller('ehrSetupGroupsController', ehrSetupGroupsController)
         .controller('ehrSetupEditGroupController', ehrSetupEditGroupController);
 

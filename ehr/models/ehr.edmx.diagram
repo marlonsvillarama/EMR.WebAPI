@@ -99,6 +99,7 @@
         <AssociationConnector Association="EMR.WebAPI.ehr.models.PaymentPaymentLine" />
         <AssociationConnector Association="EMR.WebAPI.ehr.models.UserAccount" />
         <EntityTypeShape EntityType="EMR.WebAPI.ehr.models.UserPreference" Width="2" PointX="24.625" PointY="9.5" />
+        <AssociationConnector Association="EMR.WebAPI.ehr.models.ProviderClaim2" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

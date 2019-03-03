@@ -215,8 +215,8 @@
         $stateProvider.state({
             name: 'reports',
             url: "/reports",
-            templateUrl: AppConfig.EHRBase + 'reports/reports.html',
-            controller: 'ehrReportController as reportsCtrl'//,
+            templateUrl: AppConfig.EHRBase + 'reports/reports-ugly.html',
+            controller: 'ehrReportsController as reportsCtrl'//,
             /*
             resolve: {
                 entityList: ['ApiService', function (ApiService) {
@@ -265,6 +265,7 @@
                 history: ['$stateParams', 'ApiService', function ($stateParams, ApiService) {
                     var resp = null;
 
+                    //resp = ApiService.getBalanceBySubId($stateParams.subscriberId);
                     resp = ApiService.getClaimHistory($stateParams.subscriberId);
 
                     return resp.then(function (response) {
@@ -273,6 +274,24 @@
                 }]
             }
         });
+
+        // Payers: List
+        /*
+        $stateProvider.state({
+            name: 'payers',
+            url: "/payers",
+            templateUrl: AppConfig.EHRBase + 'payers/payers-list.html',
+            controller: 'ehrPayerListController as pyrListCtrl',
+            resolve: {
+                entityList: ['ApiService', function (ApiService) {
+                    var resp = ApiService.getEntityList('Payers', 'payer');
+                    return resp.then(function (response) {
+                        return ApiService.prepareResponse(response);
+                    });
+                }]
+            }
+        });
+        */
 
         // Schedule
         $stateProvider.state({
@@ -290,6 +309,36 @@
 
             return result;
         }
+
+        // CLAIMS_ENTERED_TODAY
+        $stateProvider.state({
+            name: 'reports.CLAIMS_ENTERED_TODAY',
+            templateUrl: AppConfig.EHRBase + 'reports/reports-today.html'
+        });
+
+        // CLAIMS_BYMONTH_SUMMARY
+        $stateProvider.state({
+            name: 'reports.CLAIMS_BYMONTH_SUMMARY',
+            templateUrl: AppConfig.EHRBase + 'reports/reports-monthly-summary.html'
+        });
+
+        // CLAIMS_BYMONTH_SUMMARY
+        $stateProvider.state({
+            name: 'reports.CLAIMS_BILLING',
+            templateUrl: AppConfig.EHRBase + 'reports/reports-billing.html'
+        });
+
+        // CLAIMS_BYMONTH_SUMMARY
+        $stateProvider.state({
+            name: 'reports.CLAIMS_PAYMENT',
+            templateUrl: AppConfig.EHRBase + 'reports/reports-payment.html'
+        });
+
+        // CLAIMS_BYMONTH_SUMMARY
+        $stateProvider.state({
+            name: 'reports.CLAIMS_AGING_SUMMARY',
+            templateUrl: AppConfig.EHRBase + 'reports/reports-306090.html'
+        });
  
     }
 

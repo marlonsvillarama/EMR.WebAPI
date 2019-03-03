@@ -29,6 +29,7 @@ namespace EMR.WebAPI.ehr.ansi5010
         private int hlsub;
         private int segmentCount;
 
+        #region Private Method
         private bool GetBooleanValue(bool? key)
         {
             return key == null ? false : key.Value;
@@ -39,7 +40,9 @@ namespace EMR.WebAPI.ehr.ansi5010
             return dateTime == null ?
                 DateTime.Parse("01/01/1000") : dateTime.Value;
         }
+        #endregion
 
+        #region Constructor
         public X837(string dbName)
         {
             CONFIG = X837Config.Items;
@@ -63,6 +66,7 @@ namespace EMR.WebAPI.ehr.ansi5010
                 throw ex;
             }
         }
+        #endregion
 
         #region Properties
         public List<Claim> Claims { get; set; }
@@ -70,6 +74,8 @@ namespace EMR.WebAPI.ehr.ansi5010
         public List<PayTo> PayToes { get; set; }
 
         public Batch Batch { get; set; }
+
+        public string Receiver { get; set; }
 
         public string Database { get; set; }
         
@@ -96,7 +102,16 @@ namespace EMR.WebAPI.ehr.ansi5010
                 seg.Items["ISA05"] = CONFIG["ISA05"];
                 seg.Items["ISA06"] = CONFIG["ISA06"];
                 seg.Items["ISA07"] = CONFIG["ISA07"];
-                seg.Items["ISA08"] = CONFIG["ISA08"];
+
+                if (String.IsNullOrEmpty(Receiver))
+                {
+                    seg.Items["ISA08"] = CONFIG["ISA08"];
+                }
+                else if (Receiver == "NYSDOH")
+                {
+                    seg.Items["ISA08"] = "EMEDNYBAT";
+                }
+
                 seg.Items["ISA09"] = X837Writer.WriteDate(controlDT);
                 seg.Items["ISA10"] = X837Writer.WriteTime(controlDT);
                 seg.Items["ISA11"] = CONFIG["ISA11"];
@@ -129,7 +144,16 @@ namespace EMR.WebAPI.ehr.ansi5010
                 Segment seg = new Segment("GS");
                 seg.Items["GS01"] = CONFIG["GS01"];
                 seg.Items["GS02"] = CONFIG["GS02"];
-                seg.Items["GS03"] = CONFIG["GS03"];
+
+                if (String.IsNullOrEmpty(Receiver))
+                {
+                    seg.Items["GS03"] = CONFIG["GS03"];
+                }
+                else if (Receiver == "NYSDOH")
+                {
+                    seg.Items["GS03"] = "EMEDNYBAT";
+                }
+
                 seg.Items["GS04"] = X837Writer.WriteDate(controlDT);
                 seg.Items["GS05"] = X837Writer.WriteTime(controlDT);
                 seg.Items["GS06"] = GroupControlNumber;
@@ -1015,6 +1039,18 @@ namespace EMR.WebAPI.ehr.ansi5010
                 seg["HCP15"] = (String.IsNullOrEmpty(rpr.Exception) == true) ?
                     String.Empty : rpr.Exception;
 
+                AppendToString(sb, seg.Output);
+            }
+            #endregion
+
+            #region Referring Provider
+            Provider referring = claim.ReferringProvider;
+            if (referring != null)
+            {
+                seg = Segment.NM1("DN", "1",
+                    referring.LastName, referring.FirstName, referring.MiddleName,
+                    referring.Suffix, "XX", referring.NPI
+                );
                 AppendToString(sb, seg.Output);
             }
             #endregion

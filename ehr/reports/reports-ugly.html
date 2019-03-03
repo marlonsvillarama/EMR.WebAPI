@@ -1,0 +1,169 @@
+﻿<div class="container-fluid ehr-content">
+    <div class="ehr-page-header row">
+        <div class="col-sm-5">
+            <span>REPORTS</span>
+        </div>
+    </div>
+
+    <div class="ehr-group clearfix">
+        <div class="ehr-group-inner">
+
+            <div class="ehr-row clearfix">
+                <div class="col-sm-4">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Choose a report type</label><br />
+                        <div class="col-sm-12">
+                            <select class="ehr-fld-input" ng-model="reportsCtrl.repType" ng-change="reportsCtrl.changeReportType()">
+                                <option value="">-</option>
+                                <option value="CLAIMS_ENTERED_TODAY">Claims entered today</option>
+                                <option value="CLAIMS_BYMONTH_SUMMARY">Claims by month</option>
+                                <option value="CLAIMS_BILLING">Billing report</option>
+                                <option value="CLAIMS_PAYMENT">Payment report</option>
+                                <option value="CLAIMS_AGING_SUMMARY">30-60-90 Aging report</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <label class="ehr-fld-label col-sm-12">&nbsp;</label><br />
+                    <button type="button" ng-click="reportsCtrl.getReport()"
+                            ng-if="reportsCtrl.generating == false">
+                        <span>Generate Report</span>
+                    </button>
+                    <button type="button" disabled
+                            ng-if="reportsCtrl.generating == true">
+                        <span>Generating</span>&nbsp;
+                        <i class="fa fa-ellipsis-h"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="ehr-row clearfix" ng-show="reportsCtrl.showFilters == true">
+                <div class="col-sm-3">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Facility</label><br />
+                        <div class="col-sm-12 ehr-fld-input-popup">
+                            <div class="ehr-fld-input-icon-btn">
+                                <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                       ng-model="reportsCtrl.facilityName" />
+                                <div class="ehr-fld-icon">
+                                    <button type="button" ng-click="reportsCtrl.openListModal('Facilities', 'facility')">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ehr-fld-input-popup-btn">
+                                <button type="button"
+                                        ng-if="reportsCtrl.facilityId != null"
+                                        ng-click="reportsCtrl.clearField('FAC')">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Provider</label><br />
+                        <div class="col-sm-12 ehr-fld-input-popup">
+                            <div class="ehr-fld-input-icon-btn">
+                                <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                       ng-model="reportsCtrl.providerName" />
+                                <div class="ehr-fld-icon">
+                                    <button type="button" ng-click="reportsCtrl.openListModal('Providers', 'provider')">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ehr-fld-input-popup-btn">
+                                <button type="button"
+                                        ng-if="reportsCtrl.providerId != null"
+                                        ng-click="reportsCtrl.clearField('PROV')">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="col-sm-2" ng-show="reportsCtrl.repType == 'CLAIMS_BILLING'">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Date Entered</label><br />
+                        <div class="col-sm-12">
+                            <input type="text" class="ehr-fld-input ehr-fld-dt"
+                                   data-toggle="datepicker"
+                                   ng-model="reportsCtrl.dateEntered" />
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div class="col-sm-3">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Date Range</label><br />
+                        <div class="col-sm-12 ehr-fld-input-popup">
+                            <div class="ehr-fld-input-icon-btn">
+                                <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                       ng-model="reportsCtrl.dateRangeName" />
+                                <div class="ehr-fld-icon">
+                                    <button type="button" ng-click="reportsCtrl.openDateModal()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ehr-fld-input-popup-btn">
+                                <button type="button"
+                                        ng-if="reportsCtrl.dateRange != null"
+                                        ng-click="reportsCtrl.clearField('DATE')">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+    <div class="col-sm-2" ng-show="reportsCtrl.repType != 'CLAIMS_PAYMENT'">
+        <div class="ehr-row clearfix">
+            <label class="ehr-fld-label col-sm-12">Month</label><br />
+            <div class="col-sm-12">
+                <select class="ehr-fld-input">
+                    <option value="">-</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    -->
+                <div class="col-sm-2" ng-show="reportsCtrl.repType != 'CLAIMS_BILLING'">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">CPT Code</label><br />
+                        <div class="col-sm-12">
+                            <input type="text" class="ehr-fld-input"
+                                   ng-model="reportsCtrl.cptCode" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2" ng-show="reportsCtrl.repType == 'CLAIMS_PAYMENT'">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Deductible</label><br />
+                        <div class="col-sm-12">
+                            <input type="text" class="ehr-fld-input"
+                                   ng-model="reportsCtrl.deductible" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2" ng-show="reportsCtrl.repType == 'CLAIMS_PAYMENT'">
+                    <div class="ehr-row clearfix">
+                        <label class="ehr-fld-label col-sm-12">Co-pay</label><br />
+                        <div class="col-sm-12">
+                            <input type="text" class="ehr-fld-input"
+                                   ng-model="reportsCtrl.copay" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ui-view></ui-view>
+
+        </div>
+
+    </div>
+</div>

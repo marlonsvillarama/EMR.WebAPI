@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
 using EMR.WebAPI.ehr.models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EMR.WebAPI.ehr.services
 {
@@ -45,6 +49,25 @@ namespace EMR.WebAPI.ehr.services
             }
 
             return (ok == 1);
+        }
+
+        [HttpGet]
+        [Route("~/api/tokenize")]
+        public IHttpActionResult Tokenize()
+        {
+            var claims = new[] { new System.Security.Claims.Claim(ClaimTypes.Name, "username") };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kjkasdfiuaselfknaliufewaebeiunn"));
+            var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+
+            var token = new JwtSecurityToken(
+                issuer: "kurekinect.com",
+                audience: "kurekinect.com",
+                expires: DateTime.Now.AddMinutes(1),
+                claims: claims,
+                signingCredentials: signInCred
+                );
+
+            return Ok(token);
         }
 
         [HttpPost]

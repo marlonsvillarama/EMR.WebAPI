@@ -1,0 +1,118 @@
+﻿<div class="ehr-report" ng-if="reportsCtrl.execReport == true">
+    <div class="ehr-report-title"><strong>30-60-90 Aging Report</strong><span ng-if="reportsCtrl.showDetail == true"> - {{reportsCtrl.detailTitle}}</span></div>
+    <div class="ehr-report-subtitle">
+        <span>Total claims found: {{reportsCtrl.resultsCount}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button ng-click="reportsCtrl.showReportSummary()" ng-if="reportsCtrl.viewDetail == true">Back to Summary</button>
+        <button ng-click="reportsCtrl.getReport()" ng-if="reportsCtrl.showSummary == true">Refresh</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span ng-if="reportsCtrl.resultsCount > 0"><i>Showing results {{reportsCtrl.startIndex}} - {{reportsCtrl.endIndex}}</i></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button"
+                text-align="right"
+                ng-if="reportsCtrl.generating == false && reportsCtrl.pageNum > 1"
+                ng-click="reportsCtrl.showAgingDetail(reportsCtrl.agingPeriod, -1)">
+            &lt; Previous
+        </button>
+        <button type="button"
+                ng-if="reportsCtrl.generating == false && reportsCtrl.endIndex < reportsCtrl.resultsCount"
+                ng-click="reportsCtrl.showAgingDetail(reportsCtrl.agingPeriod, 1)">
+            Next &gt;
+        </button>
+    </div>
+
+    <div ng-if="reportsCtrl.generating == true">
+        <img src="/ehr/images/js_preloader.gif" />&nbsp;&nbsp;
+        <strong>Generating report...</strong>
+    </div>
+
+    <!-- SUMMARY TABLE -->
+    <table class="ehr-report-table col-sm-12"
+           ng-if="reportsCtrl.showSummary == true">
+        <tr class="ehr-report-table-header">
+            <th class="col-sm-2">
+                Aging Period
+            </th>
+            <th class="col-sm-2">
+                No. of Claims
+            </th>
+            <th class="col-sm-7">
+                Total A/R ($)
+            </th>
+            <th class="col-sm-1"></th>
+        </tr>
+
+        <tr class="ehr-report-table-row"
+            ng-repeat="c in reportsCtrl.entities"
+            ng-if="reportsCtrl.generating == false"> 
+            <td class="col-sm-2">
+                <span>{{c.AgingPeriod}} Days</span>
+            </td>
+            <td class="col-sm-2">
+                <span>{{c.TotalClaims}}</span>
+            </td>
+            <td class="col-sm-7">
+                <span>{{c.TotalAmount | currency : ""}}</span>
+            </td>
+            <td class="col-sm-1">
+                <button type="button" ng-click="reportsCtrl.showAgingDetail(c.AgingPeriod)">
+                    View Detail
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- DETAILS TABLE -->
+    <table class="col-sm-12"
+           ng-if="reportsCtrl.showDetail == true">
+        <tr class="ehr-report-table-header">
+            <th class="col-sm-2">
+                Last Name
+            </th>
+            <th class="col-sm-2">
+                First Name
+            </th>
+            <th class="col-sm-1-5">
+                Date of Service
+            </th>
+            <th class="col-sm-1">
+                Amount ($)
+            </th>
+            <th class="col-sm-5">
+                Diagnosis Codes
+            </th>
+            <th class="col-sm-0-5">
+            </th>
+        </tr>
+
+        <tr class="ehr-table-row" ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })"
+            ng-if="reportsCtrl.generating == false"
+            ng-repeat="c in reportsCtrl.entities">
+            <td class="col-sm-2">
+                <span>{{c.LastName}}</span>
+            </td>
+            <td class="col-sm-2">
+                <span>{{c.FirstName}}</span>
+            </td>
+            <td class="col-sm-1-5">
+                <span>{{c.DateOfService}}</span>
+            </td>
+            <td class="col-sm-1">
+                <span>{{c.AmountTotal}}</span>
+            </td>
+            <td class="col-sm-5">
+                <span>{{c.Diagnosis}}</span>
+            </td>
+            <td class="col-sm-0-5"></td>
+            <!--
+            <td class="col-sm-0-5 ehr-table-actions">
+                <a href="#" title="Edit this claim"
+                   ui-sref="claim-edit({ subscriberId: c.PrimarySubscriberId, claimId: c.Id })">
+                    <i class="fa fa-pencil-alt"></i>
+                </a>
+                <a title="Delete this claim" href="#">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+            -->
+        </tr>
+    </table>
+
+</div>

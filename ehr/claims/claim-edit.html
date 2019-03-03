@@ -64,7 +64,7 @@
                                             <th class="col-sm-4">Acct</th>
                                             <th class="col-sm-4">Date</th>
                                             <!--<th>CPT</th>-->
-                                            <th class="col-sm-4 text-right">Payment ($)</th>
+                                            <th class="col-sm-4 text-right">Charges ($)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -375,8 +375,33 @@
                                             </div>
                                         </div>
                                         <div class="ehr-fld-input-popup-btn">
-                                            <button>
-                                                <i class="fa fa-window-restore"></i>
+                                            <button type="button"
+                                                    ng-if="clmProvCtrl.claim.RenderingProvider != null"
+                                                    ng-click="clmProvCtrl.clearField('REN')">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Referring Provider -->
+                                <div class="ehr-row clearfix">
+                                    <label class="col-sm-12 ehr-fld-label">Referring Provider</label>
+                                    <div class="col-sm-12 ehr-fld-input-popup">
+                                        <div class="ehr-fld-input-icon-btn">
+                                            <input type="text" class="ehr-fld-input-disabled" maxlength="100" disabled
+                                                   ng-model="clmProvCtrl.referringProvFullName" />
+                                            <div class="ehr-fld-icon">
+                                                <button type="button" ng-click="clmProvCtrl.openListModal('RefProviders', 'provider')">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="ehr-fld-input-popup-btn">
+                                            <button type="button"
+                                                    ng-if="clmProvCtrl.claim.ReferringProvider != null"
+                                                    ng-click="clmProvCtrl.clearField('REF')">
+                                                <i class="fa fa-times"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -396,8 +421,10 @@
                                             </div>
                                         </div>
                                         <div class="ehr-fld-input-popup-btn">
-                                            <button>
-                                                <i class="fa fa-window-restore"></i>
+                                            <button type="button"
+                                                    ng-if="clmProvCtrl.claim.BillingProvider != null"
+                                                    ng-click="clmProvCtrl.clearField('GRP')">
+                                                <i class="fa fa-times"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -417,8 +444,10 @@
                                             </div>
                                         </div>
                                         <div class="ehr-fld-input-popup-btn">
-                                            <button>
-                                                <i class="fa fa-window-restore"></i>
+                                            <button type="button"
+                                                    ng-if="clmProvCtrl.claim.Facility != null"
+                                                    ng-click="clmProvCtrl.clearField('FAC')">
+                                                <i class="fa fa-times"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -438,8 +467,10 @@
                                             </div>
                                         </div>
                                         <div class="ehr-fld-input-popup-btn">
-                                            <button>
-                                                <i class="fa fa-window-restore"></i>
+                                            <button type="button"
+                                                    ng-if="clmProvCtrl.claim.PlaceOfService != null"
+                                                    ng-click="clmProvCtrl.clearField('POS')">
+                                                <i class="fa fa-times"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -534,110 +565,69 @@
 
                         <!-- Claim line repeater -->
                         <tr ng-repeat="line in clmLinesCtrl.claim.ClaimLines" ng-class="$index % 2 == 0 && 'ehr-table-row' || 'ehr-table-row even'">
-                            <td colspan="13">
-                                <table cellpadding="0" cellspacing="0" width="100%">
-                                    <tr>
-                                        <td class="col-sm-1">
-                                            <input type="text" class="ehr-line-input" disabled
-                                                   ng-model="line.StartDate" />
-                                        </td>
-                                        <td class="col-sm-1">
-                                            <input type="text" class="ehr-line-input" disabled
-                                                   ng-model="line.EndDate" />
-                                        </td>
-                                        <td class="col-sm-0-5">
-                                            <input type="text" class="ehr-line-input"
-                                                   ng-model="clmLinesCtrl.claim.PlaceOfService.Code" />
-                                        </td>
-                                        <td class="col-sm-0-5">
-                                            <input type="checkbox" class="ehr-line-input"
-                                                   ng-model="line.IsEmergency" />
-                                        </td>
-                                        <td class="col-sm-1">
-                                            <input type="text" class="ehr-line-input"
-                                                   ng-model="line.CPT" />
-                                        </td>
-                                        <td class="col-sm-1">
-                                            <input type="text" class="ehr-line-input"
-                                                   ng-model="line.Modifier" />
-                                        </td>
-                                        <td class="col-sm-1">
-                                            <input type="text" class="ehr-line-input"
-                                                   ng-model="line.Pointer" />
-                                        </td>
-                                        <td class="col-sm-0-5">
-                                            <input type="text" class="ehr-line-input text-right"
-                                                   ng-blur="clmLinesCtrl.calcTotalAmt()"
-                                                   ng-model="line.Amount" />
-                                        </td>
-                                        <td class="col-sm-0-5">
-                                            <select class="ehr-line-input"
-                                                    ng-model="line.Unit">
-                                                <option value="UN">UN</option>
-                                                <option value="MI">MI</option>
-                                            </select>
-                                        </td>
-                                        <td class="col-sm-0-5">
-                                            <input type="text" class="ehr-line-input"
-                                                   ng-model="line.Quantity" />
-                                        </td>
-                                        <td class="col-sm-0-5">
-                                            <input type="checkbox" class="ehr-line-input"
-                                                   ng-model="line.EPSDT" />
-                                        </td>
-                                        <td class="col-sm-1">
-                                            <input type="text" class="ehr-line-input" disabled
-                                                   ng-model="clmLinesCtrl.claim.RenderingProvider.NPI" />
-                                        </td>
-                                        <td class="col-sm-1 ehr-table-actions text-right">
-                                            <button type="button"
-                                                    ng-hide="clmLinesCtrl.canEditLines() == false"
-                                                    ng-click="clmLinesCtrl.copyClaimLine($index)">
-                                                <i class="fa fa-copy"></i>
-                                            </button>
-                                            <button type="button"
-                                                    ng-hide="clmLinesCtrl.canEditLines() == false"
-                                                    ng-click="clmLinesCtrl.removeClaimLine($index)">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="13">
-                                            <div class="col-sm-1">&nbsp;</div>
-                                            <div class="col-sm-3">
-                                                <strong>Line Note</strong><input type="text" class="ehr-line-input" ng-model="line.Supplemental.NoteDescription" />
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <strong>Anes Start</strong><input type="text" class="ehr-line-input" ng-model="line.AnesStart" />
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <strong>Anes End</strong><input type="text" class="ehr-line-input" ng-model="line.AnesEnd" />
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <strong>NDC Qual</strong><select class="ehr-line-input" ng-model="line.Drug.Qualifier">
-                                                    <option value=""></option>
-                                                    <option value="EN">EN</option>
-                                                    <option value="EO">EO</option>
-                                                    <option value="HI">HI</option>
-                                                    <option value="N4">N4</option>
-                                                    <option value="ON">ON</option>
-                                                    <option value="UK">UK</option>
-                                                    <option value="UP">UP</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <strong>NDC Code</strong><input type="text" class="ehr-line-input" ng-model="line.Drug.Code" />
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <strong>NDC Qty</strong><input type="text" class="ehr-line-input" ng-model="line.Drug.Quantity" />
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <strong>NDC Unit</strong><input type="text" class="ehr-line-input" ng-model="line.Drug.Unit" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
+                            <td class="col-sm-1">
+                                <input type="text" class="ehr-line-input" disabled
+                                       ng-model="line.StartDate" />
+                            </td>
+                            <td class="col-sm-1">
+                                <input type="text" class="ehr-line-input" disabled
+                                       ng-model="line.EndDate" />
+                            </td>
+                            <td class="col-sm-0-5">
+                                <input type="text" class="ehr-line-input"
+                                       ng-model="clmLinesCtrl.claim.PlaceOfService.Code" />
+                            </td>
+                            <td class="col-sm-0-5">
+                                <input type="checkbox" class="ehr-line-input"
+                                       ng-model="line.IsEmergency" />
+                            </td>
+                            <td class="col-sm-1">
+                                <input type="text" class="ehr-line-input"
+                                       ng-model="line.CPT" />
+                            </td>
+                            <td class="col-sm-1">
+                                <input type="text" class="ehr-line-input"
+                                       ng-model="line.Modifier" />
+                            </td>
+                            <td class="col-sm-1">
+                                <input type="text" class="ehr-line-input"
+                                       ng-model="line.Pointer" />
+                            </td>
+                            <td class="col-sm-0-5">
+                                <input type="text" class="ehr-line-input text-right"
+                                       ng-blur="clmLinesCtrl.calcTotalAmt()"
+                                       ng-model="line.Amount" />
+                            </td>
+                            <td class="col-sm-0-5">
+                                <select class="ehr-line-input"
+                                        ng-model="line.Unit">
+                                    <option value="UN">UN</option>
+                                    <option value="MI">MI</option>
+                                </select>
+                            </td>
+                            <td class="col-sm-0-5">
+                                <input type="text" class="ehr-line-input"
+                                       ng-model="line.Quantity" />
+                            </td>
+                            <td class="col-sm-0-5">
+                                <input type="checkbox" class="ehr-line-input"
+                                       ng-model="line.EPSDT" />
+                            </td>
+                            <td class="col-sm-1">
+                                <input type="text" class="ehr-line-input" disabled
+                                       ng-model="clmLinesCtrl.claim.RenderingProvider.NPI" />
+                            </td>
+                            <td class="col-sm-1 ehr-table-actions text-right">
+                                <button type="button"
+                                        ng-hide="clmLinesCtrl.canEditLines() == false"
+                                        ng-click="clmLinesCtrl.copyClaimLine($index)">
+                                    <i class="fa fa-copy"></i>
+                                </button>
+                                <button type="button"
+                                        ng-hide="clmLinesCtrl.canEditLines() == false"
+                                        ng-click="clmLinesCtrl.removeClaimLine($index)">
+                                    <i class="fa fa-times"></i>
+                                </button>
                             </td>
                         </tr>
 

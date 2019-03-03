@@ -72,7 +72,7 @@ namespace EMR.WebAPI.ehr.services
 
         [HttpPost]
         [Route("api/services/updatePayer")]
-        public IHttpActionResult UpdateGroup(PayerViewModel vm)
+        public IHttpActionResult UpdatePayer(PayerViewModel vm)
         {
             ServiceRequestStatus status;
             Payer p;
